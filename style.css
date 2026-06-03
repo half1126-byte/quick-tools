@@ -98,6 +98,29 @@ button.ghost:hover{filter:none;background:color-mix(in srgb,var(--chip) 70%, var
   box-shadow:0 14px 34px color-mix(in srgb,var(--brand) 18%, transparent)}
 .tool-card .emoji{font-size:28px}.tool-card .t{font-weight:800;margin:9px 0 4px}.tool-card .d{font-size:13.5px;color:var(--muted)}
 
+/* 블로그/가이드 글 */
+.post{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);
+  padding:24px 22px;margin:0 0 16px;animation:rise .4s ease both}
+.post .meta{color:var(--muted);font-size:13px;margin:0 0 4px}
+.post h2{font-size:20px;margin:24px 0 10px}
+.post h3{font-size:16px;margin:18px 0 8px}
+.post p{margin:0 0 12px;line-height:1.75}
+.post ul,.post ol{margin:0 0 14px;padding-left:20px}.post li{margin:5px 0;line-height:1.7}
+.post table{width:100%;border-collapse:collapse;margin:4px 0 16px;font-size:14px}
+.post th,.post td{border:1px solid var(--line);padding:9px 11px;text-align:left}
+.post th{background:var(--bg2);font-weight:700}
+.post .tool-cta{display:flex;gap:12px;align-items:center;background:var(--ok-bg);border:1px solid var(--ok-line);
+  border-radius:var(--radius-sm);padding:14px 16px;margin:18px 0;flex-wrap:wrap}
+.post .tool-cta .t{flex:1;min-width:170px;font-weight:700}
+.post .tool-cta .t small{display:block;font-weight:400;color:var(--muted);margin-top:2px}
+/* 블로그 목록 카드 */
+.post-card{display:block;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  box-shadow:var(--shadow);padding:18px;color:var(--ink);transition:.16s;margin-bottom:14px}
+.post-card:hover{text-decoration:none;border-color:var(--brand);transform:translateY(-2px)}
+.post-card .t{font-weight:800;font-size:17px;margin-bottom:5px}
+.post-card .d{color:var(--muted);font-size:13.5px;line-height:1.6}
+.post-card .meta{color:var(--muted);font-size:12px;margin-top:8px}
+
 /* 최근 쓴 도구 칩 */
 .recent{display:flex;gap:8px;flex-wrap:wrap;margin:2px 0 4px}
 .recent a{display:inline-flex;align-items:center;gap:6px;background:var(--chip);color:var(--chip-ink);
