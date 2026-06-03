@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>PDF 합치기·나누기 — 브라우저에서 무료로 PDF 병합·분할</title>
+<meta name="description" content="여러 PDF를 하나로 합치고, PDF에서 원하는 페이지만 뽑아내세요. 업로드 없이 브라우저 안에서만 처리되어 안전하고 무료. pdf-lib 기반, 모바일도 지원." />
+<meta name="keywords" content="PDF 합치기, PDF 병합, PDF 나누기, PDF 분할, PDF 페이지 추출, 온라인 PDF 도구, PDF 합치기 무료" />
+<meta property="og:title" content="PDF 합치기·나누기" />
+<meta property="og:description" content="여러 PDF 병합·페이지 추출을 브라우저에서 무료로. 업로드 없이 안전하게." />
+<meta name="theme-color" content="#3b6ef5" />
+<link rel="icon" href="favicon.svg" type="image/svg+xml" />
+<link rel="apple-touch-icon" href="apple-touch-icon.png" />
+<link rel="manifest" href="manifest.json" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-title" content="급할때" />
+<script>(function(){try{var m=localStorage.getItem('qt-theme')||((window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches)?'dark':'light');document.documentElement.dataset.theme=m;}catch(e){}})();</script>
+<link rel="stylesheet" href="style.css" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"PDF가 서버로 업로드되나요?","acceptedAnswer":{"@type":"Answer","text":"아니요. 합치기와 나누기 모두 pdf-lib를 이용해 여러분의 브라우저 안에서만 처리되며, 파일은 어디에도 전송되지 않습니다."}},
+{"@type":"Question","name":"여러 PDF를 어떻게 합치나요?","acceptedAnswer":{"@type":"Answer","text":"합치기 탭에서 PDF 여러 개를 선택하거나 끌어다 놓고 순서를 정한 뒤 합쳐서 다운로드를 누르면 선택한 순서대로 하나의 PDF로 병합됩니다."}},
+{"@type":"Question","name":"페이지 범위는 어떻게 입력하나요?","acceptedAnswer":{"@type":"Answer","text":"나누기 탭에서 1-3,5,8-10 처럼 쉼표와 하이픈으로 입력합니다. 입력한 순서대로 해당 페이지만 추출해 새 PDF로 저장합니다."}},
+{"@type":"Question","name":"암호가 걸린 PDF도 되나요?","acceptedAnswer":{"@type":"Answer","text":"암호화되었거나 보호된 PDF는 처리에 실패할 수 있습니다. 암호를 해제한 뒤 다시 시도해 주세요."}},
+{"@type":"Question","name":"파일 크기 제한이 있나요?","acceptedAnswer":{"@type":"Answer","text":"서버를 거치지 않으므로 별도의 용량 제한은 없습니다. 다만 매우 큰 파일은 기기의 메모리 상황에 따라 처리가 느려질 수 있습니다."}}
+]}
+</script>
+</head>
+<body>
+<header class="site">
+  <div class="nav">
+    <a class="brand" href="index.html"><span class="logo">⚡</span><b>급할때</b><span class="tld">.tools</span></a>
+    <div class="links">
+      <a href="char-counter.html">글자수</a><a href="age-calculator.html">만나이·디데이</a><a href="salary-calculator.html">연봉 실수령액</a>
+    </div>
+    <div class="spacer"></div>
+    <button class="install-btn" id="installBtn" type="button">⬇️ 앱 설치</button>
+    <button class="icon-btn" id="themeToggle" type="button" aria-label="테마 전환">🌙</button>
+  </div>
+  <div class="trust">🔒 <b>브라우저에서만</b> 처리 · 가입 없음 · 무료</div>
+</header>
+
+<main>
+  <div class="hero">
+    <h1>📄 PDF 합치기 · 나누기</h1>
+    <p class="lead">여러 PDF를 <b>하나로 합치거나</b> 필요한 <b>페이지만 뽑아내요</b>. 전부 브라우저 안에서, 무료로.</p>
+  </div>
+  <div class="howto"><span>1. 파일 선택</span><span>2. 합치기 · 나누기</span><span>3. 다운로드</span></div>
+
+  <div class="ad-slot">광고 자리 (애드센스 승인 후 표시)</div>
+
+  <div class="card">
+    <div class="seg">
+      <button id="tabMerge" class="on" type="button">🔗 합치기</button>
+      <button id="tabSplit" type="button">✂️ 나누기</button>
+    </div>
+
+    <!-- 합치기 -->
+    <div id="paneMerge">
+      <div class="dropzone" id="mDrop">
+        <div class="dz-ic">📄</div>
+        <div class="dz-t">합칠 PDF들을 끌어다 놓거나 클릭</div>
+        <div class="dz-s">여러 개 선택 가능 · 선택한 순서대로 병합</div>
+      </div>
+      <input type="file" id="mFile" accept="application/pdf,.pdf" multiple hidden />
+      <div class="filelist" id="mList"></div>
+      <div class="busy" id="mBusy"><span class="spinner"></span><span>PDF 합치는 중…</span></div>
+      <div class="note" id="mNote"></div>
+      <div class="row" id="mActions" style="margin-top:16px;display:none">
+        <button id="mergeBtn" type="button" style="flex:0 0 auto">🔗 합쳐서 다운로드</button>
+        <button id="mClear" class="ghost" type="button" style="flex:0 0 auto">비우기</button>
+      </div>
+    </div>
+
+    <!-- 나누기 -->
+    <div id="paneSplit" hidden>
+      <div class="dropzone" id="sDrop">
+        <div class="dz-ic">✂️</div>
+        <div class="dz-t">나눌 PDF 1개를 끌어다 놓거나 클릭</div>
+        <div class="dz-s">선택 후 원하는 페이지 범위를 입력하세요</div>
+      </div>
+      <input type="file" id="sFile" accept="application/pdf,.pdf" hidden />
+      <div class="filelist" id="sList"></div>
+      <div id="sOpts" style="display:none">
+        <label for="range">페이지 범위</label>
+        <input type="text" id="range" placeholder="예: 1-3,5,8-10" />
+        <div class="hint">쉼표(,)와 하이픈(-)으로 입력해요. 입력한 순서대로 추출됩니다.</div>
+      </div>
+      <div class="busy" id="sBusy"><span class="spinner"></span><span>PDF 나누는 중…</span></div>
+      <div class="note" id="sNote"></div>
+      <div class="row" id="sActions" style="margin-top:16px;display:none">
+        <button id="splitBtn" type="button" style="flex:0 0 auto">✂️ 추출해서 다운로드</button>
+        <button id="sClear" class="ghost" type="button" style="flex:0 0 auto">비우기</button>
+      </div>
+    </div>
+
+    <p class="disclaimer">🔒 선택한 PDF는 <b>서버로 전송되지 않고</b> 이 브라우저(기기) 안에서만 처리됩니다. PDF 처리에는 오픈소스 라이브러리 <b>pdf-lib</b>를 사용해요.</p>
+  </div>
+
+  <div class="card cta-band">
+    <h2>이 도구가 유용했다면 ⚡</h2>
+    <div class="row" style="margin-bottom:12px">
+      <button id="bookmarkBtn" class="ghost" type="button" style="flex:0 0 auto">⭐ 즐겨찾기 추가</button>
+    </div>
+    <div class="related">
+      <a href="salary-calculator.html"><span class="e">💰</span><span><b>연봉 실수령액</b><br/><small style="color:var(--muted)">세후 월 실수령액</small></span></a>
+      <a href="char-counter.html"><span class="e">✍️</span><span><b>글자수 세기</b><br/><small style="color:var(--muted)">자소서 글자수·바이트</small></span></a>
+    </div>
+  </div>
+
+  <section class="faq">
+    <h2>자주 묻는 질문</h2>
+    <details><summary>PDF가 서버로 업로드되나요?</summary><p>아니요. 합치기·나누기 모두 pdf-lib로 여러분의 브라우저 안에서만 처리되며, 파일은 어디에도 전송되지 않습니다.</p></details>
+    <details><summary>여러 PDF를 어떻게 합치나요?</summary><p>합치기 탭에서 PDF 여러 개를 선택하거나 끌어다 놓고 순서를 정한 뒤 ‘합쳐서 다운로드’를 누르면 그 순서대로 하나로 병합돼요.</p></details>
+    <details><summary>페이지 범위는 어떻게 입력하나요?</summary><p>나누기 탭에서 <b>1-3,5,8-10</b> 처럼 쉼표와 하이픈으로 입력하면, 입력한 순서대로 해당 페이지만 추출해 새 PDF로 저장합니다.</p></details>
+    <details><summary>암호가 걸린 PDF도 되나요?</summary><p>암호화·보호된 PDF는 실패할 수 있어요. 암호를 해제한 뒤 다시 시도해 주세요.</p></details>
+    <details><summary>파일 크기 제한이 있나요?</summary><p>서버를 거치지 않아 별도 제한은 없어요. 다만 아주 큰 파일은 기기 메모리에 따라 처리가 느려질 수 있습니다.</p></details>
+  </section>
+
+  <div class="ad-slot">광고 자리 (애드센스 승인 후 표시)</div>
+</main>
+
+<div class="install-banner" id="installBanner">
+  <div class="ib-ic">⚡</div>
+  <div class="ib-t"><b>급할때를 홈 화면에 추가</b>다음엔 검색 없이 한 번에 — 오프라인도 OK</div>
+  <button class="ghost" id="ibClose" type="button">나중에</button>
+  <button id="ibInstall" type="button">설치</button>
+</div>
+
+<footer class="site">
+  <div class="foot">
+    <span>© <span id="year"></span> 급할때.tools</span>
+    <a href="about.html">소개</a><a href="privacy.html">개인정보처리방침</a>
+    <span class="sp">모든 처리는 브라우저에서만 이뤄집니다.</span>
+  </div>
+</footer>
+
+<script src="https://unpkg.com/pdf-lib"></script>
+<script src="common.js"></script>
+<script>
+  QT.recordRecent({slug:"pdf",name:"PDF 도구",emoji:"📄",url:"pdf-tool.html"});
+  const $=id=>document.getElementById(id);
+  const PDFReady=()=> typeof PDFLib!=="undefined" && PDFLib.PDFDocument;
+
+  function fmtBytes(n){
+    if(n<1024) return n+" B";
+    if(n<1048576) return (n/1024).toFixed(1)+" KB";
+    return (n/1048576).toFixed(2)+" MB";
+  }
+  function esc(s){ return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
+  function note(el,kind,msg){ el.className="note "+kind+" show"; el.textContent=msg; }
+  function clearNote(el){ el.className="note"; el.textContent=""; }
+  function busy(el,on){ el.classList.toggle("show", on); }
+  function download(bytes,name){
+    const url=URL.createObjectURL(new Blob([bytes],{type:"application/pdf"}));
+    const a=document.createElement("a"); a.href=url; a.download=name;
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(()=>URL.revokeObjectURL(url),1500);
+  }
+  function bindDrop(zone,input,onFiles){
+    ["dragenter","dragover"].forEach(ev=>zone.addEventListener(ev,e=>{ e.preventDefault(); zone.classList.add("drag"); }));
+    ["dragleave","drop"].forEach(ev=>zone.addEventListener(ev,e=>{ e.preventDefault(); zone.classList.remove("drag"); }));
+    zone.addEventListener("click",()=>input.click());
+    zone.addEventListener("drop",e=>onFiles(e.dataTransfer.files));
+    input.addEventListener("change",()=>{ onFiles(input.files); input.value=""; });
+  }
+  function onlyPdf(list){ return [...list].filter(f=>f.type==="application/pdf" || /\.pdf$/i.test(f.name)); }
+
+  /* 탭 전환 */
+  const tabMerge=$("tabMerge"), tabSplit=$("tabSplit"), paneMerge=$("paneMerge"), paneSplit=$("paneSplit");
+  tabMerge.addEventListener("click",()=>{ tabMerge.classList.add("on"); tabSplit.classList.remove("on"); paneMerge.hidden=false; paneSplit.hidden=true; });
+  tabSplit.addEventListener("click",()=>{ tabSplit.classList.add("on"); tabMerge.classList.remove("on"); paneSplit.hidden=false; paneMerge.hidden=true; });
+
+  /* ---------- 합치기 ---------- */
+  let mFiles=[];
+  const mList=$("mList"), mActions=$("mActions"), mNote=$("mNote"), mBusy=$("mBusy");
+  bindDrop($("mDrop"), $("mFile"), files=>{
+    const pdfs=onlyPdf(files);
+    if(!pdfs.length){ note(mNote,"err","PDF 파일만 추가할 수 있어요."); return; }
+    clearNote(mNote); mFiles.push(...pdfs); renderM();
+  });
+  function renderM(){
+    mActions.style.display=mFiles.length ? "flex" : "none";
+    mList.innerHTML=mFiles.map((f,i)=>
+      '<div class="fitem">'
+      +'<div class="fthumb">📄</div>'
+      +'<div class="fmain"><div class="fname">'+(i+1)+'. '+esc(f.name)+'</div><div class="fmeta">'+fmtBytes(f.size)+'</div></div>'
+      +'<div class="fact">'
+        +'<button class="ghost iconly" data-up="'+i+'" aria-label="위로"'+(i===0?" disabled":"")+'>↑</button>'
+        +'<button class="ghost iconly" data-down="'+i+'" aria-label="아래로"'+(i===mFiles.length-1?" disabled":"")+'>↓</button>'
+        +'<button class="ghost iconly" data-del="'+i+'" aria-label="삭제">✕</button>'
+      +'</div></div>'
+    ).join("");
+    mList.querySelectorAll("[data-up]").forEach(b=>b.onclick=()=>{ const i=+b.dataset.up; [mFiles[i-1],mFiles[i]]=[mFiles[i],mFiles[i-1]]; renderM(); });
+    mList.querySelectorAll("[data-down]").forEach(b=>b.onclick=()=>{ const i=+b.dataset.down; [mFiles[i+1],mFiles[i]]=[mFiles[i],mFiles[i+1]]; renderM(); });
+    mList.querySelectorAll("[data-del]").forEach(b=>b.onclick=()=>{ mFiles.splice(+b.dataset.del,1); renderM(); });
+  }
+  $("mClear").onclick=()=>{ mFiles=[]; clearNote(mNote); renderM(); };
+  $("mergeBtn").onclick=async()=>{
+    if(!PDFReady()){ note(mNote,"err","PDF 라이브러리를 불러오지 못했어요. 인터넷 연결을 확인하고 새로고침하세요."); return; }
+    if(mFiles.length<2){ note(mNote,"err","합치려면 PDF가 2개 이상 필요해요."); return; }
+    clearNote(mNote); busy(mBusy,true); $("mergeBtn").disabled=true;
+    try{
+      const { PDFDocument }=PDFLib;
+      const out=await PDFDocument.create();
+      for(const f of mFiles){
+        const src=await PDFDocument.load(await f.arrayBuffer(), { ignoreEncryption:true });
+        const pages=await out.copyPages(src, src.getPageIndices());
+        pages.forEach(p=>out.addPage(p));
+      }
+      download(await out.save(), "merged.pdf");
+      note(mNote,"ok", mFiles.length+"개 PDF를 합쳐 다운로드했어요 ✓");
+    }catch(e){
+      note(mNote,"err","합치기에 실패했어요. 손상되었거나 암호가 걸린 PDF일 수 있어요.");
+    }
+    busy(mBusy,false); $("mergeBtn").disabled=false;
+  };
+
+  /* ---------- 나누기 ---------- */
+  let sFile=null, sTotal=0;
+  const sList=$("sList"), sOpts=$("sOpts"), sActions=$("sActions"), sNote=$("sNote"), sBusy=$("sBusy");
+  bindDrop($("sDrop"), $("sFile"), async files=>{
+    const pdfs=onlyPdf(files);
+    if(!pdfs.length){ note(sNote,"err","PDF 파일만 선택할 수 있어요."); return; }
+    clearNote(sNote);
+    if(!PDFReady()){ note(sNote,"err","PDF 라이브러리를 불러오지 못했어요. 인터넷 연결을 확인하고 새로고침하세요."); return; }
+    sFile=pdfs[0];
+    try{
+      const doc=await PDFLib.PDFDocument.load(await sFile.arrayBuffer(), { ignoreEncryption:true });
+      sTotal=doc.getPageCount();
+      renderS();
+      $("range").value="1-"+sTotal; $("range").placeholder="예: 1-3,5,8-"+sTotal;
+    }catch(e){
+      sFile=null; sTotal=0; renderS();
+      note(sNote,"err","PDF를 읽을 수 없어요. 손상되었거나 암호가 걸린 파일일 수 있어요.");
+    }
+  });
+  function renderS(){
+    const show=!!sFile;
+    sOpts.style.display=show ? "block" : "none";
+    sActions.style.display=show ? "flex" : "none";
+    sList.innerHTML=show
+      ? '<div class="fitem"><div class="fthumb">📄</div>'
+        +'<div class="fmain"><div class="fname">'+esc(sFile.name)+'</div>'
+        +'<div class="fmeta">'+fmtBytes(sFile.size)+' · 총 '+sTotal+'쪽</div></div></div>'
+      : "";
+  }
+  function parseRanges(str,max){
+    if(!str.trim()) throw new Error("페이지 범위를 입력하세요. 예: 1-3,5");
+    const raw=[];
+    str.split(",").forEach(part=>{
+      part=part.trim(); if(!part) return;
+      const m=part.match(/^(\d+)\s*-\s*(\d+)$/);
+      if(m){ let a=+m[1], b=+m[2]; if(a>b){ const t=a; a=b; b=t; } for(let i=a;i<=b;i++) raw.push(i); }
+      else if(/^\d+$/.test(part)) raw.push(+part);
+      else throw new Error('형식이 올바르지 않아요: "'+part+'" (예: 1-3,5,8-10)');
+    });
+    const seen=new Set(), pages=[];
+    raw.forEach(n=>{ if(n>=1 && n<=max && !seen.has(n)){ seen.add(n); pages.push(n); } });
+    if(!pages.length) throw new Error("유효한 페이지가 없어요 (1~"+max+"쪽 범위로 입력)");
+    return pages;
+  }
+  $("sClear").onclick=()=>{ sFile=null; sTotal=0; clearNote(sNote); $("range").value=""; renderS(); };
+  $("splitBtn").onclick=async()=>{
+    if(!sFile){ note(sNote,"err","먼저 PDF를 선택하세요."); return; }
+    if(!PDFReady()){ note(sNote,"err","PDF 라이브러리를 불러오지 못했어요. 새로고침하세요."); return; }
+    let pages;
+    try{ pages=parseRanges($("range").value, sTotal); }
+    catch(e){ note(sNote,"err", e.message); return; }
+    clearNote(sNote); busy(sBusy,true); $("splitBtn").disabled=true;
+    try{
+      const { PDFDocument }=PDFLib;
+      const src=await PDFDocument.load(await sFile.arrayBuffer(), { ignoreEncryption:true });
+      const out=await PDFDocument.create();
+      const copied=await out.copyPages(src, pages.map(p=>p-1));
+      copied.forEach(p=>out.addPage(p));
+      download(await out.save(), sFile.name.replace(/\.pdf$/i,"")+"_추출.pdf");
+      note(sNote,"ok", pages.length+"개 페이지를 추출했어요 ✓");
+    }catch(e){
+      note(sNote,"err","나누기에 실패했어요. 손상되었거나 암호가 걸린 PDF일 수 있어요.");
+    }
+    busy(sBusy,false); $("splitBtn").disabled=false;
+  };
+</script>
+</body>
+</html>

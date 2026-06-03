@@ -131,6 +131,63 @@ button.ghost:hover{filter:none;background:color-mix(in srgb,var(--chip) 70%, var
   background:color-mix(in srgb,#f5b301 14%, var(--card));
   border:1px solid color-mix(in srgb,#f5b301 35%, var(--line));border-radius:var(--radius-sm);padding:10px 12px;margin-top:10px}
 
+/* ---------- 파일 도구 (이미지·PDF 공통) ---------- */
+.dropzone{border:2px dashed var(--line);border-radius:var(--radius);background:var(--bg2);
+  padding:30px 18px;text-align:center;cursor:pointer;color:var(--muted);
+  transition:border-color .16s,background .16s}
+.dropzone:hover{border-color:var(--brand)}
+.dropzone.drag{border-color:var(--brand);background:color-mix(in srgb,var(--brand) 8%, var(--bg2));color:var(--ink)}
+.dropzone .dz-ic{font-size:34px;line-height:1}
+.dropzone .dz-t{font-weight:800;margin-top:10px;color:var(--ink)}
+.dropzone .dz-s{font-size:12.5px;margin-top:5px}
+
+/* 세그먼트 탭 */
+.seg{display:inline-flex;background:var(--bg2);border:1px solid var(--line);
+  border-radius:var(--radius-sm);padding:4px;gap:4px;margin:0 0 14px}
+.seg button{background:transparent;color:var(--muted);font-weight:700;font-size:14px;padding:9px 16px;border-radius:8px}
+.seg button:hover{filter:none;color:var(--ink)}
+.seg button.on{background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff}
+
+/* 파일 리스트 */
+.filelist{display:flex;flex-direction:column;gap:10px;margin-top:14px}
+.fitem{display:flex;gap:12px;align-items:center;background:var(--bg2);border:1px solid var(--line);
+  border-radius:var(--radius-sm);padding:11px 12px}
+.fthumb{width:48px;height:48px;border-radius:9px;object-fit:cover;background:var(--chip);
+  flex:0 0 auto;display:grid;place-items:center;font-size:22px;color:var(--muted)}
+.fmain{flex:1;min-width:0}
+.fname{font-weight:700;font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fmeta{font-size:12.5px;color:var(--muted);margin-top:3px;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.fact{flex:0 0 auto;display:flex;gap:6px}
+.fact button{padding:9px 12px;font-size:13px}
+.fact .iconly{padding:9px 11px}
+.fact button:disabled{opacity:.4;cursor:default}
+
+/* 용량 변화 배지 */
+.tag{display:inline-flex;align-items:center;border-radius:20px;padding:2px 9px;font-size:12px;font-weight:800}
+.tag.down{background:var(--ok-bg);color:var(--ok);border:1px solid var(--ok-line)}
+.tag.up{background:color-mix(in srgb,#f5b301 16%,var(--card));color:#a9760a;
+  border:1px solid color-mix(in srgb,#f5b301 38%,var(--line))}
+.arrow{color:var(--muted)}
+
+/* 슬라이더 */
+.range-row{display:flex;align-items:center;gap:12px}
+.range-row input[type=range]{flex:1;accent-color:var(--brand)}
+.range-val{font-weight:800;min-width:52px;text-align:right}
+
+/* 진행 표시 */
+.busy{display:none;align-items:center;gap:10px;margin-top:14px;color:var(--muted);font-size:14px}
+.busy.show{display:flex}
+.spinner{width:18px;height:18px;border-radius:50%;border:2.5px solid var(--line);
+  border-top-color:var(--brand);animation:spin .7s linear infinite;flex:0 0 auto}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* 결과·오류 안내 */
+.note{font-size:13px;border-radius:var(--radius-sm);padding:11px 13px;margin-top:12px;display:none}
+.note.show{display:block}
+.note.ok{background:var(--ok-bg);border:1px solid var(--ok-line);color:var(--ink)}
+.note.err{background:color-mix(in srgb,#e5484d 12%,var(--card));
+  border:1px solid color-mix(in srgb,#e5484d 35%,var(--line));color:var(--ink)}
+
 /* 푸터 */
 footer.site{border-top:1px solid var(--line);background:var(--card)}
 .foot{max-width:900px;margin:0 auto;padding:18px 16px;color:var(--muted);font-size:13px;display:flex;gap:14px;flex-wrap:wrap;align-items:center}
@@ -156,5 +213,6 @@ footer.site{border-top:1px solid var(--line);background:var(--card)}
 @media (max-width:520px){
   .result,.related{grid-template-columns:1fr}
   .hero h1{font-size:22px}
+  .seg{display:flex;width:100%}.seg button{flex:1;text-align:center}
 }
 @media (prefers-reduced-motion:reduce){*{animation:none !important;transition:none !important}}
