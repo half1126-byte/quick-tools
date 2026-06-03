@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>글자수 세기 — 공백 포함/제외·바이트·단어수 (자소서·과제용)</title>
+<meta name="description" content="실시간 글자수 세기. 공백 포함/제외 글자수, 단어수, 바이트수(자소서 기준)를 즉시 계산. 자기소개서·리포트·SNS 글자 제한 확인에 딱." />
+<meta name="keywords" content="글자수 세기, 글자수세기, 자소서 글자수, 공백제외 글자수, 바이트 계산, 단어수 세기" />
+<meta property="og:title" content="글자수 세기 — 자소서·과제용 실시간 카운터" />
+<meta property="og:description" content="공백 포함/제외 글자수, 단어수, 바이트수를 즉시 계산." />
+<meta name="theme-color" content="#3b6ef5" />
+<link rel="icon" href="favicon.svg" type="image/svg+xml" />
+<link rel="apple-touch-icon" href="apple-touch-icon.png" />
+<link rel="manifest" href="manifest.json" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-title" content="급할때" />
+<script>(function(){try{var m=localStorage.getItem('qt-theme')||((window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches)?'dark':'light');document.documentElement.dataset.theme=m;}catch(e){}})();</script>
+<link rel="stylesheet" href="style.css" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"공백 포함과 공백 제외 글자수는 어떻게 다른가요?","acceptedAnswer":{"@type":"Answer","text":"공백 포함은 띄어쓰기와 줄바꿈까지 모두 센 글자수이고, 공백 제외는 띄어쓰기·줄바꿈을 뺀 순수 글자수입니다. 자기소개서는 보통 공백 포함 기준을 요구합니다."}},
+{"@type":"Question","name":"자소서 바이트 수는 어떻게 계산하나요?","acceptedAnswer":{"@type":"Answer","text":"일반적으로 한글 한 글자는 2바이트, 영문·숫자·공백은 1바이트로 계산합니다. 일부 기업 양식이 바이트 제한을 두기 때문에 이 도구가 바이트 수도 함께 보여줍니다."}},
+{"@type":"Question","name":"입력한 글이 서버로 전송되나요?","acceptedAnswer":{"@type":"Answer","text":"아니요. 모든 계산은 여러분의 브라우저 안에서만 이뤄지며, 작성한 글은 어디에도 저장·전송되지 않습니다."}},
+{"@type":"Question","name":"단어수는 어떤 기준인가요?","acceptedAnswer":{"@type":"Answer","text":"공백(띄어쓰기·줄바꿈)으로 나뉜 덩어리를 한 단어로 셉니다. 영문 글의 단어수 제한 확인에 유용합니다."}},
+{"@type":"Question","name":"모바일에서도 쓸 수 있나요?","acceptedAnswer":{"@type":"Answer","text":"네. 휴대폰 브라우저에서도 그대로 동작하며 설치가 필요 없습니다. 홈 화면에 추가하면 앱처럼 쓸 수 있습니다."}}
+]}
+</script>
+</head>
+<body>
+<header class="site">
+  <div class="nav">
+    <a class="brand" href="index.html"><span class="logo">⚡</span><b>급할때</b><span class="tld">.tools</span></a>
+    <div class="links">
+      <a href="char-counter.html">글자수</a><a href="age-calculator.html">만나이·디데이</a><a href="salary-calculator.html">연봉 실수령액</a>
+    </div>
+    <div class="spacer"></div>
+    <button class="install-btn" id="installBtn" type="button">⬇️ 앱 설치</button>
+    <button class="icon-btn" id="themeToggle" type="button" aria-label="테마 전환">🌙</button>
+  </div>
+  <div class="trust">🔒 <b>브라우저에서만</b> 처리 · 가입 없음 · 무료</div>
+</header>
+
+<main>
+  <div class="hero">
+    <h1>✍️ 글자수 세기</h1>
+    <p class="lead">자기소개서·과제·SNS 글자 제한 확인용. 입력하는 즉시 세어드려요.</p>
+  </div>
+  <div class="howto"><span>1. 글 붙여넣기</span><span>2. 즉시 카운트</span><span>3. 결과 복사</span></div>
+
+  <div class="ad-slot">광고 자리 (애드센스 승인 후 표시)</div>
+
+  <div class="card">
+    <label for="txt">여기에 글을 붙여넣거나 입력하세요</label>
+    <textarea id="txt" placeholder="여기에 입력…" aria-label="글자수를 셀 텍스트"></textarea>
+    <div class="result" style="margin-top:14px">
+      <div class="stat"><div class="k">공백 포함</div><div class="v" id="withSpace">0</div></div>
+      <div class="stat"><div class="k">공백 제외</div><div class="v" id="noSpace">0</div></div>
+      <div class="stat"><div class="k">단어수</div><div class="v" id="words">0</div></div>
+      <div class="stat"><div class="k">바이트 (한글 2byte)</div><div class="v" id="bytes">0</div></div>
+    </div>
+    <div class="row" style="margin-top:14px">
+      <button id="copyBtn" style="flex:0 0 auto">📋 결과 복사</button>
+      <button class="ghost" id="sampleBtn" type="button" style="flex:0 0 auto">예시 넣기</button>
+      <button class="ghost" id="clearBtn" type="button" style="flex:0 0 auto">비우기</button>
+    </div>
+  </div>
+
+  <div class="card cta-band">
+    <h2>이 도구가 마음에 들면 👇</h2>
+    <div class="row" style="margin-bottom:12px">
+      <button id="bookmarkBtn" class="ghost" type="button" style="flex:0 0 auto">⭐ 즐겨찾기 추가</button>
+    </div>
+    <div class="related">
+      <a href="age-calculator.html"><span class="e">🎂</span><span><b>만 나이·디데이</b><br/><small style="color:var(--muted)">생일로 나이·남은 날</small></span></a>
+      <a href="salary-calculator.html"><span class="e">💰</span><span><b>연봉 실수령액</b><br/><small style="color:var(--muted)">세후 월급 계산</small></span></a>
+    </div>
+  </div>
+
+  <section class="faq">
+    <h2>자주 묻는 질문</h2>
+    <details><summary>공백 포함과 공백 제외 글자수는 어떻게 다른가요?</summary><p>공백 포함은 띄어쓰기·줄바꿈까지 센 글자수, 공백 제외는 이를 뺀 순수 글자수입니다. 자기소개서는 보통 공백 포함 기준입니다.</p></details>
+    <details><summary>자소서 바이트 수는 어떻게 계산하나요?</summary><p>보통 한글 1글자=2바이트, 영문·숫자·공백=1바이트로 계산합니다. 바이트 제한이 있는 양식 확인에 쓰세요.</p></details>
+    <details><summary>입력한 글이 서버로 전송되나요?</summary><p>아니요. 모든 계산은 브라우저 안에서만 이뤄지고 어디에도 저장·전송되지 않습니다.</p></details>
+    <details><summary>단어수는 어떤 기준인가요?</summary><p>공백으로 나뉜 덩어리를 한 단어로 셉니다. 영문 글 단어수 제한 확인에 유용합니다.</p></details>
+    <details><summary>모바일에서도 쓸 수 있나요?</summary><p>네. 휴대폰 브라우저에서도 그대로 동작합니다. 홈 화면에 추가하면 앱처럼 쓸 수 있어요.</p></details>
+  </section>
+
+  <div class="ad-slot">광고 자리 (애드센스 승인 후 표시)</div>
+</main>
+
+<div class="install-banner" id="installBanner">
+  <div class="ib-ic">⚡</div>
+  <div class="ib-t"><b>급할때를 홈 화면에 추가</b>다음엔 검색 없이 한 번에 — 오프라인도 OK</div>
+  <button class="ghost" id="ibClose" type="button">나중에</button>
+  <button id="ibInstall" type="button">설치</button>
+</div>
+
+<footer class="site">
+  <div class="foot">
+    <span>© <span id="year"></span> 급할때.tools</span>
+    <a href="about.html">소개</a><a href="privacy.html">개인정보처리방침</a>
+    <span class="sp">모든 계산은 브라우저에서만 처리됩니다.</span>
+  </div>
+</footer>
+
+<script src="common.js"></script>
+<script>
+  QT.recordRecent({slug:"char",name:"글자수 세기",emoji:"✍️",url:"char-counter.html"});
+  const txt=document.getElementById("txt");
+  const elWith=document.getElementById("withSpace"), elNo=document.getElementById("noSpace"),
+        elWords=document.getElementById("words"), elBytes=document.getElementById("bytes");
+  function byteLen(s){let b=0;for(const ch of s)b+=ch.charCodeAt(0)>127?2:1;return b;}
+  function update(animate){
+    const s=txt.value;
+    const withSpace=[...s].length, noSpace=[...s.replace(/\s/g,"")].length;
+    const words=s.trim()===""?0:s.trim().split(/\s+/).length;
+    elWith.textContent=QT.won(withSpace); elNo.textContent=QT.won(noSpace);
+    elWords.textContent=QT.won(words); elBytes.textContent=QT.won(byteLen(s));
+    if(animate){[elWith,elNo,elWords,elBytes].forEach(QT.flash);}
+  }
+  txt.addEventListener("input", ()=>update(false));
+  document.getElementById("clearBtn").addEventListener("click", ()=>{txt.value="";update(true);txt.focus();});
+  document.getElementById("sampleBtn").addEventListener("click", ()=>{
+    txt.value="안녕하세요. 저는 새로운 문제를 발견하고 시스템으로 해결하는 것을 좋아하는 사람입니다. 이 글은 글자수 세기 예시입니다. 자기소개서 글자수와 바이트를 한눈에 확인해 보세요!";
+    update(true);
+  });
+  document.getElementById("copyBtn").addEventListener("click", ()=>{
+    const s=txt.value;
+    QT.copy(`공백 포함 ${[...s].length}자 / 공백 제외 ${[...s.replace(/\s/g,"")].length}자 / 단어 ${s.trim()?s.trim().split(/\s+/).length:0}개 / ${byteLen(s)}바이트`,"글자수 정보를 복사했어요 ✓");
+  });
+  update(false);
+</script>
+</body>
+</html>

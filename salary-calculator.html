@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>2026 연봉 실수령액 계산기 — 4대보험·세금 빼고 월 실수령</title>
+<meta name="description" content="연봉을 넣으면 국민연금·건강보험·고용보험·소득세를 뺀 2026년 월 실수령액을 바로 계산합니다. 부양가족·비과세(식대)까지 반영. (참고용)" />
+<meta name="keywords" content="연봉 실수령액 계산기, 2026 연봉 실수령액, 월급 실수령액, 4대보험 계산, 세후 월급" />
+<meta property="og:title" content="2026 연봉 실수령액 계산기" />
+<meta property="og:description" content="4대보험·세금 빼고 월 실수령액을 바로 계산." />
+<meta name="theme-color" content="#3b6ef5" />
+<link rel="icon" href="favicon.svg" type="image/svg+xml" />
+<link rel="apple-touch-icon" href="apple-touch-icon.png" />
+<link rel="manifest" href="manifest.json" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-title" content="급할때" />
+<script>(function(){try{var m=localStorage.getItem('qt-theme')||((window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches)?'dark':'light');document.documentElement.dataset.theme=m;}catch(e){}})();</script>
+<link rel="stylesheet" href="style.css" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"실수령액은 무엇을 뺀 금액인가요?","acceptedAnswer":{"@type":"Answer","text":"세전 월급에서 국민연금(4.5%), 건강보험(3.545%)과 장기요양보험, 고용보험(0.9%), 그리고 근로소득세와 지방소득세를 뺀 실제로 통장에 들어오는 금액입니다."}},
+{"@type":"Question","name":"이 계산기는 정확한가요?","acceptedAnswer":{"@type":"Answer","text":"국민연금·건강·고용보험 요율과 소득세를 반영한 근사치입니다. 회사가 쓰는 간이세액표, 부양가족·비과세 항목, 연말정산에 따라 실제와 차이가 날 수 있어 참고용으로 사용하세요."}},
+{"@type":"Question","name":"비과세액은 무엇인가요?","acceptedAnswer":{"@type":"Answer","text":"세금·보험료가 매겨지지 않는 급여입니다. 대표적으로 식대가 월 20만원까지 비과세입니다. 비과세가 크면 실수령액이 늘어납니다."}},
+{"@type":"Question","name":"부양가족 수는 어떻게 넣나요?","acceptedAnswer":{"@type":"Answer","text":"본인을 포함한 인원수를 넣습니다. 배우자·자녀 등 부양가족이 많을수록 소득세가 줄어 실수령액이 늘어납니다."}},
+{"@type":"Question","name":"입력한 연봉이 저장되나요?","acceptedAnswer":{"@type":"Answer","text":"아니요. 계산은 브라우저 안에서만 이뤄지며 어떤 정보도 저장·전송되지 않습니다."}}
+]}
+</script>
+</head>
+<body>
+<header class="site">
+  <div class="nav">
+    <a class="brand" href="index.html"><span class="logo">⚡</span><b>급할때</b><span class="tld">.tools</span></a>
+    <div class="links">
+      <a href="char-counter.html">글자수</a><a href="age-calculator.html">만나이·디데이</a><a href="salary-calculator.html">연봉 실수령액</a>
+    </div>
+    <div class="spacer"></div>
+    <button class="install-btn" id="installBtn" type="button">⬇️ 앱 설치</button>
+    <button class="icon-btn" id="themeToggle" type="button" aria-label="테마 전환">🌙</button>
+  </div>
+  <div class="trust">🔒 <b>브라우저에서만</b> 처리 · 가입 없음 · 무료</div>
+</header>
+
+<main>
+  <div class="hero">
+    <h1>💰 2026 연봉 실수령액 계산기</h1>
+    <p class="lead">연봉을 넣으면 4대보험·세금을 뺀 <b>월 실수령액</b>을 바로 계산해요.</p>
+  </div>
+  <div class="howto"><span>1. 연봉 입력</span><span>2. 즉시 계산</span><span>3. 세후 월급 확인</span></div>
+
+  <div class="ad-slot">광고 자리 (애드센스 승인 후 표시)</div>
+
+  <div class="card">
+    <div class="row">
+      <div>
+        <label for="salary">연봉 (만원)</label>
+        <input type="number" id="salary" inputmode="numeric" placeholder="예: 3600" aria-label="연봉(만원)" />
+        <div class="hint">세전 연봉을 만원 단위로. 예) 3,600만원 → 3600</div>
+      </div>
+      <div>
+        <label for="family">부양가족 수 (본인 포함)</label>
+        <input type="number" id="family" inputmode="numeric" value="1" min="1" />
+        <div class="hint">많을수록 소득세 ↓</div>
+      </div>
+    </div>
+    <label for="taxfree">월 비과세액 (원)</label>
+    <input type="number" id="taxfree" inputmode="numeric" value="200000" />
+    <div class="hint">식대 등 비과세. 보통 식대 월 20만원까지. 없으면 0.</div>
+
+    <div class="result" style="margin-top:16px">
+      <div class="stat big"><div class="k">월 실수령액 (예상)</div><div class="v" id="net">—</div></div>
+      <div class="stat"><div class="k">한 달 공제 합계</div><div class="v" id="ded">—</div></div>
+      <div class="stat"><div class="k">연 실수령액 (예상)</div><div class="v" id="netY">—</div></div>
+    </div>
+    <div class="result" style="margin-top:10px">
+      <div class="stat"><div class="k">국민연금</div><div class="v" id="np" style="font-size:16px">—</div></div>
+      <div class="stat"><div class="k">건강+장기요양</div><div class="v" id="hi" style="font-size:16px">—</div></div>
+      <div class="stat"><div class="k">고용보험</div><div class="v" id="ei" style="font-size:16px">—</div></div>
+      <div class="stat"><div class="k">소득세+지방세</div><div class="v" id="tax" style="font-size:16px">—</div></div>
+    </div>
+    <div class="row" style="margin-top:14px">
+      <button id="copyBtn" type="button" style="flex:0 0 auto">📋 결과 복사</button>
+      <button id="sampleBtn" class="ghost" type="button" style="flex:0 0 auto">예시 넣기</button>
+    </div>
+    <p class="disclaimer">⚠️ <b>참고용</b> 계산입니다. 회사가 쓰는 간이세액표, 부양가족·비과세 항목, 연말정산에 따라 실제 금액과 차이가 날 수 있어요. 요율은 2025년 기준입니다.</p>
+  </div>
+
+  <div class="card cta-band">
+    <h2>이직·연봉 협상 전이라면 ⚡</h2>
+    <div class="row" style="margin-bottom:12px">
+      <button id="bookmarkBtn" class="ghost" type="button" style="flex:0 0 auto">⭐ 즐겨찾기 추가</button>
+    </div>
+    <div class="related">
+      <a href="char-counter.html"><span class="e">✍️</span><span><b>글자수 세기</b><br/><small style="color:var(--muted)">자소서 글자수·바이트</small></span></a>
+      <a href="age-calculator.html"><span class="e">🎂</span><span><b>만 나이·디데이</b><br/><small style="color:var(--muted)">생일로 나이·남은 날</small></span></a>
+    </div>
+  </div>
+
+  <section class="faq">
+    <h2>자주 묻는 질문</h2>
+    <details><summary>실수령액은 무엇을 뺀 금액인가요?</summary><p>세전 월급에서 국민연금(4.5%)·건강보험(3.545%)+장기요양·고용보험(0.9%)·근로소득세·지방소득세를 뺀, 실제 통장에 들어오는 금액입니다.</p></details>
+    <details><summary>이 계산기는 정확한가요?</summary><p>요율과 소득세를 반영한 근사치입니다. 간이세액표·부양가족·비과세·연말정산에 따라 실제와 차이가 날 수 있어 참고용입니다.</p></details>
+    <details><summary>비과세액은 무엇인가요?</summary><p>세금·보험료가 안 매겨지는 급여입니다. 대표적으로 식대가 월 20만원까지 비과세입니다.</p></details>
+    <details><summary>부양가족 수는 어떻게 넣나요?</summary><p>본인 포함 인원수입니다. 많을수록 소득세가 줄어 실수령액이 늘어납니다.</p></details>
+    <details><summary>입력한 연봉이 저장되나요?</summary><p>아니요. 브라우저 안에서만 계산되고 저장·전송되지 않습니다.</p></details>
+  </section>
+
+  <div class="ad-slot">광고 자리 (애드센스 승인 후 표시)</div>
+</main>
+
+<div class="install-banner" id="installBanner">
+  <div class="ib-ic">⚡</div>
+  <div class="ib-t"><b>급할때를 홈 화면에 추가</b>다음엔 검색 없이 한 번에 — 오프라인도 OK</div>
+  <button class="ghost" id="ibClose" type="button">나중에</button>
+  <button id="ibInstall" type="button">설치</button>
+</div>
+
+<footer class="site">
+  <div class="foot">
+    <span>© <span id="year"></span> 급할때.tools</span>
+    <a href="about.html">소개</a><a href="privacy.html">개인정보처리방침</a>
+    <span class="sp">모든 계산은 브라우저에서만 처리됩니다.</span>
+  </div>
+</footer>
+
+<script src="common.js"></script>
+<script>
+  QT.recordRecent({slug:"salary",name:"연봉 실수령액",emoji:"💰",url:"salary-calculator.html"});
+  const RATE={np:0.045,hi:0.03545,ltc:0.1295,ei:0.009};
+  const NP_MAX=6170000,NP_MIN=390000,BASIC=1500000;
+  const $=id=>document.getElementById(id);
+  function eid(g){if(g<=5e6)return g*0.7;if(g<=15e6)return 3.5e6+(g-5e6)*0.4;if(g<=45e6)return 7.5e6+(g-15e6)*0.15;if(g<=1e8)return 12e6+(g-45e6)*0.05;return 14.75e6+(g-1e8)*0.02;}
+  function itax(b){b=Math.max(b,0);if(b<=14e6)return b*0.06;if(b<=5e7)return 84e4+(b-14e6)*0.15;if(b<=88e6)return 624e4+(b-5e7)*0.24;if(b<=15e7)return 1536e4+(b-88e6)*0.35;if(b<=3e8)return 3706e4+(b-15e7)*0.38;if(b<=5e8)return 9406e4+(b-3e8)*0.40;if(b<=1e9)return 174060000+(b-5e8)*0.42;return 384060000+(b-1e9)*0.45;}
+  function credit(t,g){let c=t<=13e5?t*0.55:715e3+(t-13e5)*0.30;let cap=g<=33e6?74e4:g<=7e7?Math.max(74e4-(g-33e6)*0.008,66e4):Math.max(66e4-(g-7e7)*0.5,50e4);return Math.min(c,cap);}
+
+  function calc(animate){
+    const annual=(parseFloat($("salary").value)||0)*10000;
+    const family=Math.max(parseInt($("family").value)||1,1);
+    const tfM=parseFloat($("taxfree").value)||0;
+    const ids=["net","ded","netY","np","hi","ei","tax"];
+    if(annual<=0){ ids.forEach(id=>$(id).textContent="—"); return; }
+    const tfY=tfM*12, gross=Math.max(annual-tfY,0), baseM=gross/12;
+    const npM=Math.min(Math.max(baseM,NP_MIN),NP_MAX)*RATE.np, hiM=baseM*RATE.hi, ltcM=hiM*RATE.ltc, eiM=baseM*RATE.ei;
+    const insM=npM+hiM+ltcM+eiM, insY=insM*12;
+    const earned=gross-eid(gross), base=Math.max(earned-(BASIC*family+insY),0);
+    const decided=Math.max(itax(base)-credit(itax(base),gross),0);
+    const taxM=decided/12*1.10;
+    const netM=annual/12-insM-taxM, totalDed=insM+taxM;
+    if(animate) QT.countUp($("net"), netM, "원"); else $("net").textContent=QT.won(netM)+"원";
+    $("ded").textContent=QT.won(totalDed)+"원"; $("netY").textContent=QT.won(netM*12)+"원";
+    $("np").textContent=QT.won(npM)+"원"; $("hi").textContent=QT.won(hiM+ltcM)+"원";
+    $("ei").textContent=QT.won(eiM)+"원"; $("tax").textContent=QT.won(taxM)+"원";
+    if(animate)["ded","netY","np","hi","ei","tax"].forEach(id=>QT.flash($(id)));
+  }
+  ["salary","family","taxfree"].forEach(id=>$(id).addEventListener("input",()=>calc(false)));
+  $("sampleBtn").addEventListener("click",()=>{ $("salary").value="3600"; $("family").value="1"; $("taxfree").value="200000"; calc(true); });
+  $("copyBtn").addEventListener("click",()=>QT.copy(`연봉 ${$("salary").value||0}만원 → 월 실수령액 약 ${$("net").textContent} (참고용)`,"결과를 복사했어요 ✓"));
+  calc(false);
+</script>
+</body>
+</html>

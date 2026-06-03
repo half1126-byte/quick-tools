@@ -1,0 +1,16 @@
+{
+  "name": "급할때.tools — 급할 때 쓰는 무료 도구 모음",
+  "short_name": "급할때",
+  "description": "글자수 세기, 만 나이·디데이, 연봉 실수령액 등 급할 때 바로 쓰는 무료 도구. 설치 없이 즉시, 오프라인도 가능.",
+  "lang": "ko",
+  "start_url": "index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0e1220",
+  "theme_color": "#3b6ef5",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" },
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}

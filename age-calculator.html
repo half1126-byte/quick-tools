@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>만 나이 계산기 · 디데이(D-Day) 계산기 — 생년월일로 바로</title>
+<meta name="description" content="생년월일을 넣으면 만 나이를 즉시 계산. 목표 날짜까지 남은 D-Day(며칠 남았는지)도 함께 계산합니다. 가입·서류·기념일 확인에 딱." />
+<meta name="keywords" content="만나이 계산기, 만 나이, 디데이 계산기, D-Day, 며칠 남았지, 나이 계산" />
+<meta property="og:title" content="만 나이 · 디데이 계산기" />
+<meta property="og:description" content="생년월일로 만 나이, 목표일까지 D-Day를 즉시 계산." />
+<meta name="theme-color" content="#3b6ef5" />
+<link rel="icon" href="favicon.svg" type="image/svg+xml" />
+<link rel="apple-touch-icon" href="apple-touch-icon.png" />
+<link rel="manifest" href="manifest.json" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-title" content="급할때" />
+<script>(function(){try{var m=localStorage.getItem('qt-theme')||((window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches)?'dark':'light');document.documentElement.dataset.theme=m;}catch(e){}})();</script>
+<link rel="stylesheet" href="style.css" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"만 나이는 어떻게 계산하나요?","acceptedAnswer":{"@type":"Answer","text":"오늘 연도에서 태어난 연도를 뺀 뒤, 아직 올해 생일이 지나지 않았으면 1을 더 빼면 만 나이입니다. 이 계산기는 이 기준으로 자동 계산합니다."}},
+{"@type":"Question","name":"한국식 세는 나이와 만 나이는 다른가요?","acceptedAnswer":{"@type":"Answer","text":"네. 2023년 6월부터 법적·행정적으로 만 나이로 통일되었습니다. 세는 나이는 태어나면 1살로 시작해 해가 바뀔 때 1살씩 늘던 옛 방식입니다."}},
+{"@type":"Question","name":"디데이(D-Day)는 무엇을 계산하나요?","acceptedAnswer":{"@type":"Answer","text":"오늘부터 목표 날짜까지 남은 일수를 계산합니다. 미래면 D-숫자(남은 일수), 지난 날이면 D+숫자(지난 일수)로 표시합니다."}},
+{"@type":"Question","name":"입력한 날짜가 저장되나요?","acceptedAnswer":{"@type":"Answer","text":"아니요. 계산은 브라우저 안에서만 이뤄지며 날짜는 저장·전송되지 않습니다."}},
+{"@type":"Question","name":"생일 당일의 만 나이는요?","acceptedAnswer":{"@type":"Answer","text":"생일 당일은 그 해에 한 살이 더해진 것으로 계산합니다(생일이 지난 것으로 처리)."}}
+]}
+</script>
+</head>
+<body>
+<header class="site">
+  <div class="nav">
+    <a class="brand" href="index.html"><span class="logo">⚡</span><b>급할때</b><span class="tld">.tools</span></a>
+    <div class="links">
+      <a href="char-counter.html">글자수</a><a href="age-calculator.html">만나이·디데이</a><a href="salary-calculator.html">연봉 실수령액</a>
+    </div>
+    <div class="spacer"></div>
+    <button class="install-btn" id="installBtn" type="button">⬇️ 앱 설치</button>
+    <button class="icon-btn" id="themeToggle" type="button" aria-label="테마 전환">🌙</button>
+  </div>
+  <div class="trust">🔒 <b>브라우저에서만</b> 처리 · 가입 없음 · 무료</div>
+</header>
+
+<main>
+  <div class="hero">
+    <h1>🎂 만 나이 · 디데이 계산기</h1>
+    <p class="lead">생년월일로 만 나이를, 목표 날짜로 남은 D-Day를 바로 계산해요.</p>
+  </div>
+  <div class="howto"><span>1. 날짜 선택</span><span>2. 즉시 계산</span><span>3. 끝!</span></div>
+
+  <div class="ad-slot">광고 자리 (애드센스 승인 후 표시)</div>
+
+  <div class="card">
+    <h2>만 나이</h2>
+    <label for="birth">생년월일</label>
+    <input type="date" id="birth" aria-label="생년월일" />
+    <div class="result" style="margin-top:14px">
+      <div class="stat big"><div class="k">만 나이</div><div class="v" id="ageVal">—</div></div>
+      <div class="stat"><div class="k">태어난 지</div><div class="v" id="ageDays">—</div></div>
+      <div class="stat"><div class="k">다음 생일까지</div><div class="v" id="nextBday">—</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>디데이 (D-Day)</h2>
+    <label for="target">목표 날짜 (시험·기념일·마감 등)</label>
+    <input type="date" id="target" aria-label="목표 날짜" />
+    <div class="result" style="margin-top:14px">
+      <div class="stat big"><div class="k">디데이</div><div class="v" id="ddayVal">—</div></div>
+      <div class="stat"><div class="k">기준</div><div class="v" id="ddayNote" style="font-size:15px">오늘 기준</div></div>
+    </div>
+    <div class="row" style="margin-top:14px">
+      <button id="sampleBtn" class="ghost" type="button" style="flex:0 0 auto">예시 넣기</button>
+      <button id="copyBtn" type="button" style="flex:0 0 auto">📋 결과 복사</button>
+    </div>
+  </div>
+
+  <div class="card cta-band">
+    <h2>또 쓸 것 같죠? ⚡</h2>
+    <div class="row" style="margin-bottom:12px">
+      <button id="bookmarkBtn" class="ghost" type="button" style="flex:0 0 auto">⭐ 즐겨찾기 추가</button>
+    </div>
+    <div class="related">
+      <a href="char-counter.html"><span class="e">✍️</span><span><b>글자수 세기</b><br/><small style="color:var(--muted)">자소서 글자수·바이트</small></span></a>
+      <a href="salary-calculator.html"><span class="e">💰</span><span><b>연봉 실수령액</b><br/><small style="color:var(--muted)">세후 월급 계산</small></span></a>
+    </div>
+  </div>
+
+  <section class="faq">
+    <h2>자주 묻는 질문</h2>
+    <details><summary>만 나이는 어떻게 계산하나요?</summary><p>오늘 연도에서 출생 연도를 뺀 뒤, 올해 생일이 안 지났으면 1을 더 뺍니다. 이 계산기가 자동으로 처리합니다.</p></details>
+    <details><summary>한국식 세는 나이와 만 나이는 다른가요?</summary><p>네. 2023년 6월부터 만 나이로 통일됐습니다. 세는 나이는 태어나면 1살로 시작하던 옛 방식입니다.</p></details>
+    <details><summary>디데이(D-Day)는 무엇을 계산하나요?</summary><p>오늘부터 목표일까지 남은 일수입니다. 미래면 D-숫자, 지난 날이면 D+숫자로 표시합니다.</p></details>
+    <details><summary>입력한 날짜가 저장되나요?</summary><p>아니요. 브라우저 안에서만 계산되고 저장·전송되지 않습니다.</p></details>
+    <details><summary>생일 당일의 만 나이는요?</summary><p>생일 당일은 한 살이 더해진 것으로 계산합니다(생일이 지난 것으로 처리).</p></details>
+  </section>
+
+  <div class="ad-slot">광고 자리 (애드센스 승인 후 표시)</div>
+</main>
+
+<div class="install-banner" id="installBanner">
+  <div class="ib-ic">⚡</div>
+  <div class="ib-t"><b>급할때를 홈 화면에 추가</b>다음엔 검색 없이 한 번에 — 오프라인도 OK</div>
+  <button class="ghost" id="ibClose" type="button">나중에</button>
+  <button id="ibInstall" type="button">설치</button>
+</div>
+
+<footer class="site">
+  <div class="foot">
+    <span>© <span id="year"></span> 급할때.tools</span>
+    <a href="about.html">소개</a><a href="privacy.html">개인정보처리방침</a>
+    <span class="sp">모든 계산은 브라우저에서만 처리됩니다.</span>
+  </div>
+</footer>
+
+<script src="common.js"></script>
+<script>
+  QT.recordRecent({slug:"age",name:"만 나이·디데이",emoji:"🎂",url:"age-calculator.html"});
+  const birth=document.getElementById("birth"), target=document.getElementById("target");
+  const atMid=d=>new Date(d.getFullYear(),d.getMonth(),d.getDate());
+  const daysBetween=(a,b)=>Math.round((atMid(b)-atMid(a))/86400000);
+
+  function calcAge(animate){
+    if(!birth.value) return;
+    const b=new Date(birth.value), now=new Date();
+    let age=now.getFullYear()-b.getFullYear();
+    if(now.getMonth()<b.getMonth()||(now.getMonth()===b.getMonth()&&now.getDate()<b.getDate())) age-=1;
+    const av=document.getElementById("ageVal"); av.textContent=age<0?"—":`만 ${age}세`;
+    const lived=daysBetween(b,now);
+    document.getElementById("ageDays").textContent=lived<0?"—":`${QT.won(lived)}일`;
+    let next=new Date(now.getFullYear(),b.getMonth(),b.getDate());
+    if(daysBetween(now,next)<0) next=new Date(now.getFullYear()+1,b.getMonth(),b.getDate());
+    const toNext=daysBetween(now,next);
+    document.getElementById("nextBday").textContent=toNext===0?"오늘! 🎂":`${QT.won(toNext)}일`;
+    if(animate)[av,document.getElementById("ageDays"),document.getElementById("nextBday")].forEach(QT.flash);
+  }
+  function calcDday(animate){
+    if(!target.value) return;
+    const diff=daysBetween(new Date(),new Date(target.value));
+    const el=document.getElementById("ddayVal");
+    el.textContent = diff===0?"D-DAY 🎯":diff>0?`D-${QT.won(diff)}`:`D+${QT.won(-diff)}`;
+    if(animate) QT.flash(el);
+  }
+  birth.addEventListener("input",()=>calcAge(false));
+  target.addEventListener("input",()=>calcDday(false));
+  document.getElementById("sampleBtn").addEventListener("click",()=>{
+    birth.value="1994-11-26";
+    const d=new Date(); d.setDate(d.getDate()+100);
+    target.value=d.toISOString().slice(0,10);
+    calcAge(true); calcDday(true);
+  });
+  document.getElementById("copyBtn").addEventListener("click",()=>{
+    const age=document.getElementById("ageVal").textContent, dday=document.getElementById("ddayVal").textContent;
+    QT.copy(`만 나이: ${age} / 디데이: ${dday}`,"결과를 복사했어요 ✓");
+  });
+</script>
+</body>
+</html>

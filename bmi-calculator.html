@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>BMI 계산기 — 키·몸무게로 비만도·적정체중 (한국 기준)</title>
+<meta name="description" content="키와 몸무게를 넣으면 BMI(체질량지수)와 비만도 분류, 적정 체중 범위를 즉시 계산합니다. 대한비만학회 한국 기준 반영. (참고용)" />
+<meta name="keywords" content="BMI 계산기, 체질량지수, 비만도 계산, 적정체중, 표준체중, 비만 기준" />
+<meta property="og:title" content="BMI 계산기 — 키·몸무게로 비만도" />
+<meta property="og:description" content="BMI와 비만도 분류, 적정 체중 범위를 즉시 계산." />
+<meta name="theme-color" content="#3b6ef5" />
+<link rel="icon" href="favicon.svg" type="image/svg+xml" />
+<link rel="apple-touch-icon" href="apple-touch-icon.png" />
+<link rel="manifest" href="manifest.json" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-title" content="급할때" />
+<script>(function(){try{var m=localStorage.getItem('qt-theme')||((window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches)?'dark':'light');document.documentElement.dataset.theme=m;}catch(e){}})();</script>
+<link rel="stylesheet" href="style.css" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"BMI는 어떻게 계산하나요?","acceptedAnswer":{"@type":"Answer","text":"BMI는 몸무게(kg)를 키(m)의 제곱으로 나눈 값입니다. 예를 들어 키 170cm, 몸무게 65kg이면 65 ÷ (1.7 × 1.7) ≈ 22.5입니다."}},
+{"@type":"Question","name":"한국의 비만 기준은 어떻게 되나요?","acceptedAnswer":{"@type":"Answer","text":"대한비만학회 기준으로 저체중 18.5 미만, 정상 18.5~22.9, 과체중(비만 전단계) 23~24.9, 비만 25 이상입니다. 세계보건기구(WHO) 서양 기준(비만 30 이상)과 다릅니다."}},
+{"@type":"Question","name":"적정 체중은 어떻게 구하나요?","acceptedAnswer":{"@type":"Answer","text":"정상 BMI 범위(18.5~22.9)에 키를 대입해 계산합니다. 이 도구가 키에 맞는 정상 체중 범위를 함께 보여줍니다."}},
+{"@type":"Question","name":"BMI만으로 비만을 판단할 수 있나요?","acceptedAnswer":{"@type":"Answer","text":"BMI는 간단한 참고 지표일 뿐, 근육량·체지방·연령 등을 반영하지 못합니다. 정확한 평가는 전문가 상담이 필요합니다."}},
+{"@type":"Question","name":"입력값이 저장되나요?","acceptedAnswer":{"@type":"Answer","text":"아니요. 모든 계산은 브라우저 안에서만 이뤄지며 저장·전송되지 않습니다."}}
+]}
+</script>
+</head>
+<body>
+<header class="site">
+  <div class="nav">
+    <a class="brand" href="index.html"><span class="logo">⚡</span><b>급할때</b><span class="tld">.tools</span></a>
+    <div class="links">
+      <a href="char-counter.html">글자수</a><a href="age-calculator.html">만나이·디데이</a><a href="salary-calculator.html">연봉 실수령액</a>
+    </div>
+    <div class="spacer"></div>
+    <button class="install-btn" id="installBtn" type="button">⬇️ 앱 설치</button>
+    <button class="icon-btn" id="themeToggle" type="button" aria-label="테마 전환">🌙</button>
+  </div>
+  <div class="trust">🔒 <b>브라우저에서만</b> 처리 · 가입 없음 · 무료</div>
+</header>
+
+<main>
+  <div class="hero">
+    <h1>⚖️ BMI 계산기</h1>
+    <p class="lead">키·몸무게로 체질량지수(BMI)와 비만도, 적정 체중 범위를 바로 확인해요.</p>
+  </div>
+  <div class="howto"><span>1. 키·몸무게 입력</span><span>2. 즉시 계산</span><span>3. 비만도 확인</span></div>
+
+  <div class="ad-slot">광고 자리 (애드센스 승인 후 표시)</div>
+
+  <div class="card">
+    <div class="row">
+      <div><label for="height">키 (cm)</label><input type="number" id="height" inputmode="decimal" placeholder="예: 170" /></div>
+      <div><label for="weight">몸무게 (kg)</label><input type="number" id="weight" inputmode="decimal" placeholder="예: 65" /></div>
+    </div>
+    <div class="result" style="margin-top:16px">
+      <div class="stat big"><div class="k">BMI · 비만도</div><div class="v" id="bmiVal">—</div></div>
+      <div class="stat"><div class="k">분류</div><div class="v" id="bmiCat" style="font-size:18px">—</div></div>
+      <div class="stat"><div class="k">정상 체중 범위</div><div class="v" id="normalRange" style="font-size:16px">—</div></div>
+    </div>
+    <div class="row" style="margin-top:14px">
+      <button id="sampleBtn" class="ghost" type="button" style="flex:0 0 auto">예시 넣기</button>
+      <button id="copyBtn" type="button" style="flex:0 0 auto">📋 결과 복사</button>
+    </div>
+    <p class="disclaimer">⚠️ <b>참고용</b>입니다. BMI는 근육량·체지방·연령을 반영하지 못해요. 정확한 평가는 전문가와 상담하세요. 기준: 대한비만학회.</p>
+  </div>
+
+  <div class="card cta-band">
+    <h2>또 쓸 것 같죠? ⚡</h2>
+    <div class="row" style="margin-bottom:12px">
+      <button id="bookmarkBtn" class="ghost" type="button" style="flex:0 0 auto">⭐ 즐겨찾기 추가</button>
+    </div>
+    <div class="related">
+      <a href="age-calculator.html"><span class="e">🎂</span><span><b>만 나이·디데이</b><br/><small style="color:var(--muted)">생일로 나이·남은 날</small></span></a>
+      <a href="area-converter.html"><span class="e">📐</span><span><b>평수 변환기</b><br/><small style="color:var(--muted)">평 ↔ ㎡ 변환</small></span></a>
+    </div>
+  </div>
+
+  <section class="faq">
+    <h2>자주 묻는 질문</h2>
+    <details><summary>BMI는 어떻게 계산하나요?</summary><p>몸무게(kg) ÷ 키(m)². 예) 170cm·65kg → 65 ÷ (1.7×1.7) ≈ 22.5.</p></details>
+    <details><summary>한국의 비만 기준은 어떻게 되나요?</summary><p>대한비만학회: 저체중 &lt;18.5, 정상 18.5~22.9, 과체중 23~24.9, 비만 ≥25. (WHO 서양 기준은 비만 ≥30)</p></details>
+    <details><summary>적정 체중은 어떻게 구하나요?</summary><p>정상 BMI(18.5~22.9)에 키를 대입해 계산합니다. 이 도구가 범위를 보여줍니다.</p></details>
+    <details><summary>BMI만으로 비만을 판단할 수 있나요?</summary><p>아니요. 근육량·체지방·연령을 반영하지 못하는 참고 지표입니다.</p></details>
+    <details><summary>입력값이 저장되나요?</summary><p>아니요. 브라우저 안에서만 계산되고 저장·전송되지 않습니다.</p></details>
+  </section>
+
+  <div class="ad-slot">광고 자리 (애드센스 승인 후 표시)</div>
+</main>
+
+<div class="install-banner" id="installBanner">
+  <div class="ib-ic">⚡</div>
+  <div class="ib-t"><b>급할때를 홈 화면에 추가</b>다음엔 검색 없이 한 번에 — 오프라인도 OK</div>
+  <button class="ghost" id="ibClose" type="button">나중에</button>
+  <button id="ibInstall" type="button">설치</button>
+</div>
+
+<footer class="site">
+  <div class="foot">
+    <span>© <span id="year"></span> 급할때.tools</span>
+    <a href="about.html">소개</a><a href="privacy.html">개인정보처리방침</a>
+    <span class="sp">모든 계산은 브라우저에서만 처리됩니다.</span>
+  </div>
+</footer>
+
+<script src="common.js"></script>
+<script>
+  QT.recordRecent({slug:"bmi",name:"BMI 계산기",emoji:"⚖️",url:"bmi-calculator.html"});
+  const $=id=>document.getElementById(id);
+  function classify(bmi){
+    if(bmi<18.5) return ["저체중","#3b82f6"];
+    if(bmi<23)   return ["정상","#0fa968"];
+    if(bmi<25)   return ["과체중(비만 전단계)","#f59e0b"];
+    if(bmi<30)   return ["1단계 비만","#f97316"];
+    if(bmi<35)   return ["2단계 비만","#ef4444"];
+    return ["3단계 비만(고도)","#dc2626"];
+  }
+  function calc(animate){
+    const hCm=parseFloat($("height").value), w=parseFloat($("weight").value);
+    if(!isFinite(hCm)||!isFinite(w)||hCm<=0||w<=0){ $("bmiVal").textContent="—"; $("bmiCat").textContent="—"; $("normalRange").textContent="—"; return; }
+    const h=hCm/100, bmi=w/(h*h);
+    const [cat,color]=classify(bmi);
+    $("bmiVal").textContent=(Math.round(bmi*10)/10).toFixed(1);
+    $("bmiCat").textContent=cat; $("bmiCat").style.color=color;
+    const lo=18.5*h*h, hi=22.9*h*h;
+    $("normalRange").textContent=`${(Math.round(lo*10)/10)} ~ ${(Math.round(hi*10)/10)}kg`;
+    if(animate){ QT.flash($("bmiVal")); QT.flash($("bmiCat")); QT.flash($("normalRange")); }
+  }
+  $("height").addEventListener("input",()=>calc(false));
+  $("weight").addEventListener("input",()=>calc(false));
+  $("sampleBtn").addEventListener("click",()=>{ $("height").value="170"; $("weight").value="65"; calc(true); });
+  $("copyBtn").addEventListener("click",()=>QT.copy(`BMI ${$("bmiVal").textContent} (${$("bmiCat").textContent}) · 정상 ${$("normalRange").textContent}`,"결과를 복사했어요 ✓"));
+</script>
+</body>
+</html>

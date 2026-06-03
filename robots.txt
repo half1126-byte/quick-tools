@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://half1126-byte.github.io/quick-tools/sitemap.xml
