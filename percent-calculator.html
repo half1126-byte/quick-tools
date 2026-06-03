@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>퍼센트 계산기 — 할인가·증감률·비율 한 번에 (무료)</title>
+<meta name="description" content="전체의 몇 %, A는 B의 몇 %, 몇 % 증가·감소(할인가)까지 한 화면에서 즉시 계산. 설치·가입 없이 브라우저에서 바로, 무료." />
+<meta name="keywords" content="퍼센트 계산기, 할인율 계산, 비율 계산, 증감률 계산, 몇 퍼센트, 할인가 계산기" />
+<meta property="og:title" content="퍼센트 계산기 — 할인가·증감률·비율" />
+<meta property="og:description" content="할인가·증감률·비율을 한 화면에서 즉시 계산. 브라우저에서 바로, 무료." />
+<meta property="og:image" content="https://half1126-byte.github.io/quick-tools/icon-512.png" />
+<meta name="theme-color" content="#3b6ef5" />
+<link rel="icon" href="favicon.svg" type="image/svg+xml" />
+<link rel="apple-touch-icon" href="apple-touch-icon.png" />
+<link rel="manifest" href="manifest.json" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-title" content="급할때" />
+<script>(function(){try{var m=localStorage.getItem('qt-theme')||((window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches)?'dark':'light');document.documentElement.dataset.theme=m;}catch(e){}})();</script>
+<link rel="stylesheet" href="style.css" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"전체의 몇 퍼센트는 어떻게 계산하나요?","acceptedAnswer":{"@type":"Answer","text":"전체 값 × 퍼센트 ÷ 100 으로 계산합니다. 예를 들어 30,000원의 15%는 30000 × 15 ÷ 100 = 4,500원입니다."}},
+{"@type":"Question","name":"A는 B의 몇 퍼센트인지 알고 싶어요","acceptedAnswer":{"@type":"Answer","text":"A ÷ B × 100 으로 계산합니다. 예를 들어 45는 180의 25%입니다."}},
+{"@type":"Question","name":"할인가는 어떻게 구하나요?","acceptedAnswer":{"@type":"Answer","text":"증가·감소 계산에서 원래 값과 변동 퍼센트를 넣으면 됩니다. 20% 할인은 -20%로 계산되어 원가의 80%가 최종가가 됩니다."}},
+{"@type":"Question","name":"증감률(변화율)은 어떻게 계산하나요?","acceptedAnswer":{"@type":"Answer","text":"(나중 값 − 처음 값) ÷ 처음 값 × 100 으로 계산합니다. 값이 늘면 +, 줄면 −로 표시됩니다."}},
+{"@type":"Question","name":"입력값이 저장되나요?","acceptedAnswer":{"@type":"Answer","text":"아니요. 모든 계산은 브라우저 안에서만 이뤄지며 어떤 값도 저장·전송되지 않습니다."}}
+]}
+</script>
+</head>
+<body>
+<header class="site">
+  <div class="nav">
+    <a class="brand" href="index.html"><span class="logo">⚡</span><b>급할때</b><span class="tld">.tools</span></a>
+    <div class="links">
+      <a href="char-counter.html">글자수</a><a href="age-calculator.html">만나이·디데이</a><a href="salary-calculator.html">연봉 실수령액</a>
+    </div>
+    <div class="spacer"></div>
+    <button class="install-btn" id="installBtn" type="button">⬇️ 앱 설치</button>
+    <button class="icon-btn" id="themeToggle" type="button" aria-label="테마 전환">🌙</button>
+  </div>
+  <div class="trust">🔒 <b>브라우저에서만</b> 처리 · 가입 없음 · 무료</div>
+</header>
+
+<main>
+  <div class="hero">
+    <h1>％ 퍼센트 계산기</h1>
+    <p class="lead">할인가·증감률·비율을 <b>한 화면에서</b> 바로 계산해요.</p>
+  </div>
+  <div class="howto"><span>1. 숫자 입력</span><span>2. 즉시 계산</span><span>3. 결과 확인</span></div>
+
+  <div class="ad-slot">광고 자리 (애드센스 승인 후 표시)</div>
+
+  <div class="card">
+    <h2>전체의 몇 %?</h2>
+    <div class="row" style="align-items:end">
+      <div><label for="a1">전체 값</label><input type="number" id="a1" inputmode="decimal" value="30000" /></div>
+      <div><label for="a2">퍼센트(%)</label><input type="number" id="a2" inputmode="decimal" value="15" /></div>
+    </div>
+    <div class="result" style="grid-template-columns:1fr;margin-top:12px"><div class="stat big"><div class="k">결과</div><div class="v" id="ar">—</div></div></div>
+  </div>
+
+  <div class="card">
+    <h2>A는 B의 몇 %?</h2>
+    <div class="row" style="align-items:end">
+      <div><label for="b1">부분 값 (A)</label><input type="number" id="b1" inputmode="decimal" value="45" /></div>
+      <div><label for="b2">전체 값 (B)</label><input type="number" id="b2" inputmode="decimal" value="180" /></div>
+    </div>
+    <div class="result" style="grid-template-columns:1fr;margin-top:12px"><div class="stat big"><div class="k">결과</div><div class="v" id="br">—</div></div></div>
+  </div>
+
+  <div class="card">
+    <h2>증가 / 감소 (할인가)</h2>
+    <div class="row" style="align-items:end">
+      <div><label for="c1">원래 값</label><input type="number" id="c1" inputmode="decimal" value="50000" /></div>
+      <div><label for="c2">변동(%) · 할인은 −</label><input type="number" id="c2" inputmode="decimal" value="-20" /></div>
+    </div>
+    <div class="result" style="margin-top:12px">
+      <div class="stat big"><div class="k">최종 값</div><div class="v" id="cr">—</div></div>
+      <div class="stat"><div class="k">증감액</div><div class="v" id="cd" style="font-size:18px">—</div></div>
+    </div>
+    <div class="row" style="margin-top:14px"><button id="copyBtn" type="button" style="flex:0 0 auto">📋 결과 복사</button></div>
+    <p class="disclaimer">🔒 모든 계산은 <b>브라우저 안에서만</b> 이뤄지며 저장·전송되지 않습니다.</p>
+  </div>
+
+  <div class="card cta-band">
+    <h2>이 도구가 유용했다면 ⚡</h2>
+    <div class="row" style="margin-bottom:12px">
+      <button id="bookmarkBtn" class="ghost" type="button" style="flex:0 0 auto">⭐ 즐겨찾기 추가</button>
+    </div>
+    <div class="related">
+      <a href="dutchpay-calculator.html"><span class="e">🍽️</span><span><b>더치페이 계산기</b><br/><small style="color:var(--muted)">N빵·1인당 금액</small></span></a>
+      <a href="salary-calculator.html"><span class="e">💰</span><span><b>연봉 실수령액</b><br/><small style="color:var(--muted)">세후 월 실수령액</small></span></a>
+    </div>
+  </div>
+
+  <section class="faq">
+    <h2>자주 묻는 질문</h2>
+    <details><summary>전체의 몇 퍼센트는 어떻게 계산하나요?</summary><p>전체 값 × 퍼센트 ÷ 100. 예) 30,000원의 15% = 4,500원.</p></details>
+    <details><summary>A는 B의 몇 퍼센트인지 알고 싶어요</summary><p>A ÷ B × 100. 예) 45는 180의 25%.</p></details>
+    <details><summary>할인가는 어떻게 구하나요?</summary><p>‘증가/감소’에서 변동을 −로 넣으면 돼요. 20% 할인(−20%)은 원가의 80%가 최종가입니다.</p></details>
+    <details><summary>증감률(변화율)은 어떻게 계산하나요?</summary><p>(나중 값 − 처음 값) ÷ 처음 값 × 100. 늘면 +, 줄면 −로 표시돼요.</p></details>
+    <details><summary>입력값이 저장되나요?</summary><p>아니요. 브라우저 안에서만 계산되고 저장·전송되지 않습니다.</p></details>
+  </section>
+
+  <div class="ad-slot">광고 자리 (애드센스 승인 후 표시)</div>
+</main>
+
+<div class="install-banner" id="installBanner">
+  <div class="ib-ic">⚡</div>
+  <div class="ib-t"><b>급할때를 홈 화면에 추가</b>다음엔 검색 없이 한 번에 — 오프라인도 OK</div>
+  <button class="ghost" id="ibClose" type="button">나중에</button>
+  <button id="ibInstall" type="button">설치</button>
+</div>
+
+<footer class="site">
+  <div class="foot">
+    <span>© <span id="year"></span> 급할때.tools</span>
+    <a href="about.html">소개</a><a href="privacy.html">개인정보처리방침</a>
+    <span class="sp">모든 계산은 브라우저에서만 처리됩니다.</span>
+  </div>
+</footer>
+
+<script src="common.js"></script>
+<script>
+  QT.recordRecent({slug:"percent",name:"퍼센트 계산기",emoji:"％",url:"percent-calculator.html"});
+  const $=id=>document.getElementById(id);
+  const num=id=>parseFloat($(id).value);
+  function fmt(n){ if(!isFinite(n))return "—"; return (Math.round(n*100)/100).toLocaleString("ko-KR"); }
+  function calc(){
+    // 1) 전체의 몇 %
+    const a1=num("a1"),a2=num("a2");
+    $("ar").textContent = (isNaN(a1)||isNaN(a2)) ? "—" : `${fmt(a1*a2/100)}`;
+    // 2) A는 B의 몇 %
+    const b1=num("b1"),b2=num("b2");
+    $("br").textContent = (isNaN(b1)||isNaN(b2)||b2===0) ? "—" : `${fmt(b1/b2*100)} %`;
+    // 3) 증감
+    const c1=num("c1"),c2=num("c2");
+    if(isNaN(c1)||isNaN(c2)){ $("cr").textContent="—"; $("cd").textContent="—"; }
+    else { const fin=c1*(1+c2/100), diff=fin-c1;
+      $("cr").textContent=fmt(fin); $("cd").textContent=(diff>=0?"+":"")+fmt(diff); }
+  }
+  ["a1","a2","b1","b2","c1","c2"].forEach(id=>$(id).addEventListener("input",calc));
+  $("copyBtn").addEventListener("click",()=>QT.copy(`전체의 %: ${$("ar").textContent} / 비율: ${$("br").textContent} / 최종값: ${$("cr").textContent}`,"결과를 복사했어요 ✓"));
+  calc();
+</script>
+</body>
+</html>

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>더치페이 계산기 — N빵·1인당 금액·팁 정산 (무료)</title>
+<meta name="description" content="총 금액과 인원수만 넣으면 1인당 낼 금액을 즉시 계산. 팁·올림 정산까지. 설치·가입 없이 브라우저에서 바로, 무료." />
+<meta name="keywords" content="더치페이 계산기, N빵 계산기, 1인당 금액, 회식비 정산, 더치페이, 엔빵" />
+<meta property="og:title" content="더치페이 계산기 — N빵·1인당 금액" />
+<meta property="og:description" content="총액과 인원수로 1인당 금액 즉시 계산. 팁·올림 정산까지. 무료." />
+<meta property="og:image" content="https://half1126-byte.github.io/quick-tools/icon-512.png" />
+<meta name="theme-color" content="#3b6ef5" />
+<link rel="icon" href="favicon.svg" type="image/svg+xml" />
+<link rel="apple-touch-icon" href="apple-touch-icon.png" />
+<link rel="manifest" href="manifest.json" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-title" content="급할때" />
+<script>(function(){try{var m=localStorage.getItem('qt-theme')||((window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches)?'dark':'light');document.documentElement.dataset.theme=m;}catch(e){}})();</script>
+<link rel="stylesheet" href="style.css" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"1인당 금액은 어떻게 계산되나요?","acceptedAnswer":{"@type":"Answer","text":"총 금액(팁 포함)을 인원수로 나눕니다. 올림 옵션을 켜면 100원 또는 1,000원 단위로 올림해 잔돈이 남지 않게 정산할 수 있습니다."}},
+{"@type":"Question","name":"팁이나 봉사료도 넣을 수 있나요?","acceptedAnswer":{"@type":"Answer","text":"네. 팁(%)을 입력하면 총 금액에 더해 1인당 금액을 계산합니다. 팁이 없으면 0으로 두세요."}},
+{"@type":"Question","name":"올림 정산은 왜 필요한가요?","acceptedAnswer":{"@type":"Answer","text":"나눈 금액이 딱 떨어지지 않을 때 100원·1,000원 단위로 올리면 송금이 편하고, 모인 금액이 총액보다 약간 많아 잔돈 문제가 없습니다. 남는 차액도 함께 보여줍니다."}},
+{"@type":"Question","name":"인원수가 많아도 되나요?","acceptedAnswer":{"@type":"Answer","text":"네. 인원수에 제한은 없습니다. 회식·모임·여행 정산에 자유롭게 사용하세요."}},
+{"@type":"Question","name":"입력 내용이 저장되나요?","acceptedAnswer":{"@type":"Answer","text":"아니요. 모든 계산은 브라우저 안에서만 이뤄지며 어떤 값도 저장·전송되지 않습니다."}}
+]}
+</script>
+</head>
+<body>
+<header class="site">
+  <div class="nav">
+    <a class="brand" href="index.html"><span class="logo">⚡</span><b>급할때</b><span class="tld">.tools</span></a>
+    <div class="links">
+      <a href="char-counter.html">글자수</a><a href="age-calculator.html">만나이·디데이</a><a href="salary-calculator.html">연봉 실수령액</a>
+    </div>
+    <div class="spacer"></div>
+    <button class="install-btn" id="installBtn" type="button">⬇️ 앱 설치</button>
+    <button class="icon-btn" id="themeToggle" type="button" aria-label="테마 전환">🌙</button>
+  </div>
+  <div class="trust">🔒 <b>브라우저에서만</b> 처리 · 가입 없음 · 무료</div>
+</header>
+
+<main>
+  <div class="hero">
+    <h1>🍽️ 더치페이 계산기</h1>
+    <p class="lead">총 금액과 인원수만 넣으면 <b>1인당 낼 금액</b>을 바로 알려줘요. 팁·올림 정산까지.</p>
+  </div>
+  <div class="howto"><span>1. 총액·인원 입력</span><span>2. 팁·올림 선택</span><span>3. 1인당 확인</span></div>
+
+  <div class="ad-slot">광고 자리 (애드센스 승인 후 표시)</div>
+
+  <div class="card">
+    <div class="row">
+      <div><label for="total">총 금액 (원)</label><input type="number" id="total" inputmode="numeric" value="84000" /></div>
+      <div><label for="people">인원수</label><input type="number" id="people" inputmode="numeric" value="4" min="1" /></div>
+    </div>
+    <div class="row">
+      <div><label for="tip">팁 (%)</label><input type="number" id="tip" inputmode="decimal" value="0" /></div>
+      <div><label for="round">올림 단위</label>
+        <select id="round"><option value="1">올림 없음</option><option value="100" selected>100원</option><option value="1000">1,000원</option></select>
+      </div>
+    </div>
+
+    <div class="result" style="margin-top:16px">
+      <div class="stat big"><div class="k">1인당 금액</div><div class="v" id="per">—</div></div>
+      <div class="stat"><div class="k">총 금액 (팁 포함)</div><div class="v" id="sum" style="font-size:18px">—</div></div>
+      <div class="stat"><div class="k">모이는 금액 / 차액</div><div class="v" id="extra" style="font-size:18px">—</div></div>
+    </div>
+    <div class="row" style="margin-top:14px"><button id="copyBtn" type="button" style="flex:0 0 auto">📋 결과 복사</button></div>
+    <p class="disclaimer">🔒 모든 계산은 <b>브라우저 안에서만</b> 이뤄지며 저장·전송되지 않습니다.</p>
+  </div>
+
+  <div class="card cta-band">
+    <h2>이 도구가 유용했다면 ⚡</h2>
+    <div class="row" style="margin-bottom:12px">
+      <button id="bookmarkBtn" class="ghost" type="button" style="flex:0 0 auto">⭐ 즐겨찾기 추가</button>
+    </div>
+    <div class="related">
+      <a href="percent-calculator.html"><span class="e">％</span><span><b>퍼센트 계산기</b><br/><small style="color:var(--muted)">할인·증감률·비율</small></span></a>
+      <a href="salary-calculator.html"><span class="e">💰</span><span><b>연봉 실수령액</b><br/><small style="color:var(--muted)">세후 월 실수령액</small></span></a>
+    </div>
+  </div>
+
+  <section class="faq">
+    <h2>자주 묻는 질문</h2>
+    <details><summary>1인당 금액은 어떻게 계산되나요?</summary><p>총 금액(팁 포함)을 인원수로 나눠요. 올림 옵션을 켜면 100원·1,000원 단위로 올려 잔돈 없이 정산할 수 있어요.</p></details>
+    <details><summary>팁이나 봉사료도 넣을 수 있나요?</summary><p>네. 팁(%)을 넣으면 총액에 더해 계산해요. 없으면 0으로 두세요.</p></details>
+    <details><summary>올림 정산은 왜 필요한가요?</summary><p>딱 안 떨어질 때 올리면 송금이 편하고 잔돈 문제가 없어요. 모이는 금액과 남는 차액도 함께 보여줍니다.</p></details>
+    <details><summary>인원수가 많아도 되나요?</summary><p>네. 제한 없어요. 회식·모임·여행 정산에 자유롭게 쓰세요.</p></details>
+    <details><summary>입력 내용이 저장되나요?</summary><p>아니요. 브라우저 안에서만 계산되고 저장·전송되지 않습니다.</p></details>
+  </section>
+
+  <div class="ad-slot">광고 자리 (애드센스 승인 후 표시)</div>
+</main>
+
+<div class="install-banner" id="installBanner">
+  <div class="ib-ic">⚡</div>
+  <div class="ib-t"><b>급할때를 홈 화면에 추가</b>다음엔 검색 없이 한 번에 — 오프라인도 OK</div>
+  <button class="ghost" id="ibClose" type="button">나중에</button>
+  <button id="ibInstall" type="button">설치</button>
+</div>
+
+<footer class="site">
+  <div class="foot">
+    <span>© <span id="year"></span> 급할때.tools</span>
+    <a href="about.html">소개</a><a href="privacy.html">개인정보처리방침</a>
+    <span class="sp">모든 계산은 브라우저에서만 처리됩니다.</span>
+  </div>
+</footer>
+
+<script src="common.js"></script>
+<script>
+  QT.recordRecent({slug:"dutchpay",name:"더치페이 계산기",emoji:"🍽️",url:"dutchpay-calculator.html"});
+  const $=id=>document.getElementById(id);
+  function calc(){
+    const total=parseFloat($("total").value)||0;
+    const people=Math.max(parseInt($("people").value)||0,0);
+    const tip=parseFloat($("tip").value)||0;
+    const unit=parseInt($("round").value)||1;
+    if(total<=0||people<1){ ["per","sum","extra"].forEach(id=>$(id).textContent="—"); return; }
+    const grand=total*(1+tip/100);
+    let per=grand/people;
+    per=Math.ceil(Math.round(per*100)/100/unit)*unit; // 부동소수점 오차 제거 후 올림
+    const collected=per*people, diff=collected-grand;
+    $("per").textContent=QT.won(per)+"원";
+    $("sum").textContent=QT.won(grand)+"원";
+    $("extra").textContent=QT.won(collected)+"원 (남음 "+QT.won(diff)+"원)";
+  }
+  ["total","people","tip","round"].forEach(id=>$(id).addEventListener("input",calc));
+  $("round").addEventListener("change",calc);
+  $("copyBtn").addEventListener("click",()=>QT.copy(`1인당 ${$("per").textContent} (총 ${$("sum").textContent}, ${$("people").value}명)`,"결과를 복사했어요 ✓"));
+  calc();
+</script>
+</body>
+</html>

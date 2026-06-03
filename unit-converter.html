@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>단위 변환기 — 길이·무게·온도·넓이·부피 한 번에 (무료)</title>
+<meta name="description" content="길이(m·cm·inch·mile), 무게(kg·g·lb·oz), 온도(℃·℉·K), 넓이(㎡·평), 부피(L·gal)를 즉시 변환. 설치·가입 없이 브라우저에서 바로, 무료." />
+<meta name="keywords" content="단위 변환기, 길이 변환, 무게 변환, 온도 변환, 인치 cm 변환, 파운드 kg, 섭씨 화씨 변환" />
+<meta property="og:title" content="단위 변환기 — 길이·무게·온도·넓이·부피" />
+<meta property="og:description" content="길이·무게·온도·넓이·부피를 즉시 변환. 브라우저에서 바로, 무료." />
+<meta property="og:image" content="https://half1126-byte.github.io/quick-tools/icon-512.png" />
+<meta name="theme-color" content="#3b6ef5" />
+<link rel="icon" href="favicon.svg" type="image/svg+xml" />
+<link rel="apple-touch-icon" href="apple-touch-icon.png" />
+<link rel="manifest" href="manifest.json" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-title" content="급할때" />
+<script>(function(){try{var m=localStorage.getItem('qt-theme')||((window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches)?'dark':'light');document.documentElement.dataset.theme=m;}catch(e){}})();</script>
+<link rel="stylesheet" href="style.css" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"어떤 단위를 변환할 수 있나요?","acceptedAnswer":{"@type":"Answer","text":"길이(m·cm·mm·km·inch·feet·yard·mile), 무게(kg·g·mg·t·lb·oz), 온도(섭씨·화씨·켈빈), 넓이(㎡·㎠·㎢·평·ha·ft²), 부피(L·mL·㎥·cc·갤런)를 변환할 수 있습니다."}},
+{"@type":"Question","name":"평과 제곱미터 변환도 되나요?","acceptedAnswer":{"@type":"Answer","text":"네. 넓이 항목에서 평 ↔ ㎡를 변환할 수 있습니다. 1평은 약 3.305785㎡입니다."}},
+{"@type":"Question","name":"섭씨와 화씨는 어떻게 계산하나요?","acceptedAnswer":{"@type":"Answer","text":"℉ = ℃ × 9/5 + 32 공식으로 환산하며, 켈빈(K)은 ℃ + 273.15입니다. 온도는 비율이 아니라 기준점이 달라 별도 공식으로 계산합니다."}},
+{"@type":"Question","name":"변환 결과가 정확한가요?","acceptedAnswer":{"@type":"Answer","text":"국제 표준 환산계수(예: 1인치=0.0254m, 1파운드=0.45359237kg)를 사용합니다. 표시 자릿수 반올림으로 소수점 끝자리에 미세한 차이가 있을 수 있습니다."}},
+{"@type":"Question","name":"입력값이 저장되나요?","acceptedAnswer":{"@type":"Answer","text":"아니요. 모든 계산은 브라우저 안에서만 이뤄지며 어떤 값도 저장·전송되지 않습니다."}}
+]}
+</script>
+</head>
+<body>
+<header class="site">
+  <div class="nav">
+    <a class="brand" href="index.html"><span class="logo">⚡</span><b>급할때</b><span class="tld">.tools</span></a>
+    <div class="links">
+      <a href="char-counter.html">글자수</a><a href="age-calculator.html">만나이·디데이</a><a href="salary-calculator.html">연봉 실수령액</a>
+    </div>
+    <div class="spacer"></div>
+    <button class="install-btn" id="installBtn" type="button">⬇️ 앱 설치</button>
+    <button class="icon-btn" id="themeToggle" type="button" aria-label="테마 전환">🌙</button>
+  </div>
+  <div class="trust">🔒 <b>브라우저에서만</b> 처리 · 가입 없음 · 무료</div>
+</header>
+
+<main>
+  <div class="hero">
+    <h1>📏 단위 변환기</h1>
+    <p class="lead">길이·무게·온도·넓이·부피를 <b>즉시 변환</b>해요. 인치↔cm, 파운드↔kg, 섭씨↔화씨까지.</p>
+  </div>
+  <div class="howto"><span>1. 종류 선택</span><span>2. 값 입력</span><span>3. 즉시 변환</span></div>
+
+  <div class="ad-slot">광고 자리 (애드센스 승인 후 표시)</div>
+
+  <div class="card">
+    <label for="cat">변환 종류</label>
+    <select id="cat">
+      <option value="length">길이</option>
+      <option value="weight">무게</option>
+      <option value="temp">온도</option>
+      <option value="area">넓이</option>
+      <option value="volume">부피</option>
+    </select>
+
+    <div class="row" style="margin-top:6px;align-items:end">
+      <div>
+        <label for="val">값</label>
+        <input type="number" id="val" inputmode="decimal" value="1" />
+      </div>
+      <div>
+        <label for="from">단위 (From)</label>
+        <select id="from"></select>
+      </div>
+    </div>
+    <div class="row" style="margin-top:6px">
+      <button id="swap" class="ghost" type="button" style="flex:0 0 auto">⇅ 단위 바꾸기</button>
+    </div>
+    <label for="to">단위 (To)</label>
+    <select id="to"></select>
+
+    <div class="result" style="grid-template-columns:1fr;margin-top:16px">
+      <div class="stat big"><div class="k" id="rk">결과</div><div class="v" id="res">—</div></div>
+    </div>
+    <div class="hint" id="rel">—</div>
+
+    <div class="row" style="margin-top:14px">
+      <button id="copyBtn" type="button" style="flex:0 0 auto">📋 결과 복사</button>
+    </div>
+    <p class="disclaimer">🔒 모든 변환은 <b>브라우저 안에서만</b> 계산되며 저장·전송되지 않습니다.</p>
+  </div>
+
+  <div class="card cta-band">
+    <h2>이 도구가 유용했다면 ⚡</h2>
+    <div class="row" style="margin-bottom:12px">
+      <button id="bookmarkBtn" class="ghost" type="button" style="flex:0 0 auto">⭐ 즐겨찾기 추가</button>
+    </div>
+    <div class="related">
+      <a href="area-converter.html"><span class="e">📐</span><span><b>평수 변환기</b><br/><small style="color:var(--muted)">평 ↔ ㎡, 면적 계산</small></span></a>
+      <a href="percent-calculator.html"><span class="e">％</span><span><b>퍼센트 계산기</b><br/><small style="color:var(--muted)">할인·증감률·비율</small></span></a>
+    </div>
+  </div>
+
+  <section class="faq">
+    <h2>자주 묻는 질문</h2>
+    <details><summary>어떤 단위를 변환할 수 있나요?</summary><p>길이(m·cm·mm·km·inch·feet·yard·mile), 무게(kg·g·mg·t·lb·oz), 온도(섭씨·화씨·켈빈), 넓이(㎡·㎠·㎢·평·ha·ft²), 부피(L·mL·㎥·cc·갤런)를 변환할 수 있어요.</p></details>
+    <details><summary>평과 제곱미터 변환도 되나요?</summary><p>네. 넓이 항목에서 평 ↔ ㎡를 변환할 수 있어요. 1평은 약 3.305785㎡입니다.</p></details>
+    <details><summary>섭씨와 화씨는 어떻게 계산하나요?</summary><p>℉ = ℃ × 9/5 + 32, 켈빈(K) = ℃ + 273.15로 환산해요. 온도는 비율이 아니라 기준점이 달라 별도 공식으로 계산합니다.</p></details>
+    <details><summary>변환 결과가 정확한가요?</summary><p>국제 표준 환산계수(1인치=0.0254m, 1파운드=0.45359237kg 등)를 사용해요. 표시 반올림으로 끝자리에 미세한 차이가 있을 수 있습니다.</p></details>
+    <details><summary>입력값이 저장되나요?</summary><p>아니요. 브라우저 안에서만 계산되고 저장·전송되지 않습니다.</p></details>
+  </section>
+
+  <div class="ad-slot">광고 자리 (애드센스 승인 후 표시)</div>
+</main>
+
+<div class="install-banner" id="installBanner">
+  <div class="ib-ic">⚡</div>
+  <div class="ib-t"><b>급할때를 홈 화면에 추가</b>다음엔 검색 없이 한 번에 — 오프라인도 OK</div>
+  <button class="ghost" id="ibClose" type="button">나중에</button>
+  <button id="ibInstall" type="button">설치</button>
+</div>
+
+<footer class="site">
+  <div class="foot">
+    <span>© <span id="year"></span> 급할때.tools</span>
+    <a href="about.html">소개</a><a href="privacy.html">개인정보처리방침</a>
+    <span class="sp">모든 계산은 브라우저에서만 처리됩니다.</span>
+  </div>
+</footer>
+
+<script src="common.js"></script>
+<script>
+  QT.recordRecent({slug:"unit",name:"단위 변환기",emoji:"📏",url:"unit-converter.html"});
+  const $=id=>document.getElementById(id);
+  const DATA={
+    length:{label:"길이",units:{"m":1,"cm":0.01,"mm":0.001,"km":1000,"inch":0.0254,"ft":0.3048,"yd":0.9144,"mile":1609.344}},
+    weight:{label:"무게",units:{"kg":1,"g":0.001,"mg":0.000001,"t":1000,"lb":0.45359237,"oz":0.028349523125}},
+    area:{label:"넓이",units:{"m²":1,"cm²":0.0001,"km²":1000000,"평":3.3057851239669,"ha":10000,"ft²":0.09290304}},
+    volume:{label:"부피",units:{"L":1,"mL":0.001,"m³":1000,"cc":0.001,"gal":3.785411784}},
+    temp:{label:"온도",units:{"°C":1,"°F":1,"K":1}}
+  };
+  function fmt(n){
+    if(!isFinite(n)) return "—";
+    const a=Math.abs(n);
+    let s;
+    if(a!==0 && (a<1e-4 || a>=1e12)) s=n.toExponential(4);
+    else s=(Math.round(n*1e6)/1e6).toString();
+    return s;
+  }
+  function tempTo(v,from,to){
+    let c; // to Celsius
+    if(from==="°C")c=v; else if(from==="°F")c=(v-32)*5/9; else c=v-273.15;
+    if(to==="°C")return c; if(to==="°F")return c*9/5+32; return c+273.15;
+  }
+  function fillUnits(){
+    const cat=$("cat").value, u=Object.keys(DATA[cat].units);
+    ["from","to"].forEach((id,i)=>{
+      const sel=$(id); sel.innerHTML=u.map(x=>`<option>${x}</option>`).join("");
+      sel.value=u[i===0?0:Math.min(1,u.length-1)];
+    });
+  }
+  function calc(){
+    const cat=$("cat").value, v=parseFloat($("val").value);
+    const from=$("from").value, to=$("to").value;
+    if(isNaN(v)){ $("res").textContent="—"; $("rel").textContent="값을 입력하세요"; return; }
+    let out;
+    if(cat==="temp") out=tempTo(v,from,to);
+    else out=v*DATA[cat].units[from]/DATA[cat].units[to];
+    $("rk").textContent=`${fmt(v)} ${from} =`;
+    $("res").textContent=`${fmt(out)} ${to}`;
+    // 1 from = ? to
+    let one = cat==="temp" ? tempTo(1,from,to) : DATA[cat].units[from]/DATA[cat].units[to];
+    $("rel").textContent=`1 ${from} = ${fmt(one)} ${to}`;
+  }
+  $("cat").addEventListener("change",()=>{ fillUnits(); calc(); });
+  ["val","from","to"].forEach(id=>$(id).addEventListener("input",calc));
+  $("swap").addEventListener("click",()=>{ const f=$("from").value; $("from").value=$("to").value; $("to").value=f; calc(); });
+  $("copyBtn").addEventListener("click",()=>QT.copy(`${$("rk").textContent} ${$("res").textContent}`,"결과를 복사했어요 ✓"));
+  fillUnits(); calc();
+</script>
+</body>
+</html>

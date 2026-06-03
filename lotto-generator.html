@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>로또 번호 생성기 — 1~45 랜덤 6개 자동 추첨 (무료)</title>
+<meta name="description" content="1~45 중 6개를 무작위로 뽑아주는 로또 번호 생성기. 한 번에 5게임, 암호학적 난수로 공정하게. 설치·가입 없이 브라우저에서 바로, 무료." />
+<meta name="keywords" content="로또 번호 생성기, 로또 자동, 랜덤 번호 추첨, 로또 번호 추천, 645 번호 생성" />
+<meta property="og:title" content="로또 번호 생성기 — 1~45 랜덤 6개" />
+<meta property="og:description" content="1~45 중 6개를 무작위로. 한 번에 5게임, 공정한 난수. 무료." />
+<meta property="og:image" content="https://half1126-byte.github.io/quick-tools/icon-512.png" />
+<meta name="theme-color" content="#3b6ef5" />
+<link rel="icon" href="favicon.svg" type="image/svg+xml" />
+<link rel="apple-touch-icon" href="apple-touch-icon.png" />
+<link rel="manifest" href="manifest.json" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-title" content="급할때" />
+<script>(function(){try{var m=localStorage.getItem('qt-theme')||((window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches)?'dark':'light');document.documentElement.dataset.theme=m;}catch(e){}})();</script>
+<link rel="stylesheet" href="style.css" />
+<style>
+  .balls{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+  .ball{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:800;font-size:16px;
+    box-shadow:0 3px 8px rgba(20,30,60,.18)}
+  .game{display:flex;align-items:center;gap:12px;background:var(--bg2);border:1px solid var(--line);
+    border-radius:var(--radius-sm);padding:12px 14px;margin-bottom:10px;flex-wrap:wrap}
+  .game .gno{font-size:12.5px;color:var(--muted);font-weight:700;min-width:30px}
+</style>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"번호는 어떻게 뽑나요?","acceptedAnswer":{"@type":"Answer","text":"1부터 45까지 중에서 중복 없이 6개를 무작위로 뽑습니다. 브라우저의 암호학적 난수(crypto.getRandomValues)를 사용해 치우침 없이 공정하게 생성합니다."}},
+{"@type":"Question","name":"한 번에 몇 게임까지 되나요?","acceptedAnswer":{"@type":"Answer","text":"기본 5게임을 한 번에 생성합니다. '다시 뽑기'를 누르면 새로운 번호로 바뀝니다."}},
+{"@type":"Question","name":"당첨 확률이 올라가나요?","acceptedAnswer":{"@type":"Answer","text":"아니요. 로또는 완전 무작위라 어떤 번호 조합도 당첨 확률이 같습니다. 이 도구는 번호를 고르는 재미와 편의를 위한 것이며 당첨을 보장하지 않습니다."}},
+{"@type":"Question","name":"생성한 번호가 저장되나요?","acceptedAnswer":{"@type":"Answer","text":"아니요. 번호는 브라우저 안에서만 생성되며 어디에도 저장·전송되지 않습니다. 새로고침하면 사라집니다."}},
+{"@type":"Question","name":"번호를 복사할 수 있나요?","acceptedAnswer":{"@type":"Answer","text":"네. '번호 복사' 버튼으로 생성된 모든 게임 번호를 한 번에 복사할 수 있습니다."}}
+]}
+</script>
+</head>
+<body>
+<header class="site">
+  <div class="nav">
+    <a class="brand" href="index.html"><span class="logo">⚡</span><b>급할때</b><span class="tld">.tools</span></a>
+    <div class="links">
+      <a href="char-counter.html">글자수</a><a href="age-calculator.html">만나이·디데이</a><a href="salary-calculator.html">연봉 실수령액</a>
+    </div>
+    <div class="spacer"></div>
+    <button class="install-btn" id="installBtn" type="button">⬇️ 앱 설치</button>
+    <button class="icon-btn" id="themeToggle" type="button" aria-label="테마 전환">🌙</button>
+  </div>
+  <div class="trust">🔒 <b>브라우저에서만</b> 처리 · 가입 없음 · 무료</div>
+</header>
+
+<main>
+  <div class="hero">
+    <h1>🎰 로또 번호 생성기</h1>
+    <p class="lead">1~45 중 <b>6개를 무작위로</b> 뽑아드려요. 한 번에 5게임, 공정한 난수로.</p>
+  </div>
+  <div class="howto"><span>1. 게임 수 선택</span><span>2. 번호 뽑기</span><span>3. 복사</span></div>
+
+  <div class="ad-slot">광고 자리 (애드센스 승인 후 표시)</div>
+
+  <div class="card">
+    <div class="row" style="align-items:end">
+      <div><label for="games">게임 수</label>
+        <select id="games"><option>1</option><option>3</option><option selected>5</option><option>10</option></select>
+      </div>
+      <div style="display:flex;gap:10px;align-items:end">
+        <button id="gen" type="button" style="flex:0 0 auto">🎲 번호 뽑기</button>
+        <button id="copyBtn" class="ghost" type="button" style="flex:0 0 auto">📋 번호 복사</button>
+      </div>
+    </div>
+
+    <div id="out" style="margin-top:16px"></div>
+    <p class="disclaimer">⚠️ 로또는 완전 무작위이며 <b>당첨을 보장하지 않습니다</b>. 재미와 편의를 위한 도구예요. 번호는 브라우저에서만 생성·저장되지 않습니다.</p>
+  </div>
+
+  <div class="card cta-band">
+    <h2>이 도구가 유용했다면 ⚡</h2>
+    <div class="row" style="margin-bottom:12px">
+      <button id="bookmarkBtn" class="ghost" type="button" style="flex:0 0 auto">⭐ 즐겨찾기 추가</button>
+    </div>
+    <div class="related">
+      <a href="password-generator.html"><span class="e">🔑</span><span><b>비밀번호 생성기</b><br/><small style="color:var(--muted)">안전한 랜덤 비밀번호</small></span></a>
+      <a href="age-calculator.html"><span class="e">🎂</span><span><b>만 나이·디데이</b><br/><small style="color:var(--muted)">생일로 나이·남은 날</small></span></a>
+    </div>
+  </div>
+
+  <section class="faq">
+    <h2>자주 묻는 질문</h2>
+    <details><summary>번호는 어떻게 뽑나요?</summary><p>1~45 중 중복 없이 6개를 무작위로 뽑아요. 브라우저의 암호학적 난수(crypto.getRandomValues)를 사용해 치우침 없이 공정하게 생성합니다.</p></details>
+    <details><summary>한 번에 몇 게임까지 되나요?</summary><p>최대 10게임을 한 번에 생성해요. ‘번호 뽑기’를 누르면 새 번호로 바뀝니다.</p></details>
+    <details><summary>당첨 확률이 올라가나요?</summary><p>아니요. 로또는 완전 무작위라 어떤 조합도 확률이 같아요. 당첨을 보장하지 않습니다.</p></details>
+    <details><summary>생성한 번호가 저장되나요?</summary><p>아니요. 브라우저 안에서만 생성되고 저장·전송되지 않아요. 새로고침하면 사라집니다.</p></details>
+    <details><summary>번호를 복사할 수 있나요?</summary><p>네. ‘번호 복사’로 모든 게임 번호를 한 번에 복사할 수 있어요.</p></details>
+  </section>
+
+  <div class="ad-slot">광고 자리 (애드센스 승인 후 표시)</div>
+</main>
+
+<div class="install-banner" id="installBanner">
+  <div class="ib-ic">⚡</div>
+  <div class="ib-t"><b>급할때를 홈 화면에 추가</b>다음엔 검색 없이 한 번에 — 오프라인도 OK</div>
+  <button class="ghost" id="ibClose" type="button">나중에</button>
+  <button id="ibInstall" type="button">설치</button>
+</div>
+
+<footer class="site">
+  <div class="foot">
+    <span>© <span id="year"></span> 급할때.tools</span>
+    <a href="about.html">소개</a><a href="privacy.html">개인정보처리방침</a>
+    <span class="sp">모든 계산은 브라우저에서만 처리됩니다.</span>
+  </div>
+</footer>
+
+<script src="common.js"></script>
+<script>
+  QT.recordRecent({slug:"lotto",name:"로또 번호 생성기",emoji:"🎰",url:"lotto-generator.html"});
+  const $=id=>document.getElementById(id);
+  // 색상: 회차 공 색 규칙과 유사 (1~10 노랑, 11~20 파랑, 21~30 빨강, 31~40 회색, 41~45 초록)
+  function color(n){ return n<=10?"#fbc400":n<=20?"#69c8f2":n<=30?"#ff7272":n<=40?"#aaaaaa":"#b0d840"; }
+  function pick6(){
+    const pool=[]; for(let i=1;i<=45;i++)pool.push(i);
+    const rnd=new Uint32Array(45); (crypto||window.msCrypto).getRandomValues(rnd);
+    // Fisher–Yates with crypto
+    for(let i=pool.length-1;i>0;i--){ const j=rnd[i]%(i+1); const t=pool[i];pool[i]=pool[j];pool[j]=t; }
+    return pool.slice(0,6).sort((a,b)=>a-b);
+  }
+  let last=[];
+  function gen(){
+    const g=parseInt($("games").value)||5;
+    last=[]; let html="";
+    for(let k=0;k<g;k++){
+      const nums=pick6(); last.push(nums);
+      html+=`<div class="game"><span class="gno">${k+1}게임</span><div class="balls">`+
+        nums.map(n=>`<span class="ball" style="background:${color(n)}">${n}</span>`).join("")+`</div></div>`;
+    }
+    $("out").innerHTML=html;
+  }
+  $("gen").addEventListener("click",gen);
+  $("games").addEventListener("change",gen);
+  $("copyBtn").addEventListener("click",()=>{
+    if(!last.length){ QT.toast("먼저 번호를 뽑아주세요"); return; }
+    QT.copy(last.map((g,i)=>`${i+1}게임: ${g.join(", ")}`).join("\n"),"번호를 복사했어요 ✓");
+  });
+  gen();
+</script>
+</body>
+</html>
