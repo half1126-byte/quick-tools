@@ -116,5 +116,9 @@
     const y=document.getElementById("year"); if(y) y.textContent=new Date().getFullYear();
     QT.initTheme(); QT.initPWA();
     const bm=document.getElementById("bookmarkBtn"); bm && bm.addEventListener("click", QT.bookmarkHint);
+    // 수익화 모듈(광고·후원) 로드 — 설정은 ads.js 안에서. 모든 페이지 공통 적용.
+    if(!document.querySelector('script[src="ads.js"]')){
+      var ad=document.createElement("script"); ad.src="ads.js"; document.body.appendChild(ad);
+    }
   });
 })();

@@ -1,10 +1,10 @@
 /* 급할때.tools 서비스워커 — 정적 파일 캐싱(오프라인 동작) */
-const CACHE = "qt-v3";
+const CACHE = "qt-v5";
 const ASSETS = [
   "index.html", "char-counter.html", "age-calculator.html", "salary-calculator.html",
   "area-converter.html", "bmi-calculator.html", "password-generator.html",
   "image-tool.html", "pdf-tool.html",
-  "about.html", "privacy.html", "style.css", "common.js", "manifest.json",
+  "about.html", "privacy.html", "style.css", "common.js", "ads.js", "manifest.json",
   "favicon.svg", "icon.svg"
 ];
 
