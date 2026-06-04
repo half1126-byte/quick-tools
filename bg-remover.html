@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>배경 제거(누끼) — 흰·단색 배경 투명 PNG 만들기 무료</title>
-<meta name="description" content="흰색·단색 배경 사진의 배경을 지우고 투명 PNG로 저장하세요. 상품사진·서명·도장·로고에 딱. 업로드 없이 브라우저에서만 처리, 무료." />
-<meta name="keywords" content="누끼, 배경 제거, 배경 투명, 투명 png 만들기, 흰배경 제거, 사진 배경 지우기" />
-<meta property="og:title" content="배경 제거(누끼) — 투명 PNG 만들기" />
-<meta property="og:description" content="흰·단색 배경을 지우고 투명 PNG로. 업로드 없이 브라우저에서, 무료." />
+<title>배경 제거(누끼) — 흰·단색 배경 + AI 자동, 투명 PNG 무료</title>
+<meta name="description" content="흰색·단색 배경은 즉시, 인물·복잡한 배경은 AI 자동 모드(베타)로 배경을 지우고 투명 PNG로 저장하세요. 업로드 없이 브라우저에서만 처리, 무료." />
+<meta name="keywords" content="누끼, 배경 제거, 배경 투명, 투명 png 만들기, 흰배경 제거, AI 배경 제거, 사진 배경 지우기" />
+<meta property="og:title" content="배경 제거(누끼) — 단색 + AI 자동" />
+<meta property="og:description" content="흰·단색은 즉시, 복잡한 배경은 AI로. 투명 PNG, 브라우저에서 무료." />
 <meta property="og:image" content="https://half1126-byte.github.io/quick-tools/icon-512.png" />
 <meta name="theme-color" content="#3b6ef5" />
 <link rel="icon" href="favicon.svg" type="image/svg+xml" />
@@ -27,10 +27,10 @@
 </style>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
-{"@type":"Question","name":"사진이 서버로 업로드되나요?","acceptedAnswer":{"@type":"Answer","text":"아니요. 배경 제거는 여러분의 브라우저(기기) 안에서만 처리되며 사진은 어디에도 전송·저장되지 않습니다."}},
-{"@type":"Question","name":"어떤 사진에 잘 되나요?","acceptedAnswer":{"@type":"Answer","text":"흰색이나 단색 배경 사진에 가장 잘 됩니다. 상품 사진, 서명·도장 스캔, 로고 등에 적합합니다. 배경이 복잡하거나 인물·풍경처럼 색이 다양하면 깔끔하게 분리되지 않을 수 있습니다."}},
-{"@type":"Question","name":"가장자리가 지저분해요","acceptedAnswer":{"@type":"Answer","text":"허용 범위(민감도) 슬라이더를 조절해 보세요. 값이 클수록 비슷한 색을 더 많이 지웁니다. 배경이 단색에 가까울수록 결과가 깨끗합니다."}},
-{"@type":"Question","name":"배경색이 잘못 잡혀요","acceptedAnswer":{"@type":"Answer","text":"‘배경색 직접 찍기’를 켜고 이미지에서 지우고 싶은 배경 부분을 클릭하면 그 색을 기준으로 다시 제거합니다."}},
+{"@type":"Question","name":"사진이 서버로 업로드되나요?","acceptedAnswer":{"@type":"Answer","text":"아니요. 단색 모드와 AI 모드 모두 여러분의 브라우저(기기) 안에서만 처리되며 사진은 어디에도 전송·저장되지 않습니다. AI 모델도 기기 안에서 실행됩니다."}},
+{"@type":"Question","name":"단색 모드와 AI 모드는 무엇이 다른가요?","acceptedAnswer":{"@type":"Answer","text":"단색 모드는 흰색·단색 배경(상품·서명·로고)에 즉시 동작하며 가볍습니다. AI 모드는 인물·복잡한 배경도 자동으로 분리하지만, 처음 실행 시 AI 모델을 내려받느라 시간이 걸리고 인터넷 연결이 필요합니다."}},
+{"@type":"Question","name":"가장자리가 지저분해요","acceptedAnswer":{"@type":"Answer","text":"단색 모드에서는 민감도(허용 범위) 슬라이더를 조절해 보세요. 배경이 단색에 가까울수록 결과가 깨끗합니다. 인물처럼 경계가 복잡하면 AI 모드를 사용하세요."}},
+{"@type":"Question","name":"배경색이 잘못 잡혀요","acceptedAnswer":{"@type":"Answer","text":"단색 모드에서 ‘배경색 직접 찍기’를 켜고 지우고 싶은 배경 부분을 클릭하면 그 색을 기준으로 다시 제거합니다."}},
 {"@type":"Question","name":"어떤 형식으로 저장되나요?","acceptedAnswer":{"@type":"Answer","text":"배경이 투명한 PNG로 저장됩니다. 투명도를 지원하는 형식이라 다른 배경 위에 자연스럽게 올릴 수 있습니다."}}
 ]}
 </script>
@@ -52,9 +52,9 @@
 <main>
   <div class="hero">
     <h1>✂️ 배경 제거 (누끼)</h1>
-    <p class="lead">흰색·단색 배경을 지우고 <b>투명 PNG</b>로 저장해요. 상품사진·서명·로고에 딱.</p>
+    <p class="lead">흰·단색 배경은 <b>즉시</b>, 인물·복잡한 배경은 <b>AI 자동(베타)</b>으로 지워 <b>투명 PNG</b>로 저장해요.</p>
   </div>
-  <div class="howto"><span>1. 사진 올리기</span><span>2. 민감도 조절</span><span>3. 투명 PNG 저장</span></div>
+  <div class="howto"><span>1. 사진 올리기</span><span>2. 단색 / AI 선택</span><span>3. 투명 PNG 저장</span></div>
 
   <div class="ad-slot">광고 자리 (애드센스 승인 후 표시)</div>
 
@@ -62,25 +62,37 @@
     <div class="dropzone" id="drop">
       <div class="dz-ic">✂️</div>
       <div class="dz-t">사진을 끌어다 놓거나 클릭해서 선택</div>
-      <div class="dz-s">흰색·단색 배경일수록 깔끔하게 분리돼요</div>
+      <div class="dz-s">단색 배경은 즉시 · 인물·복잡한 배경은 AI 모드</div>
     </div>
     <input type="file" id="file" accept="image/*" hidden />
 
     <div id="controls" style="display:none">
-      <label for="tol">민감도 (허용 범위)</label>
-      <div class="range-row">
-        <input type="range" id="tol" min="0" max="150" value="40" step="1" />
-        <span class="range-val" id="tolVal">40</span>
+      <div class="seg">
+        <button id="mSolid" class="on" type="button">⚡ 단색 배경 (빠름)</button>
+        <button id="mAi" type="button">🤖 AI 자동 (베타)</button>
       </div>
-      <div class="hint">값이 클수록 배경과 비슷한 색을 더 많이 지워요. 가장자리가 남으면 올리고, 너무 파이면 내리세요.</div>
 
-      <div class="row" style="margin-top:12px;align-items:center">
-        <button id="pick" class="ghost" type="button" style="flex:0 0 auto">🎯 배경색 직접 찍기</button>
-        <span style="font-size:13px;color:var(--muted)">기준 배경색 <span class="swatch" id="swatch"></span></span>
+      <div id="paneSolid">
+        <label for="tol">민감도 (허용 범위)</label>
+        <div class="range-row">
+          <input type="range" id="tol" min="0" max="150" value="40" step="1" />
+          <span class="range-val" id="tolVal">40</span>
+        </div>
+        <div class="hint">값이 클수록 배경과 비슷한 색을 더 많이 지워요. 흰·단색 배경에 가장 잘 됩니다.</div>
+        <div class="row" style="margin-top:12px;align-items:center">
+          <button id="pick" class="ghost" type="button" style="flex:0 0 auto">🎯 배경색 직접 찍기</button>
+          <span style="font-size:13px;color:var(--muted)">기준 배경색 <span class="swatch" id="swatch"></span></span>
+        </div>
+      </div>
+
+      <div id="paneAi" hidden>
+        <div class="hint" style="margin-bottom:10px">인물·복잡한 배경도 자동으로 분리해요. <b>처음 실행 시 AI 모델을 내려받느라 수십 초 걸릴 수 있고</b>, 인터넷 연결이 필요합니다. (모델은 한 번 받으면 캐시돼요)</div>
+        <button id="aiBtn" type="button" style="flex:0 0 auto">🤖 AI로 배경 제거</button>
       </div>
 
       <div class="bgwrap" id="bgwrap"><canvas id="canvas"></canvas></div>
-      <div class="busy" id="busy"><span class="spinner"></span><span>처리 중…</span></div>
+      <div class="busy" id="busy"><span class="spinner"></span><span id="busyText">처리 중…</span></div>
+      <div class="note err" id="aierr"></div>
 
       <div class="row" style="margin-top:16px">
         <button id="dl" type="button" style="flex:0 0 auto">⬇️ 투명 PNG 다운로드</button>
@@ -88,7 +100,7 @@
       </div>
     </div>
 
-    <p class="disclaimer">🔒 사진은 <b>서버로 전송되지 않고</b> 브라우저 안에서만 처리됩니다. 복잡한 배경·인물은 분리가 어려울 수 있어요(단색 배경 전용).</p>
+    <p class="disclaimer">🔒 사진은 <b>서버로 전송되지 않고</b> 브라우저 안에서만 처리됩니다(AI 모델 포함). 단색 모드는 흰·단색 배경 전용, 복잡한 배경은 AI 모드를 쓰세요.</p>
   </div>
 
   <div class="card cta-band">
@@ -104,10 +116,10 @@
 
   <section class="faq">
     <h2>자주 묻는 질문</h2>
-    <details><summary>사진이 서버로 업로드되나요?</summary><p>아니요. 배경 제거는 브라우저(기기) 안에서만 처리되며 사진은 어디에도 전송·저장되지 않습니다.</p></details>
-    <details><summary>어떤 사진에 잘 되나요?</summary><p>흰색·단색 배경에 가장 잘 돼요. 상품 사진, 서명·도장 스캔, 로고에 적합합니다. 복잡한 배경·인물은 깔끔하게 분리되지 않을 수 있어요.</p></details>
-    <details><summary>가장자리가 지저분해요</summary><p>민감도 슬라이더를 조절하세요. 값이 클수록 비슷한 색을 더 지워요. 배경이 단색에 가까울수록 깨끗합니다.</p></details>
-    <details><summary>배경색이 잘못 잡혀요</summary><p>‘배경색 직접 찍기’를 켜고 지우고 싶은 배경을 클릭하면 그 색 기준으로 다시 제거해요.</p></details>
+    <details><summary>사진이 서버로 업로드되나요?</summary><p>아니요. 단색·AI 모드 모두 브라우저(기기) 안에서만 처리돼요. AI 모델도 기기 안에서 실행됩니다.</p></details>
+    <details><summary>단색 모드와 AI 모드는 무엇이 다른가요?</summary><p>단색 모드는 흰·단색 배경(상품·서명·로고)에 즉시 동작하고 가벼워요. AI 모드는 인물·복잡한 배경도 분리하지만 처음에 모델을 받느라 시간이 걸리고 인터넷이 필요합니다.</p></details>
+    <details><summary>가장자리가 지저분해요</summary><p>단색 모드에서 민감도 슬라이더를 조절하세요. 경계가 복잡하면 AI 모드를 쓰는 게 좋아요.</p></details>
+    <details><summary>배경색이 잘못 잡혀요</summary><p>단색 모드에서 ‘배경색 직접 찍기’를 켜고 지우고 싶은 배경을 클릭하면 그 색 기준으로 다시 제거해요.</p></details>
     <details><summary>어떤 형식으로 저장되나요?</summary><p>배경이 투명한 PNG로 저장돼요. 다른 배경 위에 자연스럽게 올릴 수 있어요.</p></details>
   </section>
 
@@ -135,7 +147,7 @@
   const $=id=>document.getElementById(id);
   const drop=$("drop"), fileInput=$("file"), canvas=$("canvas"), ctx=canvas.getContext("2d"),
         tol=$("tol"), tolVal=$("tolVal"), controls=$("controls"), bgwrap=$("bgwrap"), busyEl=$("busy");
-  let orig=null, W=0, H=0, bg=[255,255,255], pickMode=false, fileName="image";
+  let orig=null, W=0, H=0, bg=[255,255,255], pickMode=false, fileName="image", srcFile=null, mode="solid";
 
   ["dragenter","dragover"].forEach(ev=>drop.addEventListener(ev,e=>{ e.preventDefault(); drop.classList.add("drag"); }));
   ["dragleave","drop"].forEach(ev=>drop.addEventListener(ev,e=>{ e.preventDefault(); drop.classList.remove("drag"); }));
@@ -145,7 +157,8 @@
 
   function load(file){
     if(file.type.indexOf("image/")!==0){ QT.toast("이미지 파일만 가능해요"); return; }
-    fileName=(file.name||"image").replace(/\.[^.]+$/,"");
+    srcFile=file; fileName=(file.name||"image").replace(/\.[^.]+$/,"");
+    $("aierr").classList.remove("show");
     const img=new Image();
     img.onload=()=>{
       let w=img.naturalWidth, h=img.naturalHeight; const MAX=1600;
@@ -153,10 +166,10 @@
       W=w; H=h; canvas.width=W; canvas.height=H;
       ctx.clearRect(0,0,W,H); ctx.drawImage(img,0,0,W,H);
       URL.revokeObjectURL(img.src);
-      orig=ctx.getImageData(0,0,W,H).data.slice(0); // pristine copy
+      orig=ctx.getImageData(0,0,W,H).data.slice(0);
       bg=autoBg(orig);
       controls.style.display="block"; drop.style.display="none";
-      process();
+      if(mode==="solid") process();
     };
     img.onerror=()=>QT.toast("이미지를 읽을 수 없어요");
     img.src=URL.createObjectURL(file);
@@ -170,41 +183,36 @@
   }
   function swatch(){ $("swatch").style.background="rgb("+bg[0]+","+bg[1]+","+bg[2]+")"; }
 
+  /* ---- 단색(flood-fill) ---- */
   function process(){
     if(!orig) return;
     busyEl.classList.add("show");
-    // 비동기 한 틱 줘서 스피너 보이게
     setTimeout(()=>{
-      const d=new Uint8ClampedArray(orig);
-      const t=+tol.value, t2=t*t;
-      const visited=new Uint8Array(W*H);
-      const stack=[];
+      const d=new Uint8ClampedArray(orig), t=+tol.value, t2=t*t;
+      const visited=new Uint8Array(W*H), stack=[];
       function consider(x,y){
         const idx=y*W+x; if(visited[idx]) return;
         const p=idx*4, dr=d[p]-bg[0], dg=d[p+1]-bg[1], db=d[p+2]-bg[2];
-        if(dr*dr+dg*dg+db*db<=t2){ visited[idx]=1; d[p+3]=0; stack.push(idx); }
-        else visited[idx]=2;
+        if(dr*dr+dg*dg+db*db<=t2){ visited[idx]=1; d[p+3]=0; stack.push(idx); } else visited[idx]=2;
       }
       for(let x=0;x<W;x++){ consider(x,0); consider(x,H-1); }
       for(let y=0;y<H;y++){ consider(0,y); consider(W-1,y); }
       while(stack.length){ const idx=stack.pop(), x=idx%W, y=(idx/W)|0;
         if(x>0)consider(x-1,y); if(x<W-1)consider(x+1,y); if(y>0)consider(x,y-1); if(y<H-1)consider(x,y+1); }
+      // 캔버스를 원본 크기로 되돌리고 결과 반영
+      if(canvas.width!==W||canvas.height!==H){ canvas.width=W; canvas.height=H; }
       ctx.putImageData(new ImageData(d,W,H),0,0);
-      swatch();
-      busyEl.classList.remove("show");
+      swatch(); busyEl.classList.remove("show");
     },20);
   }
-
   tol.addEventListener("input",()=>{ tolVal.textContent=tol.value; });
   tol.addEventListener("change",process);
-
   $("pick").addEventListener("click",()=>{
-    pickMode=!pickMode; bgwrap.classList.toggle("pick",pickMode);
-    $("pick").classList.toggle("on",pickMode);
+    pickMode=!pickMode; bgwrap.classList.toggle("pick",pickMode); $("pick").classList.toggle("on",pickMode);
     $("pick").textContent=pickMode?"🎯 배경 클릭하세요 (취소: 다시 누르기)":"🎯 배경색 직접 찍기";
   });
   canvas.addEventListener("click",e=>{
-    if(!pickMode||!orig) return;
+    if(!pickMode||!orig||mode!=="solid") return;
     const rect=canvas.getBoundingClientRect();
     const x=Math.min(W-1,Math.max(0,Math.round((e.clientX-rect.left)/rect.width*W)));
     const y=Math.min(H-1,Math.max(0,Math.round((e.clientY-rect.top)/rect.height*H)));
@@ -213,7 +221,42 @@
     process();
   });
 
+  /* ---- 모드 전환 ---- */
+  $("mSolid").addEventListener("click",()=>setMode("solid"));
+  $("mAi").addEventListener("click",()=>setMode("ai"));
+  function setMode(m){
+    mode=m; const ai=m==="ai";
+    $("mAi").classList.toggle("on",ai); $("mSolid").classList.toggle("on",!ai);
+    $("paneSolid").hidden=ai; $("paneAi").hidden=!ai; $("aierr").classList.remove("show");
+    if(!ai && orig) process();
+  }
+
+  /* ---- AI 모드: @imgly/background-removal (AGPL) 동적 로드, 사용할 때만 ----
+     ※ 상업적 확장 시 라이선스(AGPL/상업) 재검토 권장. 모델·연산은 모두 브라우저에서 실행(운영비 0). */
+  let aiLib=null;
+  function withTimeout(promise,ms,msg){ return Promise.race([promise, new Promise((_,rej)=>setTimeout(()=>rej(new Error(msg||"timeout")),ms))]); }
+  async function ensureAi(){ if(aiLib) return aiLib; aiLib=await import("https://cdn.jsdelivr.net/npm/@imgly/background-removal@1.5.5/+esm"); return aiLib; }
+  $("aiBtn").addEventListener("click",async()=>{
+    if(!srcFile){ QT.toast("먼저 사진을 올려주세요"); return; }
+    $("aierr").classList.remove("show");
+    const btn=$("aiBtn"); btn.disabled=true; const old=btn.textContent; btn.textContent="🤖 처리 중…";
+    $("busyText").textContent="AI가 배경을 분리하는 중… (처음엔 모델 받느라 느려요)"; busyEl.classList.add("show");
+    try{
+      const lib=await withTimeout(ensureAi(),120000,"AI 모델을 불러오지 못했어요");
+      const blob=await withTimeout(lib.removeBackground(srcFile),120000,"처리 시간이 너무 오래 걸려요");
+      const url=URL.createObjectURL(blob);
+      await new Promise((res,rej)=>{ const img=new Image();
+        img.onload=()=>{ canvas.width=img.naturalWidth; canvas.height=img.naturalHeight; ctx.clearRect(0,0,canvas.width,canvas.height); ctx.drawImage(img,0,0); URL.revokeObjectURL(url); res(); };
+        img.onerror=()=>{ URL.revokeObjectURL(url); rej(new Error("draw")); }; img.src=url; });
+    }catch(e){
+      $("aierr").textContent="AI 배경 제거에 실패했어요. 인터넷 연결을 확인하고 다시 시도하세요. 첫 실행은 모델을 받느라 오래 걸릴 수 있어요.";
+      $("aierr").classList.add("show");
+    }
+    busyEl.classList.remove("show"); $("busyText").textContent="처리 중…"; btn.disabled=false; btn.textContent=old;
+  });
+
   $("dl").addEventListener("click",()=>{
+    if(!canvas.width){ QT.toast("먼저 사진을 처리하세요"); return; }
     canvas.toBlob(b=>{
       if(!b){ QT.toast("저장 실패"); return; }
       const url=URL.createObjectURL(b), a=document.createElement("a");
@@ -221,7 +264,7 @@
       setTimeout(()=>URL.revokeObjectURL(url),1500);
     },"image/png");
   });
-  $("reset").addEventListener("click",()=>{ orig=null; controls.style.display="none"; drop.style.display="block"; });
+  $("reset").addEventListener("click",()=>{ orig=null; srcFile=null; controls.style.display="none"; drop.style.display="block"; $("aierr").classList.remove("show"); });
 </script>
 </body>
 </html>
