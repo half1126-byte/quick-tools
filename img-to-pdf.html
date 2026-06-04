@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>이미지 PDF 변환 — 여러 사진(JPG·PNG)을 하나의 PDF로 무료</title>
+<meta name="description" content="여러 장의 사진·이미지(JPG·PNG·WebP)를 순서대로 하나의 PDF로 합치세요. 업로드 없이 브라우저에서만 처리, 무료. A4 또는 이미지 맞춤 페이지." />
+<meta name="keywords" content="이미지 pdf 변환, jpg pdf 변환, 사진 pdf 만들기, png pdf, 여러 이미지 pdf 합치기, 이미지 pdf" />
+<meta property="og:title" content="이미지 PDF 변환 — 사진을 하나의 PDF로" />
+<meta property="og:description" content="여러 이미지를 순서대로 하나의 PDF로. 브라우저에서만, 무료." />
+<meta property="og:image" content="https://half1126-byte.github.io/quick-tools/icon-512.png" />
+<meta name="theme-color" content="#3b6ef5" />
+<link rel="icon" href="favicon.svg" type="image/svg+xml" />
+<link rel="apple-touch-icon" href="apple-touch-icon.png" />
+<link rel="manifest" href="manifest.json" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-title" content="급할때" />
+<script>(function(){try{var m=localStorage.getItem('qt-theme')||((window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches)?'dark':'light');document.documentElement.dataset.theme=m;}catch(e){}})();</script>
+<link rel="stylesheet" href="style.css" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"여러 장을 하나의 PDF로 만들 수 있나요?","acceptedAnswer":{"@type":"Answer","text":"네. 여러 이미지를 선택하거나 끌어다 놓고 순서를 정한 뒤 변환하면 선택한 순서대로 한 이미지당 한 페이지씩 하나의 PDF로 합쳐집니다."}},
+{"@type":"Question","name":"어떤 이미지 형식이 되나요?","acceptedAnswer":{"@type":"Answer","text":"JPG와 PNG는 그대로 넣고, WebP 등 그 밖의 형식은 자동으로 변환해 PDF에 담습니다. 브라우저가 열 수 있는 이미지면 대부분 가능합니다."}},
+{"@type":"Question","name":"사진이 서버로 업로드되나요?","acceptedAnswer":{"@type":"Answer","text":"아니요. 변환은 여러분의 브라우저 안에서만 이뤄지며 사진은 어디에도 전송·저장되지 않습니다."}},
+{"@type":"Question","name":"페이지 크기를 정할 수 있나요?","acceptedAnswer":{"@type":"Answer","text":"이미지 크기에 맞춘 페이지, 또는 A4 세로·가로 중에서 고를 수 있습니다. A4를 고르면 이미지가 여백에 맞춰 가운데로 배치됩니다."}},
+{"@type":"Question","name":"PDF 용량이 너무 커요","acceptedAnswer":{"@type":"Answer","text":"이미지 수와 해상도에 따라 용량이 커질 수 있습니다. 변환 전에 이미지 도구로 사진을 압축·리사이즈하면 PDF 용량을 크게 줄일 수 있습니다."}}
+]}
+</script>
+</head>
+<body>
+<header class="site">
+  <div class="nav">
+    <a class="brand" href="index.html"><span class="logo">⚡</span><b>급할때</b><span class="tld">.tools</span></a>
+    <div class="links">
+      <a href="index.html">도구</a><a href="blog.html">블로그</a><a href="image-tool.html">이미지</a>
+    </div>
+    <div class="spacer"></div>
+    <button class="install-btn" id="installBtn" type="button">⬇️ 앱 설치</button>
+    <button class="icon-btn" id="themeToggle" type="button" aria-label="테마 전환">🌙</button>
+  </div>
+  <div class="trust">🔒 <b>브라우저에서만</b> 처리 · 가입 없음 · 무료</div>
+</header>
+
+<main>
+  <div class="hero">
+    <h1>🖼️→📄 이미지 PDF 변환</h1>
+    <p class="lead">여러 장의 사진을 순서대로 <b>하나의 PDF</b>로 합쳐요. 업로드 없이 브라우저에서.</p>
+  </div>
+  <div class="howto"><span>1. 이미지 여러 장 선택</span><span>2. 순서·페이지 설정</span><span>3. PDF 다운로드</span></div>
+
+  <div class="ad-slot">광고 자리 (애드센스 승인 후 표시)</div>
+
+  <div class="card">
+    <div class="dropzone" id="drop">
+      <div class="dz-ic">🖼️</div>
+      <div class="dz-t">사진을 끌어다 놓거나 클릭해서 선택</div>
+      <div class="dz-s">JPG · PNG · WebP · 여러 장 한꺼번에 · 순서대로 PDF</div>
+    </div>
+    <input type="file" id="file" accept="image/*" multiple hidden />
+
+    <div class="filelist" id="list"></div>
+
+    <div class="row" id="opts" style="margin-top:14px;display:none">
+      <div>
+        <label for="psize">페이지 크기</label>
+        <select id="psize">
+          <option value="fit">이미지 맞춤</option>
+          <option value="a4p">A4 세로</option>
+          <option value="a4l">A4 가로</option>
+        </select>
+      </div>
+      <div>
+        <label for="margin">여백 (A4일 때)</label>
+        <select id="margin"><option value="0">없음</option><option value="28" selected>보통</option><option value="56">넓게</option></select>
+      </div>
+    </div>
+
+    <div class="busy" id="busy"><span class="spinner"></span><span>PDF 만드는 중…</span></div>
+    <div class="note" id="note"></div>
+
+    <div class="row" id="actions" style="margin-top:16px;display:none">
+      <button id="make" type="button" style="flex:0 0 auto">📄 PDF로 변환·다운로드</button>
+      <button id="clear" class="ghost" type="button" style="flex:0 0 auto">비우기</button>
+    </div>
+
+    <p class="disclaimer">🔒 사진은 <b>서버로 전송되지 않고</b> 브라우저 안에서만 PDF로 변환됩니다. 큰 사진은 <a href="image-tool.html">이미지 도구</a>로 먼저 압축하면 용량이 줄어요.</p>
+  </div>
+
+  <div class="card cta-band">
+    <h2>이 도구가 유용했다면 ⚡</h2>
+    <div class="row" style="margin-bottom:12px">
+      <button id="bookmarkBtn" class="ghost" type="button" style="flex:0 0 auto">⭐ 즐겨찾기 추가</button>
+    </div>
+    <div class="related">
+      <a href="pdf-tool.html"><span class="e">📄</span><span><b>PDF 도구</b><br/><small style="color:var(--muted)">합치기·나누기</small></span></a>
+      <a href="image-tool.html"><span class="e">🖼️</span><span><b>이미지 도구</b><br/><small style="color:var(--muted)">압축·리사이즈</small></span></a>
+    </div>
+  </div>
+
+  <section class="faq">
+    <h2>자주 묻는 질문</h2>
+    <details><summary>여러 장을 하나의 PDF로 만들 수 있나요?</summary><p>네. 여러 이미지를 끌어다 놓고 순서를 정한 뒤 변환하면 한 이미지당 한 페이지씩 하나의 PDF로 합쳐져요.</p></details>
+    <details><summary>어떤 이미지 형식이 되나요?</summary><p>JPG·PNG는 그대로, WebP 등 그 밖의 형식은 자동 변환해 담아요. 브라우저가 여는 이미지면 대부분 가능합니다.</p></details>
+    <details><summary>사진이 서버로 업로드되나요?</summary><p>아니요. 브라우저 안에서만 변환되고 사진은 어디에도 전송·저장되지 않아요.</p></details>
+    <details><summary>페이지 크기를 정할 수 있나요?</summary><p>이미지 맞춤, 또는 A4 세로·가로 중에 골라요. A4를 고르면 여백에 맞춰 가운데로 배치됩니다.</p></details>
+    <details><summary>PDF 용량이 너무 커요</summary><p>이미지 수·해상도에 따라 커질 수 있어요. 변환 전에 이미지 도구로 압축·리사이즈하면 크게 줄어듭니다.</p></details>
+  </section>
+
+  <div class="ad-slot">광고 자리 (애드센스 승인 후 표시)</div>
+</main>
+
+<div class="install-banner" id="installBanner">
+  <div class="ib-ic">⚡</div>
+  <div class="ib-t"><b>급할때를 홈 화면에 추가</b>다음엔 검색 없이 한 번에 — 오프라인도 OK</div>
+  <button class="ghost" id="ibClose" type="button">나중에</button>
+  <button id="ibInstall" type="button">설치</button>
+</div>
+
+<footer class="site">
+  <div class="foot">
+    <span>© <span id="year"></span> 급할때.tools</span>
+    <a href="index.html">도구</a><a href="blog.html">블로그</a><a href="about.html">소개</a><a href="privacy.html">개인정보처리방침</a>
+    <span class="sp">모든 처리는 브라우저에서만 이뤄집니다.</span>
+  </div>
+</footer>
+
+<script src="pdf-lib.min.js"></script>
+<script src="common.js"></script>
+<script>
+  QT.recordRecent({slug:"imgpdf",name:"이미지 PDF 변환",emoji:"📄",url:"img-to-pdf.html"});
+  const $=id=>document.getElementById(id);
+  const PDFReady=()=> typeof PDFLib!=="undefined" && PDFLib.PDFDocument;
+  let items=[];
+  const drop=$("drop"), fileInput=$("file"), listEl=$("list"), busyEl=$("busy"), noteEl=$("note");
+
+  function fmtBytes(n){ if(n<1024)return n+" B"; if(n<1048576)return (n/1024).toFixed(1)+" KB"; return (n/1048576).toFixed(2)+" MB"; }
+  function esc(s){ return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
+  function note(kind,msg){ noteEl.className="note "+kind+" show"; noteEl.textContent=msg; }
+  function clearNote(){ noteEl.className="note"; noteEl.textContent=""; }
+
+  ["dragenter","dragover"].forEach(ev=>drop.addEventListener(ev,e=>{ e.preventDefault(); drop.classList.add("drag"); }));
+  ["dragleave","drop"].forEach(ev=>drop.addEventListener(ev,e=>{ e.preventDefault(); drop.classList.remove("drag"); }));
+  drop.addEventListener("click",()=>fileInput.click());
+  drop.addEventListener("drop",e=>addFiles(e.dataTransfer.files));
+  fileInput.addEventListener("change",()=>{ addFiles(fileInput.files); fileInput.value=""; });
+
+  function addFiles(fileList){
+    const imgs=Array.prototype.slice.call(fileList).filter(f=>f.type.indexOf("image/")===0);
+    if(!imgs.length){ note("err","이미지 파일만 추가할 수 있어요."); return; }
+    clearNote();
+    imgs.forEach(f=>items.push({ file:f, name:f.name||"이미지", size:f.size, thumbURL:URL.createObjectURL(f) }));
+    render();
+  }
+  function render(){
+    const show=items.length>0;
+    $("opts").style.display=show?"flex":"none"; $("actions").style.display=show?"flex":"none";
+    listEl.innerHTML=items.map((it,i)=>
+      '<div class="fitem">'
+      +'<img class="fthumb" src="'+it.thumbURL+'" alt="" />'
+      +'<div class="fmain"><div class="fname">'+(i+1)+'. '+esc(it.name)+'</div><div class="fmeta">'+fmtBytes(it.size)+'</div></div>'
+      +'<div class="fact">'
+        +'<button class="ghost iconly" data-up="'+i+'" aria-label="위로"'+(i===0?" disabled":"")+'>↑</button>'
+        +'<button class="ghost iconly" data-down="'+i+'" aria-label="아래로"'+(i===items.length-1?" disabled":"")+'>↓</button>'
+        +'<button class="ghost iconly" data-del="'+i+'" aria-label="삭제">✕</button>'
+      +'</div></div>'
+    ).join("");
+    listEl.querySelectorAll("[data-up]").forEach(b=>b.onclick=()=>{ const i=+b.dataset.up; [items[i-1],items[i]]=[items[i],items[i-1]]; render(); });
+    listEl.querySelectorAll("[data-down]").forEach(b=>b.onclick=()=>{ const i=+b.dataset.down; [items[i+1],items[i]]=[items[i],items[i+1]]; render(); });
+    listEl.querySelectorAll("[data-del]").forEach(b=>b.onclick=()=>{ const i=+b.dataset.del; URL.revokeObjectURL(items[i].thumbURL); items.splice(i,1); render(); });
+  }
+  $("clear").addEventListener("click",()=>{ items.forEach(it=>URL.revokeObjectURL(it.thumbURL)); items=[]; clearNote(); render(); });
+
+  function loadImage(file){
+    return new Promise((res,rej)=>{ const img=new Image(); img.onload=()=>res(img); img.onerror=()=>rej(new Error("img")); img.src=URL.createObjectURL(file); });
+  }
+  async function toJpegBytes(file){
+    const img=await loadImage(file);
+    const cv=document.createElement("canvas"); cv.width=img.naturalWidth; cv.height=img.naturalHeight;
+    const ctx=cv.getContext("2d"); ctx.fillStyle="#ffffff"; ctx.fillRect(0,0,cv.width,cv.height); ctx.drawImage(img,0,0);
+    URL.revokeObjectURL(img.src);
+    const blob=await new Promise(r=>cv.toBlob(r,"image/jpeg",0.92));
+    return new Uint8Array(await blob.arrayBuffer());
+  }
+  async function embedImg(doc,file){
+    try{
+      if(file.type==="image/png") return await doc.embedPng(await file.arrayBuffer());
+      if(file.type==="image/jpeg") return await doc.embedJpg(await file.arrayBuffer());
+    }catch(e){}
+    return await doc.embedJpg(await toJpegBytes(file));
+  }
+
+  $("make").addEventListener("click",async()=>{
+    if(!PDFReady()){ note("err","PDF 라이브러리를 불러오지 못했어요. 새로고침하세요."); return; }
+    if(!items.length){ note("err","이미지를 먼저 추가하세요."); return; }
+    clearNote(); busyEl.classList.add("show"); $("make").disabled=true;
+    try{
+      const { PDFDocument }=PDFLib;
+      const doc=await PDFDocument.create();
+      const psize=$("psize").value, m=parseInt($("margin").value,10)||0;
+      for(const it of items){
+        const img=await embedImg(doc, it.file);
+        if(psize==="fit"){
+          const page=doc.addPage([img.width, img.height]);
+          page.drawImage(img,{ x:0, y:0, width:img.width, height:img.height });
+        } else {
+          const A4=psize==="a4l" ? [841.89,595.28] : [595.28,841.89];
+          const page=doc.addPage(A4);
+          const maxW=A4[0]-m*2, maxH=A4[1]-m*2;
+          const scale=Math.min(maxW/img.width, maxH/img.height);
+          const w=img.width*scale, h=img.height*scale;
+          page.drawImage(img,{ x:(A4[0]-w)/2, y:(A4[1]-h)/2, width:w, height:h });
+        }
+      }
+      const bytes=await doc.save();
+      const url=URL.createObjectURL(new Blob([bytes],{type:"application/pdf"}));
+      const a=document.createElement("a"); a.href=url; a.download="이미지_변환.pdf"; document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(()=>URL.revokeObjectURL(url),1500);
+      note("ok", items.length+"장을 PDF로 변환했어요 ✓");
+    }catch(e){
+      note("err","변환에 실패했어요. 일부 이미지가 손상되었을 수 있어요.");
+    }
+    busyEl.classList.remove("show"); $("make").disabled=false;
+  });
+</script>
+</body>
+</html>
