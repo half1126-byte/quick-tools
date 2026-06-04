@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>배경 제거(누끼) — 흰·단색 배경 투명 PNG 만들기 무료</title>
+<meta name="description" content="흰색·단색 배경 사진의 배경을 지우고 투명 PNG로 저장하세요. 상품사진·서명·도장·로고에 딱. 업로드 없이 브라우저에서만 처리, 무료." />
+<meta name="keywords" content="누끼, 배경 제거, 배경 투명, 투명 png 만들기, 흰배경 제거, 사진 배경 지우기" />
+<meta property="og:title" content="배경 제거(누끼) — 투명 PNG 만들기" />
+<meta property="og:description" content="흰·단색 배경을 지우고 투명 PNG로. 업로드 없이 브라우저에서, 무료." />
+<meta property="og:image" content="https://half1126-byte.github.io/quick-tools/icon-512.png" />
+<meta name="theme-color" content="#3b6ef5" />
+<link rel="icon" href="favicon.svg" type="image/svg+xml" />
+<link rel="apple-touch-icon" href="apple-touch-icon.png" />
+<link rel="manifest" href="manifest.json" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-title" content="급할때" />
+<script>(function(){try{var m=localStorage.getItem('qt-theme')||((window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches)?'dark':'light');document.documentElement.dataset.theme=m;}catch(e){}})();</script>
+<link rel="stylesheet" href="style.css" />
+<style>
+  .bgwrap{margin-top:16px;border:1px solid var(--line);border-radius:12px;overflow:hidden;display:flex;justify-content:center;
+    background-image:linear-gradient(45deg,#c9cdd6 25%,transparent 25%),linear-gradient(-45deg,#c9cdd6 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#c9cdd6 75%),linear-gradient(-45deg,transparent 75%,#c9cdd6 75%);
+    background-size:20px 20px;background-position:0 0,0 10px,10px -10px,-10px 0px}
+  .bgwrap canvas{max-width:100%;display:block}
+  .bgwrap.pick canvas{cursor:crosshair}
+  .swatch{width:26px;height:26px;border-radius:6px;border:1px solid var(--line);display:inline-block;vertical-align:middle}
+</style>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"사진이 서버로 업로드되나요?","acceptedAnswer":{"@type":"Answer","text":"아니요. 배경 제거는 여러분의 브라우저(기기) 안에서만 처리되며 사진은 어디에도 전송·저장되지 않습니다."}},
+{"@type":"Question","name":"어떤 사진에 잘 되나요?","acceptedAnswer":{"@type":"Answer","text":"흰색이나 단색 배경 사진에 가장 잘 됩니다. 상품 사진, 서명·도장 스캔, 로고 등에 적합합니다. 배경이 복잡하거나 인물·풍경처럼 색이 다양하면 깔끔하게 분리되지 않을 수 있습니다."}},
+{"@type":"Question","name":"가장자리가 지저분해요","acceptedAnswer":{"@type":"Answer","text":"허용 범위(민감도) 슬라이더를 조절해 보세요. 값이 클수록 비슷한 색을 더 많이 지웁니다. 배경이 단색에 가까울수록 결과가 깨끗합니다."}},
+{"@type":"Question","name":"배경색이 잘못 잡혀요","acceptedAnswer":{"@type":"Answer","text":"‘배경색 직접 찍기’를 켜고 이미지에서 지우고 싶은 배경 부분을 클릭하면 그 색을 기준으로 다시 제거합니다."}},
+{"@type":"Question","name":"어떤 형식으로 저장되나요?","acceptedAnswer":{"@type":"Answer","text":"배경이 투명한 PNG로 저장됩니다. 투명도를 지원하는 형식이라 다른 배경 위에 자연스럽게 올릴 수 있습니다."}}
+]}
+</script>
+</head>
+<body>
+<header class="site">
+  <div class="nav">
+    <a class="brand" href="index.html"><span class="logo">⚡</span><b>급할때</b><span class="tld">.tools</span></a>
+    <div class="links">
+      <a href="index.html">도구</a><a href="blog.html">블로그</a><a href="image-tool.html">이미지</a>
+    </div>
+    <div class="spacer"></div>
+    <button class="install-btn" id="installBtn" type="button">⬇️ 앱 설치</button>
+    <button class="icon-btn" id="themeToggle" type="button" aria-label="테마 전환">🌙</button>
+  </div>
+  <div class="trust">🔒 <b>브라우저에서만</b> 처리 · 가입 없음 · 무료</div>
+</header>
+
+<main>
+  <div class="hero">
+    <h1>✂️ 배경 제거 (누끼)</h1>
+    <p class="lead">흰색·단색 배경을 지우고 <b>투명 PNG</b>로 저장해요. 상품사진·서명·로고에 딱.</p>
+  </div>
+  <div class="howto"><span>1. 사진 올리기</span><span>2. 민감도 조절</span><span>3. 투명 PNG 저장</span></div>
+
+  <div class="ad-slot">광고 자리 (애드센스 승인 후 표시)</div>
+
+  <div class="card">
+    <div class="dropzone" id="drop">
+      <div class="dz-ic">✂️</div>
+      <div class="dz-t">사진을 끌어다 놓거나 클릭해서 선택</div>
+      <div class="dz-s">흰색·단색 배경일수록 깔끔하게 분리돼요</div>
+    </div>
+    <input type="file" id="file" accept="image/*" hidden />
+
+    <div id="controls" style="display:none">
+      <label for="tol">민감도 (허용 범위)</label>
+      <div class="range-row">
+        <input type="range" id="tol" min="0" max="150" value="40" step="1" />
+        <span class="range-val" id="tolVal">40</span>
+      </div>
+      <div class="hint">값이 클수록 배경과 비슷한 색을 더 많이 지워요. 가장자리가 남으면 올리고, 너무 파이면 내리세요.</div>
+
+      <div class="row" style="margin-top:12px;align-items:center">
+        <button id="pick" class="ghost" type="button" style="flex:0 0 auto">🎯 배경색 직접 찍기</button>
+        <span style="font-size:13px;color:var(--muted)">기준 배경색 <span class="swatch" id="swatch"></span></span>
+      </div>
+
+      <div class="bgwrap" id="bgwrap"><canvas id="canvas"></canvas></div>
+      <div class="busy" id="busy"><span class="spinner"></span><span>처리 중…</span></div>
+
+      <div class="row" style="margin-top:16px">
+        <button id="dl" type="button" style="flex:0 0 auto">⬇️ 투명 PNG 다운로드</button>
+        <button id="reset" class="ghost" type="button" style="flex:0 0 auto">다른 사진</button>
+      </div>
+    </div>
+
+    <p class="disclaimer">🔒 사진은 <b>서버로 전송되지 않고</b> 브라우저 안에서만 처리됩니다. 복잡한 배경·인물은 분리가 어려울 수 있어요(단색 배경 전용).</p>
+  </div>
+
+  <div class="card cta-band">
+    <h2>이 도구가 유용했다면 ⚡</h2>
+    <div class="row" style="margin-bottom:12px">
+      <button id="bookmarkBtn" class="ghost" type="button" style="flex:0 0 auto">⭐ 즐겨찾기 추가</button>
+    </div>
+    <div class="related">
+      <a href="image-tool.html"><span class="e">🖼️</span><span><b>이미지 도구</b><br/><small style="color:var(--muted)">압축·리사이즈·변환</small></span></a>
+      <a href="qr-generator.html"><span class="e">🔳</span><span><b>QR 코드 생성기</b><br/><small style="color:var(--muted)">URL·와이파이 QR</small></span></a>
+    </div>
+  </div>
+
+  <section class="faq">
+    <h2>자주 묻는 질문</h2>
+    <details><summary>사진이 서버로 업로드되나요?</summary><p>아니요. 배경 제거는 브라우저(기기) 안에서만 처리되며 사진은 어디에도 전송·저장되지 않습니다.</p></details>
+    <details><summary>어떤 사진에 잘 되나요?</summary><p>흰색·단색 배경에 가장 잘 돼요. 상품 사진, 서명·도장 스캔, 로고에 적합합니다. 복잡한 배경·인물은 깔끔하게 분리되지 않을 수 있어요.</p></details>
+    <details><summary>가장자리가 지저분해요</summary><p>민감도 슬라이더를 조절하세요. 값이 클수록 비슷한 색을 더 지워요. 배경이 단색에 가까울수록 깨끗합니다.</p></details>
+    <details><summary>배경색이 잘못 잡혀요</summary><p>‘배경색 직접 찍기’를 켜고 지우고 싶은 배경을 클릭하면 그 색 기준으로 다시 제거해요.</p></details>
+    <details><summary>어떤 형식으로 저장되나요?</summary><p>배경이 투명한 PNG로 저장돼요. 다른 배경 위에 자연스럽게 올릴 수 있어요.</p></details>
+  </section>
+
+  <div class="ad-slot">광고 자리 (애드센스 승인 후 표시)</div>
+</main>
+
+<div class="install-banner" id="installBanner">
+  <div class="ib-ic">⚡</div>
+  <div class="ib-t"><b>급할때를 홈 화면에 추가</b>다음엔 검색 없이 한 번에 — 오프라인도 OK</div>
+  <button class="ghost" id="ibClose" type="button">나중에</button>
+  <button id="ibInstall" type="button">설치</button>
+</div>
+
+<footer class="site">
+  <div class="foot">
+    <span>© <span id="year"></span> 급할때.tools</span>
+    <a href="index.html">도구</a><a href="blog.html">블로그</a><a href="about.html">소개</a><a href="privacy.html">개인정보처리방침</a>
+    <span class="sp">모든 처리는 브라우저에서만 이뤄집니다.</span>
+  </div>
+</footer>
+
+<script src="common.js"></script>
+<script>
+  QT.recordRecent({slug:"bgremove",name:"배경 제거(누끼)",emoji:"✂️",url:"bg-remover.html"});
+  const $=id=>document.getElementById(id);
+  const drop=$("drop"), fileInput=$("file"), canvas=$("canvas"), ctx=canvas.getContext("2d"),
+        tol=$("tol"), tolVal=$("tolVal"), controls=$("controls"), bgwrap=$("bgwrap"), busyEl=$("busy");
+  let orig=null, W=0, H=0, bg=[255,255,255], pickMode=false, fileName="image";
+
+  ["dragenter","dragover"].forEach(ev=>drop.addEventListener(ev,e=>{ e.preventDefault(); drop.classList.add("drag"); }));
+  ["dragleave","drop"].forEach(ev=>drop.addEventListener(ev,e=>{ e.preventDefault(); drop.classList.remove("drag"); }));
+  drop.addEventListener("click",()=>fileInput.click());
+  drop.addEventListener("drop",e=>{ if(e.dataTransfer.files[0]) load(e.dataTransfer.files[0]); });
+  fileInput.addEventListener("change",()=>{ if(fileInput.files[0]) load(fileInput.files[0]); fileInput.value=""; });
+
+  function load(file){
+    if(file.type.indexOf("image/")!==0){ QT.toast("이미지 파일만 가능해요"); return; }
+    fileName=(file.name||"image").replace(/\.[^.]+$/,"");
+    const img=new Image();
+    img.onload=()=>{
+      let w=img.naturalWidth, h=img.naturalHeight; const MAX=1600;
+      if(Math.max(w,h)>MAX){ const s=MAX/Math.max(w,h); w=Math.round(w*s); h=Math.round(h*s); }
+      W=w; H=h; canvas.width=W; canvas.height=H;
+      ctx.clearRect(0,0,W,H); ctx.drawImage(img,0,0,W,H);
+      URL.revokeObjectURL(img.src);
+      orig=ctx.getImageData(0,0,W,H).data.slice(0); // pristine copy
+      bg=autoBg(orig);
+      controls.style.display="block"; drop.style.display="none";
+      process();
+    };
+    img.onerror=()=>QT.toast("이미지를 읽을 수 없어요");
+    img.src=URL.createObjectURL(file);
+  }
+
+  function autoBg(d){
+    const pts=[[0,0],[W-1,0],[0,H-1],[W-1,H-1],[(W/2)|0,0],[(W/2)|0,H-1]];
+    let r=0,g=0,b=0;
+    pts.forEach(([x,y])=>{ const i=(y*W+x)*4; r+=d[i]; g+=d[i+1]; b+=d[i+2]; });
+    return [Math.round(r/pts.length),Math.round(g/pts.length),Math.round(b/pts.length)];
+  }
+  function swatch(){ $("swatch").style.background="rgb("+bg[0]+","+bg[1]+","+bg[2]+")"; }
+
+  function process(){
+    if(!orig) return;
+    busyEl.classList.add("show");
+    // 비동기 한 틱 줘서 스피너 보이게
+    setTimeout(()=>{
+      const d=new Uint8ClampedArray(orig);
+      const t=+tol.value, t2=t*t;
+      const visited=new Uint8Array(W*H);
+      const stack=[];
+      function consider(x,y){
+        const idx=y*W+x; if(visited[idx]) return;
+        const p=idx*4, dr=d[p]-bg[0], dg=d[p+1]-bg[1], db=d[p+2]-bg[2];
+        if(dr*dr+dg*dg+db*db<=t2){ visited[idx]=1; d[p+3]=0; stack.push(idx); }
+        else visited[idx]=2;
+      }
+      for(let x=0;x<W;x++){ consider(x,0); consider(x,H-1); }
+      for(let y=0;y<H;y++){ consider(0,y); consider(W-1,y); }
+      while(stack.length){ const idx=stack.pop(), x=idx%W, y=(idx/W)|0;
+        if(x>0)consider(x-1,y); if(x<W-1)consider(x+1,y); if(y>0)consider(x,y-1); if(y<H-1)consider(x,y+1); }
+      ctx.putImageData(new ImageData(d,W,H),0,0);
+      swatch();
+      busyEl.classList.remove("show");
+    },20);
+  }
+
+  tol.addEventListener("input",()=>{ tolVal.textContent=tol.value; });
+  tol.addEventListener("change",process);
+
+  $("pick").addEventListener("click",()=>{
+    pickMode=!pickMode; bgwrap.classList.toggle("pick",pickMode);
+    $("pick").classList.toggle("on",pickMode);
+    $("pick").textContent=pickMode?"🎯 배경 클릭하세요 (취소: 다시 누르기)":"🎯 배경색 직접 찍기";
+  });
+  canvas.addEventListener("click",e=>{
+    if(!pickMode||!orig) return;
+    const rect=canvas.getBoundingClientRect();
+    const x=Math.min(W-1,Math.max(0,Math.round((e.clientX-rect.left)/rect.width*W)));
+    const y=Math.min(H-1,Math.max(0,Math.round((e.clientY-rect.top)/rect.height*H)));
+    const i=(y*W+x)*4; bg=[orig[i],orig[i+1],orig[i+2]];
+    pickMode=false; bgwrap.classList.remove("pick"); $("pick").classList.remove("on"); $("pick").textContent="🎯 배경색 직접 찍기";
+    process();
+  });
+
+  $("dl").addEventListener("click",()=>{
+    canvas.toBlob(b=>{
+      if(!b){ QT.toast("저장 실패"); return; }
+      const url=URL.createObjectURL(b), a=document.createElement("a");
+      a.href=url; a.download=fileName+"_누끼.png"; document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(()=>URL.revokeObjectURL(url),1500);
+    },"image/png");
+  });
+  $("reset").addEventListener("click",()=>{ orig=null; controls.style.display="none"; drop.style.display="block"; });
+</script>
+</body>
+</html>

@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>온라인 타이머 · 스톱워치 — 무료 카운트다운 알람</title>
+<meta name="description" content="공부·요리·운동용 온라인 타이머와 스톱워치. 1·3·5·10분 빠른 설정, 알람 소리, 랩 기록까지. 설치·가입 없이 브라우저에서 바로, 무료." />
+<meta name="keywords" content="온라인 타이머, 스톱워치, 카운트다운 타이머, 공부 타이머, 요리 타이머, 타이머 알람" />
+<meta property="og:title" content="온라인 타이머 · 스톱워치" />
+<meta property="og:description" content="공부·요리·운동용 타이머와 스톱워치. 알람·랩 기록. 브라우저에서 바로, 무료." />
+<meta property="og:image" content="https://half1126-byte.github.io/quick-tools/icon-512.png" />
+<meta name="theme-color" content="#3b6ef5" />
+<link rel="icon" href="favicon.svg" type="image/svg+xml" />
+<link rel="apple-touch-icon" href="apple-touch-icon.png" />
+<link rel="manifest" href="manifest.json" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-title" content="급할때" />
+<script>(function(){try{var m=localStorage.getItem('qt-theme')||((window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches)?'dark':'light');document.documentElement.dataset.theme=m;}catch(e){}})();</script>
+<link rel="stylesheet" href="style.css" />
+<style>
+  .clock{font-variant-numeric:tabular-nums;font-weight:800;letter-spacing:-1px;text-align:center;
+    font-size:64px;margin:8px 0 6px;font-family:ui-monospace,Menlo,Consolas,monospace}
+  .clock.done{color:var(--ok)}
+  .qbtns{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:6px}
+  .laps{margin-top:14px;max-height:220px;overflow:auto}
+  .laps .lap{display:flex;justify-content:space-between;border-bottom:1px solid var(--line);padding:8px 4px;font-size:14px}
+  .laps .lap b{font-variant-numeric:tabular-nums}
+  @media (max-width:520px){ .clock{font-size:52px} }
+</style>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"다른 탭이나 화면이 꺼져도 동작하나요?","acceptedAnswer":{"@type":"Answer","text":"브라우저가 탭을 절전 상태로 만들면 타이머가 느려지거나 멈출 수 있습니다. 정확한 알람을 위해 탭을 켜 두는 것을 권장합니다."}},
+{"@type":"Question","name":"알람 소리가 나지 않아요","acceptedAnswer":{"@type":"Answer","text":"기기의 음소거 여부와 브라우저의 자동 재생 차단을 확인하세요. 소리는 시작 버튼을 한 번 누른 뒤부터 재생됩니다."}},
+{"@type":"Question","name":"설치 없이 바로 쓸 수 있나요?","acceptedAnswer":{"@type":"Answer","text":"네. 브라우저에서 바로 사용하며, 홈 화면에 추가하면 앱처럼 오프라인에서도 쓸 수 있습니다."}},
+{"@type":"Question","name":"입력한 시간이 저장되나요?","acceptedAnswer":{"@type":"Answer","text":"아니요. 모든 동작은 브라우저 안에서만 이뤄지며 어떤 정보도 저장·전송되지 않습니다."}},
+{"@type":"Question","name":"스톱워치 랩 기록은 어떻게 쓰나요?","acceptedAnswer":{"@type":"Answer","text":"스톱워치 실행 중 랩 버튼을 누르면 그 시점까지의 구간 기록이 쌓입니다. 새로고침하면 사라집니다."}}
+]}
+</script>
+</head>
+<body>
+<header class="site">
+  <div class="nav">
+    <a class="brand" href="index.html"><span class="logo">⚡</span><b>급할때</b><span class="tld">.tools</span></a>
+    <div class="links">
+      <a href="index.html">도구</a><a href="blog.html">블로그</a><a href="image-tool.html">이미지</a>
+    </div>
+    <div class="spacer"></div>
+    <button class="install-btn" id="installBtn" type="button">⬇️ 앱 설치</button>
+    <button class="icon-btn" id="themeToggle" type="button" aria-label="테마 전환">🌙</button>
+  </div>
+  <div class="trust">🔒 <b>브라우저에서만</b> 처리 · 가입 없음 · 무료</div>
+</header>
+
+<main>
+  <div class="hero">
+    <h1>⏱️ 온라인 타이머 · 스톱워치</h1>
+    <p class="lead">공부·요리·운동용 <b>카운트다운 타이머</b>와 <b>스톱워치</b>. 알람·랩 기록까지.</p>
+  </div>
+  <div class="howto"><span>1. 타이머·스톱워치 선택</span><span>2. 시작</span><span>3. 알람·랩</span></div>
+
+  <div class="ad-slot">광고 자리 (애드센스 승인 후 표시)</div>
+
+  <div class="card">
+    <div class="seg">
+      <button id="tabTimer" class="on" type="button">⏲️ 타이머</button>
+      <button id="tabWatch" type="button">⏱️ 스톱워치</button>
+    </div>
+
+    <div id="paneTimer">
+      <div class="qbtns">
+        <button class="ghost" data-min="1" type="button">1분</button>
+        <button class="ghost" data-min="3" type="button">3분</button>
+        <button class="ghost" data-min="5" type="button">5분</button>
+        <button class="ghost" data-min="10" type="button">10분</button>
+        <button class="ghost" data-min="30" type="button">30분</button>
+      </div>
+      <div class="row" style="justify-content:center;max-width:320px;margin:0 auto">
+        <div><label for="tMin">분</label><input type="number" id="tMin" inputmode="numeric" value="5" min="0" max="999" /></div>
+        <div><label for="tSec">초</label><input type="number" id="tSec" inputmode="numeric" value="0" min="0" max="59" /></div>
+      </div>
+      <div class="clock" id="tClock">05:00</div>
+      <div class="qbtns">
+        <button id="tStart" type="button" style="flex:0 0 auto">▶ 시작</button>
+        <button id="tReset" class="ghost" type="button" style="flex:0 0 auto">↺ 초기화</button>
+      </div>
+    </div>
+
+    <div id="paneWatch" hidden>
+      <div class="clock" id="wClock">00:00.00</div>
+      <div class="qbtns">
+        <button id="wStart" type="button" style="flex:0 0 auto">▶ 시작</button>
+        <button id="wLap" class="ghost" type="button" style="flex:0 0 auto">⚑ 랩</button>
+        <button id="wReset" class="ghost" type="button" style="flex:0 0 auto">↺ 초기화</button>
+      </div>
+      <div class="laps" id="laps"></div>
+    </div>
+
+    <p class="disclaimer">🔒 모든 동작은 <b>브라우저 안에서만</b> 이뤄지며 저장·전송되지 않습니다. 탭이 절전되면 시간이 느려질 수 있어요.</p>
+  </div>
+
+  <div class="card cta-band">
+    <h2>이 도구가 유용했다면 ⚡</h2>
+    <div class="row" style="margin-bottom:12px">
+      <button id="bookmarkBtn" class="ghost" type="button" style="flex:0 0 auto">⭐ 즐겨찾기 추가</button>
+    </div>
+    <div class="related">
+      <a href="age-calculator.html"><span class="e">🎂</span><span><b>만 나이·디데이</b><br/><small style="color:var(--muted)">남은 날 계산</small></span></a>
+      <a href="lotto-generator.html"><span class="e">🎰</span><span><b>로또 번호 생성기</b><br/><small style="color:var(--muted)">랜덤 6개</small></span></a>
+    </div>
+  </div>
+
+  <section class="faq">
+    <h2>자주 묻는 질문</h2>
+    <details><summary>다른 탭이나 화면이 꺼져도 동작하나요?</summary><p>브라우저가 탭을 절전하면 타이머가 느려지거나 멈출 수 있어요. 정확한 알람을 위해 탭을 켜 두는 걸 권장합니다.</p></details>
+    <details><summary>알람 소리가 나지 않아요</summary><p>기기 음소거와 브라우저 자동재생 차단을 확인하세요. 소리는 시작 버튼을 누른 뒤부터 재생돼요.</p></details>
+    <details><summary>설치 없이 바로 쓸 수 있나요?</summary><p>네. 브라우저에서 바로, 홈 화면에 추가하면 앱처럼 오프라인에서도 써요.</p></details>
+    <details><summary>입력한 시간이 저장되나요?</summary><p>아니요. 브라우저 안에서만 동작하고 저장·전송되지 않습니다.</p></details>
+    <details><summary>스톱워치 랩 기록은 어떻게 쓰나요?</summary><p>실행 중 랩 버튼을 누르면 구간 기록이 쌓여요. 새로고침하면 사라집니다.</p></details>
+  </section>
+
+  <div class="ad-slot">광고 자리 (애드센스 승인 후 표시)</div>
+</main>
+
+<div class="install-banner" id="installBanner">
+  <div class="ib-ic">⚡</div>
+  <div class="ib-t"><b>급할때를 홈 화면에 추가</b>다음엔 검색 없이 한 번에 — 오프라인도 OK</div>
+  <button class="ghost" id="ibClose" type="button">나중에</button>
+  <button id="ibInstall" type="button">설치</button>
+</div>
+
+<footer class="site">
+  <div class="foot">
+    <span>© <span id="year"></span> 급할때.tools</span>
+    <a href="index.html">도구</a><a href="blog.html">블로그</a><a href="about.html">소개</a><a href="privacy.html">개인정보처리방침</a>
+    <span class="sp">모든 처리는 브라우저에서만 이뤄집니다.</span>
+  </div>
+</footer>
+
+<script src="common.js"></script>
+<script>
+  QT.recordRecent({slug:"timer",name:"타이머·스톱워치",emoji:"⏱️",url:"timer.html"});
+  const $=id=>document.getElementById(id);
+  const pad=n=>String(n).padStart(2,"0");
+
+  /* 탭 */
+  const tabTimer=$("tabTimer"), tabWatch=$("tabWatch"), paneTimer=$("paneTimer"), paneWatch=$("paneWatch");
+  tabTimer.addEventListener("click",()=>{ tabTimer.classList.add("on"); tabWatch.classList.remove("on"); paneTimer.hidden=false; paneWatch.hidden=true; });
+  tabWatch.addEventListener("click",()=>{ tabWatch.classList.add("on"); tabTimer.classList.remove("on"); paneWatch.hidden=false; paneTimer.hidden=true; });
+
+  /* 알람음 (WebAudio) */
+  let actx;
+  function beep(times){
+    try{
+      actx=actx||new (window.AudioContext||window.webkitAudioContext)();
+      if(actx.state==="suspended") actx.resume();
+      let t=actx.currentTime;
+      for(let i=0;i<(times||4);i++){
+        const o=actx.createOscillator(), g=actx.createGain();
+        o.frequency.value=880; o.type="sine"; o.connect(g); g.connect(actx.destination);
+        g.gain.setValueAtTime(0.001,t); g.gain.exponentialRampToValueAtTime(0.3,t+0.02);
+        g.gain.exponentialRampToValueAtTime(0.001,t+0.28);
+        o.start(t); o.stop(t+0.3); t+=0.4;
+      }
+    }catch(e){}
+  }
+
+  /* ---- 타이머 ---- */
+  let tEnd=0, tRemain=0, tRunning=false, tRAF=0;
+  function setFromInputs(){ tRemain=((parseInt($("tMin").value)||0)*60+(parseInt($("tSec").value)||0))*1000; drawTimer(tRemain); }
+  function drawTimer(ms){
+    const s=Math.max(0,Math.ceil(ms/1000));
+    $("tClock").textContent=pad(Math.floor(s/60))+":"+pad(s%60);
+  }
+  function tickTimer(){
+    const ms=tEnd-performance.now();
+    if(ms<=0){ drawTimer(0); stopTimer(true); $("tClock").classList.add("done"); beep(5); return; }
+    drawTimer(ms); tRAF=requestAnimationFrame(tickTimer);
+  }
+  function startTimer(){
+    if(tRunning){ // pause
+      tRemain=Math.max(0,tEnd-performance.now()); stopTimer(false); return;
+    }
+    if(tRemain<=0) setFromInputs();
+    if(tRemain<=0){ QT.toast("시간을 입력하세요"); return; }
+    $("tClock").classList.remove("done");
+    tEnd=performance.now()+tRemain; tRunning=true; $("tStart").textContent="⏸ 일시정지";
+    beep(0); // unlock audio on gesture
+    tRAF=requestAnimationFrame(tickTimer);
+  }
+  function stopTimer(done){ tRunning=false; cancelAnimationFrame(tRAF); $("tStart").textContent=done?"▶ 시작":"▶ 계속"; if(done) tRemain=0; }
+  function resetTimer(){ stopTimer(true); $("tClock").classList.remove("done"); setFromInputs(); $("tStart").textContent="▶ 시작"; }
+  $("tStart").addEventListener("click",startTimer);
+  $("tReset").addEventListener("click",resetTimer);
+  ["tMin","tSec"].forEach(id=>$(id).addEventListener("input",()=>{ if(!tRunning){ setFromInputs(); } }));
+  document.querySelectorAll("[data-min]").forEach(b=>b.addEventListener("click",()=>{
+    $("tMin").value=b.dataset.min; $("tSec").value=0; resetTimer();
+  }));
+
+  /* ---- 스톱워치 ---- */
+  let wStartStamp=0, wElapsed=0, wRunning=false, wRAF=0, lapList=[];
+  function fmtWatch(ms){
+    const cs=Math.floor(ms/10)%100, s=Math.floor(ms/1000)%60, m=Math.floor(ms/60000);
+    return pad(m)+":"+pad(s)+"."+pad(cs);
+  }
+  function tickWatch(){ wElapsed=performance.now()-wStartStamp; $("wClock").textContent=fmtWatch(wElapsed); wRAF=requestAnimationFrame(tickWatch); }
+  function startWatch(){
+    if(wRunning){ wElapsed=performance.now()-wStartStamp; wRunning=false; cancelAnimationFrame(wRAF); $("wStart").textContent="▶ 계속"; return; }
+    wStartStamp=performance.now()-wElapsed; wRunning=true; $("wStart").textContent="⏸ 일시정지"; tickWatch();
+  }
+  function resetWatch(){ wRunning=false; cancelAnimationFrame(wRAF); wElapsed=0; lapList=[]; $("wClock").textContent="00:00.00"; $("laps").innerHTML=""; $("wStart").textContent="▶ 시작"; }
+  function lap(){
+    if(wElapsed<=0) return;
+    lapList.unshift(wElapsed);
+    $("laps").innerHTML=lapList.map((t,i)=>'<div class="lap"><span>랩 '+(lapList.length-i)+'</span><b>'+fmtWatch(t)+'</b></div>').join("");
+  }
+  $("wStart").addEventListener("click",startWatch);
+  $("wReset").addEventListener("click",resetWatch);
+  $("wLap").addEventListener("click",lap);
+
+  setFromInputs();
+</script>
+</body>
+</html>

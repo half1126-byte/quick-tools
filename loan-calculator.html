@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>대출 이자 계산기 — 원리금균등·원금균등·만기일시 월 상환액</title>
+<meta name="description" content="대출금액·금리·기간만 넣으면 원리금균등/원금균등/만기일시상환별 월 상환액과 총 이자를 바로 계산. 설치·가입 없이 브라우저에서, 무료. (참고용)" />
+<meta name="keywords" content="대출 이자 계산기, 원리금균등상환, 원금균등상환, 만기일시상환, 월 상환액 계산, 대출 계산기" />
+<meta property="og:title" content="대출 이자 계산기 — 월 상환액·총 이자" />
+<meta property="og:description" content="상환방식별 월 상환액과 총 이자를 바로 계산. 브라우저에서, 무료." />
+<meta property="og:image" content="https://half1126-byte.github.io/quick-tools/icon-512.png" />
+<meta name="theme-color" content="#3b6ef5" />
+<link rel="icon" href="favicon.svg" type="image/svg+xml" />
+<link rel="apple-touch-icon" href="apple-touch-icon.png" />
+<link rel="manifest" href="manifest.json" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-title" content="급할때" />
+<script>(function(){try{var m=localStorage.getItem('qt-theme')||((window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches)?'dark':'light');document.documentElement.dataset.theme=m;}catch(e){}})();</script>
+<link rel="stylesheet" href="style.css" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"원리금균등과 원금균등의 차이는 무엇인가요?","acceptedAnswer":{"@type":"Answer","text":"원리금균등상환은 매달 같은 금액을 갚아 계획을 세우기 쉽습니다. 원금균등상환은 매달 같은 원금에 이자가 붙어 초반 상환액이 크지만 갈수록 줄고, 총 이자는 더 적습니다."}},
+{"@type":"Question","name":"만기일시상환은 어떻게 계산되나요?","acceptedAnswer":{"@type":"Answer","text":"매달 이자만 내다가 만기에 원금을 한 번에 갚는 방식입니다. 매달 부담은 가장 적지만 총 이자는 가장 많습니다."}},
+{"@type":"Question","name":"이 계산기는 정확한가요?","acceptedAnswer":{"@type":"Answer","text":"입력한 고정 금리 기준의 근사치입니다. 실제로는 중도상환수수료, 우대금리, 일할 계산, 거치기간 등에 따라 차이가 날 수 있어 참고용으로 사용하세요."}},
+{"@type":"Question","name":"거치기간도 반영되나요?","acceptedAnswer":{"@type":"Answer","text":"이 계산기는 거치기간 없이 첫 달부터 상환하는 기준으로 계산합니다."}},
+{"@type":"Question","name":"입력한 금액이 저장되나요?","acceptedAnswer":{"@type":"Answer","text":"아니요. 모든 계산은 브라우저 안에서만 이뤄지며 어떤 정보도 저장·전송되지 않습니다."}}
+]}
+</script>
+</head>
+<body>
+<header class="site">
+  <div class="nav">
+    <a class="brand" href="index.html"><span class="logo">⚡</span><b>급할때</b><span class="tld">.tools</span></a>
+    <div class="links">
+      <a href="index.html">도구</a><a href="blog.html">블로그</a><a href="salary-calculator.html">연봉 실수령액</a>
+    </div>
+    <div class="spacer"></div>
+    <button class="install-btn" id="installBtn" type="button">⬇️ 앱 설치</button>
+    <button class="icon-btn" id="themeToggle" type="button" aria-label="테마 전환">🌙</button>
+  </div>
+  <div class="trust">🔒 <b>브라우저에서만</b> 처리 · 가입 없음 · 무료</div>
+</header>
+
+<main>
+  <div class="hero">
+    <h1>🏦 대출 이자 계산기</h1>
+    <p class="lead">대출금액·금리·기간만 넣으면 <b>월 상환액</b>과 <b>총 이자</b>를 상환방식별로 바로 계산해요.</p>
+  </div>
+  <div class="howto"><span>1. 금액·금리·기간 입력</span><span>2. 상환방식 선택</span><span>3. 월 상환액 확인</span></div>
+
+  <div class="ad-slot">광고 자리 (애드센스 승인 후 표시)</div>
+
+  <div class="card">
+    <div class="row">
+      <div><label for="amount">대출금액 (만원)</label><input type="number" id="amount" inputmode="numeric" value="3000" /></div>
+      <div><label for="rate">연이자율 (%)</label><input type="number" id="rate" inputmode="decimal" value="5" step="0.1" /></div>
+    </div>
+    <div class="row">
+      <div><label for="months">대출기간 (개월)</label><input type="number" id="months" inputmode="numeric" value="36" min="1" /></div>
+      <div><label for="method">상환방식</label>
+        <select id="method">
+          <option value="amort">원리금균등상환</option>
+          <option value="equal">원금균등상환</option>
+          <option value="bullet">만기일시상환</option>
+        </select>
+      </div>
+    </div>
+    <div class="hint" id="periodHint">36개월 = 3년</div>
+
+    <div class="result" style="margin-top:16px">
+      <div class="stat big"><div class="k" id="payK">월 상환액</div><div class="v" id="pay">—</div></div>
+      <div class="stat"><div class="k">총 이자</div><div class="v" id="totalInt" style="font-size:19px">—</div></div>
+      <div class="stat"><div class="k">총 상환액 (원금+이자)</div><div class="v" id="totalPay" style="font-size:19px">—</div></div>
+    </div>
+    <div class="row" style="margin-top:14px"><button id="copyBtn" type="button" style="flex:0 0 auto">📋 결과 복사</button></div>
+    <p class="disclaimer">⚠️ <b>참고용</b> 계산입니다. 중도상환수수료·우대금리·일할계산·거치기간 등에 따라 실제 금액과 차이가 날 수 있어요.</p>
+  </div>
+
+  <div class="card cta-band">
+    <h2>이 도구가 유용했다면 ⚡</h2>
+    <div class="row" style="margin-bottom:12px">
+      <button id="bookmarkBtn" class="ghost" type="button" style="flex:0 0 auto">⭐ 즐겨찾기 추가</button>
+    </div>
+    <div class="related">
+      <a href="salary-calculator.html"><span class="e">💰</span><span><b>연봉 실수령액</b><br/><small style="color:var(--muted)">세후 월 실수령액</small></span></a>
+      <a href="percent-calculator.html"><span class="e">％</span><span><b>퍼센트 계산기</b><br/><small style="color:var(--muted)">이자율·비율</small></span></a>
+    </div>
+  </div>
+
+  <section class="faq">
+    <h2>자주 묻는 질문</h2>
+    <details><summary>원리금균등과 원금균등의 차이는?</summary><p>원리금균등은 매달 같은 금액이라 계획이 쉬워요. 원금균등은 매달 같은 원금+이자라 초반 부담이 크지만 갈수록 줄고 총 이자는 더 적습니다.</p></details>
+    <details><summary>만기일시상환은 어떻게 계산되나요?</summary><p>매달 이자만 내다가 만기에 원금을 한 번에 갚아요. 매달 부담은 가장 적지만 총 이자는 가장 많습니다.</p></details>
+    <details><summary>이 계산기는 정확한가요?</summary><p>고정 금리 기준 근사치예요. 중도상환수수료·우대금리·일할계산·거치기간에 따라 실제와 차이가 날 수 있어 참고용입니다.</p></details>
+    <details><summary>거치기간도 반영되나요?</summary><p>이 계산기는 거치 없이 첫 달부터 상환하는 기준으로 계산해요.</p></details>
+    <details><summary>입력한 금액이 저장되나요?</summary><p>아니요. 브라우저 안에서만 계산되고 저장·전송되지 않습니다.</p></details>
+  </section>
+
+  <div class="ad-slot">광고 자리 (애드센스 승인 후 표시)</div>
+</main>
+
+<div class="install-banner" id="installBanner">
+  <div class="ib-ic">⚡</div>
+  <div class="ib-t"><b>급할때를 홈 화면에 추가</b>다음엔 검색 없이 한 번에 — 오프라인도 OK</div>
+  <button class="ghost" id="ibClose" type="button">나중에</button>
+  <button id="ibInstall" type="button">설치</button>
+</div>
+
+<footer class="site">
+  <div class="foot">
+    <span>© <span id="year"></span> 급할때.tools</span>
+    <a href="index.html">도구</a><a href="blog.html">블로그</a><a href="about.html">소개</a><a href="privacy.html">개인정보처리방침</a>
+    <span class="sp">모든 계산은 브라우저에서만 처리됩니다.</span>
+  </div>
+</footer>
+
+<script src="common.js"></script>
+<script>
+  QT.recordRecent({slug:"loan",name:"대출 이자 계산기",emoji:"🏦",url:"loan-calculator.html"});
+  const $=id=>document.getElementById(id);
+  function calc(animate){
+    const P=(parseFloat($("amount").value)||0)*10000;
+    const annual=parseFloat($("rate").value)||0;
+    const n=parseInt($("months").value)||0;
+    const r=annual/100/12;
+    const method=$("method").value;
+    $("periodHint").textContent = n>0 ? (n+"개월 = "+(Math.floor(n/12))+"년 "+(n%12)+"개월") : "기간을 입력하세요";
+    const ids=["pay","totalInt","totalPay"];
+    if(P<=0||n<=0){ ids.forEach(id=>$(id).textContent="—"); return; }
+    let payLabel="월 상환액", payText, totalInterest, firstPay, lastPay;
+    if(method==="amort"){
+      const pay = r===0 ? P/n : P*r/(1-Math.pow(1+r,-n));
+      const total=pay*n; totalInterest=total-P;
+      payText=QT.won(pay)+"원";
+    } else if(method==="equal"){
+      const principal=P/n;
+      firstPay=principal+P*r; lastPay=principal+principal*r;
+      totalInterest=P*r*(n+1)/2;
+      payLabel="첫 달 → 마지막 달";
+      payText=QT.won(firstPay)+" → "+QT.won(lastPay)+"원";
+    } else { // bullet
+      const monthlyInterest=P*r;
+      totalInterest=monthlyInterest*n;
+      payLabel="월 이자 (만기에 원금)";
+      payText=QT.won(monthlyInterest)+"원";
+    }
+    $("payK").textContent=payLabel;
+    $("pay").textContent=payText;
+    if(method==="equal") $("pay").style.fontSize="22px"; else $("pay").style.fontSize="30px";
+    $("totalInt").textContent=QT.won(totalInterest)+"원";
+    $("totalPay").textContent=QT.won(P+totalInterest)+"원";
+    if(animate)["totalInt","totalPay"].forEach(id=>QT.flash($(id)));
+  }
+  ["amount","rate","months","method"].forEach(id=>$(id).addEventListener("input",()=>calc(false)));
+  $("method").addEventListener("change",()=>calc(true));
+  $("copyBtn").addEventListener("click",()=>QT.copy(`대출 ${$("amount").value}만원·${$("rate").value}%·${$("months").value}개월 → ${$("payK").textContent}: ${$("pay").textContent}, 총이자 ${$("totalInt").textContent} (참고용)`,"결과를 복사했어요 ✓"));
+  calc(false);
+</script>
+</body>
+</html>
