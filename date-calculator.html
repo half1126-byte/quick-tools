@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>날짜 계산기 — 두 날짜 사이 일수·N일 후 날짜·디데이</title>
+<meta name="description" content="두 날짜 사이가 며칠인지, 특정 날짜에서 N일 후·전 날짜와 요일을 바로 계산. 디데이·기념일·만기일 계산에. 설치·가입 없이 브라우저에서, 무료." />
+<meta name="keywords" content="날짜 계산기, 날짜 사이 일수, 며칠 후 날짜, 디데이 계산, 날짜 더하기, 두 날짜 차이" />
+<meta property="og:title" content="날짜 계산기 — 날짜 사이·N일 후" />
+<meta property="og:description" content="두 날짜 사이 일수, N일 후·전 날짜와 요일을 바로. 무료." />
+<meta property="og:image" content="https://half1126-byte.github.io/quick-tools/icon-512.png" />
+<meta name="theme-color" content="#3b6ef5" />
+<link rel="icon" href="favicon.svg" type="image/svg+xml" />
+<link rel="apple-touch-icon" href="apple-touch-icon.png" />
+<link rel="manifest" href="manifest.json" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-title" content="급할때" />
+<script>(function(){try{var m=localStorage.getItem('qt-theme')||((window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches)?'dark':'light');document.documentElement.dataset.theme=m;}catch(e){}})();</script>
+<link rel="stylesheet" href="style.css" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"두 날짜 사이가 며칠인지 어떻게 계산하나요?","acceptedAnswer":{"@type":"Answer","text":"끝나는 날짜에서 시작 날짜를 뺀 일수로 계산합니다. ‘양 끝 포함’을 켜면 시작일과 종료일을 모두 포함해 하루를 더 세어, 행사 기간 같은 계산에 맞춥니다."}},
+{"@type":"Question","name":"디데이(D-day)도 계산되나요?","acceptedAnswer":{"@type":"Answer","text":"네. 오늘과 목표 날짜를 넣으면 날짜 사이 일수로 남은 날(D-day)을 알 수 있습니다."}},
+{"@type":"Question","name":"N일 후·전 날짜는 어떻게 구하나요?","acceptedAnswer":{"@type":"Answer","text":"‘날짜 더하기·빼기’에서 기준 날짜에 더하거나 뺄 일수를 넣으면 결과 날짜와 요일이 나옵니다. 만기일·예정일 계산에 편리합니다."}},
+{"@type":"Question","name":"윤년이나 월말도 정확한가요?","acceptedAnswer":{"@type":"Answer","text":"네. 실제 달력을 기준으로 윤년과 각 달의 일수를 정확히 반영해 계산합니다."}},
+{"@type":"Question","name":"입력한 날짜가 저장되나요?","acceptedAnswer":{"@type":"Answer","text":"아니요. 모든 계산은 브라우저 안에서만 이뤄지며 어떤 정보도 저장·전송되지 않습니다."}}
+]}
+</script>
+</head>
+<body>
+<header class="site">
+  <div class="nav">
+    <a class="brand" href="index.html"><span class="logo">⚡</span><b>급할때</b><span class="tld">.tools</span></a>
+    <div class="links">
+      <a href="index.html">도구</a><a href="blog.html">블로그</a><a href="age-calculator.html">만나이·디데이</a>
+    </div>
+    <div class="spacer"></div>
+    <button class="install-btn" id="installBtn" type="button">⬇️ 앱 설치</button>
+    <button class="icon-btn" id="themeToggle" type="button" aria-label="테마 전환">🌙</button>
+  </div>
+  <div class="trust">🔒 <b>브라우저에서만</b> 처리 · 가입 없음 · 무료</div>
+</header>
+
+<main>
+  <div class="hero">
+    <h1>📅 날짜 계산기</h1>
+    <p class="lead">두 날짜 <b>사이 일수</b>, 특정 날짜에서 <b>N일 후·전</b> 날짜와 요일을 바로 계산해요.</p>
+  </div>
+  <div class="howto"><span>1. 방식 선택</span><span>2. 날짜 입력</span><span>3. 즉시 계산</span></div>
+
+  <div class="ad-slot">광고 자리 (애드센스 승인 후 표시)</div>
+
+  <div class="card">
+    <div class="seg">
+      <button id="tabDiff" class="on" type="button">날짜 사이</button>
+      <button id="tabAdd" type="button">날짜 더하기·빼기</button>
+    </div>
+
+    <div id="paneDiff">
+      <div class="row">
+        <div><label for="d1">시작 날짜</label><input type="date" id="d1" /></div>
+        <div><label for="d2">종료 날짜</label><input type="date" id="d2" /></div>
+      </div>
+      <label style="display:flex;align-items:center;gap:8px;font-weight:400;margin-top:10px">
+        <input type="checkbox" id="incl" style="width:auto" /> 시작일과 종료일을 모두 포함 (양 끝 포함)
+      </label>
+      <div class="result" style="grid-template-columns:1fr;margin-top:14px"><div class="stat big"><div class="k" id="diffK">일수 차이</div><div class="v" id="diff">—</div></div></div>
+      <div class="hint" id="diffSub">—</div>
+    </div>
+
+    <div id="paneAdd" hidden>
+      <div class="row">
+        <div><label for="base">기준 날짜</label><input type="date" id="base" /></div>
+        <div><label for="op">계산</label><select id="op"><option value="1">후 (＋)</option><option value="-1">전 (－)</option></select></div>
+      </div>
+      <div class="row" style="max-width:240px"><div><label for="days">일수</label><input type="number" id="days" value="100" min="0" /></div></div>
+      <div class="result" style="grid-template-columns:1fr;margin-top:14px"><div class="stat big"><div class="k" id="addK">결과 날짜</div><div class="v" id="addRes">—</div></div></div>
+    </div>
+
+    <div class="row" style="margin-top:14px"><button id="copyBtn" type="button" style="flex:0 0 auto">📋 결과 복사</button></div>
+    <p class="disclaimer">🔒 모든 계산은 <b>브라우저 안에서만</b> 이뤄지며 저장·전송되지 않습니다.</p>
+  </div>
+
+  <div class="card cta-band">
+    <h2>이 도구가 유용했다면 ⚡</h2>
+    <div class="row" style="margin-bottom:12px">
+      <button id="bookmarkBtn" class="ghost" type="button" style="flex:0 0 auto">⭐ 즐겨찾기 추가</button>
+    </div>
+    <div class="related">
+      <a href="age-calculator.html"><span class="e">🎂</span><span><b>만 나이·디데이</b><br/><small style="color:var(--muted)">생일·남은 날</small></span></a>
+      <a href="timer.html"><span class="e">⏱️</span><span><b>타이머·스톱워치</b><br/><small style="color:var(--muted)">카운트다운</small></span></a>
+    </div>
+  </div>
+
+  <section class="faq">
+    <h2>자주 묻는 질문</h2>
+    <details><summary>두 날짜 사이가 며칠인지 어떻게 계산하나요?</summary><p>종료일에서 시작일을 뺀 일수예요. ‘양 끝 포함’을 켜면 시작·종료일을 모두 세어 하루를 더합니다(행사 기간 등).</p></details>
+    <details><summary>디데이(D-day)도 계산되나요?</summary><p>네. 오늘과 목표 날짜를 넣으면 남은 날을 알 수 있어요.</p></details>
+    <details><summary>N일 후·전 날짜는 어떻게 구하나요?</summary><p>‘날짜 더하기·빼기’에서 기준일에 더하거나 뺄 일수를 넣으면 결과 날짜와 요일이 나와요.</p></details>
+    <details><summary>윤년이나 월말도 정확한가요?</summary><p>네. 실제 달력 기준으로 윤년·각 달 일수를 정확히 반영해요.</p></details>
+    <details><summary>입력한 날짜가 저장되나요?</summary><p>아니요. 브라우저 안에서만 계산되고 저장·전송되지 않습니다.</p></details>
+  </section>
+
+  <div class="ad-slot">광고 자리 (애드센스 승인 후 표시)</div>
+</main>
+
+<div class="install-banner" id="installBanner">
+  <div class="ib-ic">⚡</div>
+  <div class="ib-t"><b>급할때를 홈 화면에 추가</b>다음엔 검색 없이 한 번에 — 오프라인도 OK</div>
+  <button class="ghost" id="ibClose" type="button">나중에</button>
+  <button id="ibInstall" type="button">설치</button>
+</div>
+
+<footer class="site">
+  <div class="foot">
+    <span>© <span id="year"></span> 급할때.tools</span>
+    <a href="index.html">도구</a><a href="blog.html">블로그</a><a href="about.html">소개</a><a href="privacy.html">개인정보처리방침</a>
+    <span class="sp">모든 계산은 브라우저에서만 처리됩니다.</span>
+  </div>
+</footer>
+
+<script src="common.js"></script>
+<script>
+  QT.recordRecent({slug:"date",name:"날짜 계산기",emoji:"📅",url:"date-calculator.html"});
+  const $=id=>document.getElementById(id);
+  const WD=["일","월","화","수","목","금","토"];
+  function todayStr(){ const d=new Date(); return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"); }
+  function toUTC(s){ if(!s) return null; const [y,m,d]=s.split("-").map(Number); return Date.UTC(y,m-1,d); }
+  function fmt(ms){ const d=new Date(ms); return d.getUTCFullYear()+"-"+String(d.getUTCMonth()+1).padStart(2,"0")+"-"+String(d.getUTCDate()).padStart(2,"0")+" ("+WD[d.getUTCDay()]+")"; }
+
+  $("d1").value=todayStr(); $("d2").value=todayStr(); $("base").value=todayStr();
+
+  const tabDiff=$("tabDiff"), tabAdd=$("tabAdd"), paneDiff=$("paneDiff"), paneAdd=$("paneAdd");
+  tabDiff.addEventListener("click",()=>{ tabDiff.classList.add("on"); tabAdd.classList.remove("on"); paneDiff.hidden=false; paneAdd.hidden=true; });
+  tabAdd.addEventListener("click",()=>{ tabAdd.classList.add("on"); tabDiff.classList.remove("on"); paneAdd.hidden=false; paneDiff.hidden=true; });
+
+  function calcDiff(){
+    const a=toUTC($("d1").value), b=toUTC($("d2").value);
+    if(a==null||b==null){ $("diff").textContent="—"; $("diffSub").textContent="—"; return; }
+    let days=Math.round((b-a)/86400000);
+    let sign=days<0?"-":""; let abs=Math.abs(days);
+    if($("incl").checked) abs+=1;
+    $("diffK").textContent = days<0 ? "일수 차이 (종료일이 더 빠름)" : "일수 차이";
+    $("diff").textContent = abs.toLocaleString("ko-KR")+"일";
+    const w=Math.floor(abs/7), rem=abs%7;
+    $("diffSub").textContent = "약 "+w+"주 "+rem+"일 · "+(abs/30.44).toFixed(1)+"개월 · "+(abs/365.25).toFixed(2)+"년";
+  }
+  function calcAdd(){
+    const base=toUTC($("base").value); if(base==null){ $("addRes").textContent="—"; return; }
+    const sign=parseInt($("op").value,10), n=parseInt($("days").value)||0;
+    const res=base+sign*n*86400000;
+    $("addK").textContent=(sign>0?n+"일 후":n+"일 전")+" 날짜";
+    $("addRes").textContent=fmt(res);
+  }
+  ["d1","d2","incl"].forEach(id=>$(id).addEventListener("input",calcDiff));
+  ["base","op","days"].forEach(id=>$(id).addEventListener("input",calcAdd));
+  $("op").addEventListener("change",calcAdd);
+  $("copyBtn").addEventListener("click",()=>{
+    const txt = paneDiff.hidden ? ($("addK").textContent+": "+$("addRes").textContent) : ($("d1").value+" ~ "+$("d2").value+" = "+$("diff").textContent);
+    QT.copy(txt,"결과를 복사했어요 ✓");
+  });
+  calcDiff(); calcAdd();
+</script>
+</body>
+</html>

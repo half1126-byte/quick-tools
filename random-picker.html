@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>랜덤 뽑기 — 추첨·팀 나누기·순서 섞기 (무료 랜덤 추첨기)</title>
+<meta name="description" content="이름·항목을 넣고 랜덤으로 한 명/여러 명 추첨, 팀 나누기, 순서 섞기를 한 번에. 암호학적 난수로 공정하게. 설치·가입 없이 브라우저에서, 무료." />
+<meta name="keywords" content="랜덤 뽑기, 랜덤 추첨기, 팀 나누기, 순서 섞기, 사다리타기 대체, 제비뽑기, 랜덤 선택" />
+<meta property="og:title" content="랜덤 뽑기 — 추첨·팀 나누기·순서 섞기" />
+<meta property="og:description" content="이름 넣고 랜덤 추첨·팀 나누기·순서 섞기. 공정한 난수, 무료." />
+<meta property="og:image" content="https://half1126-byte.github.io/quick-tools/icon-512.png" />
+<meta name="theme-color" content="#3b6ef5" />
+<link rel="icon" href="favicon.svg" type="image/svg+xml" />
+<link rel="apple-touch-icon" href="apple-touch-icon.png" />
+<link rel="manifest" href="manifest.json" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-title" content="급할때" />
+<script>(function(){try{var m=localStorage.getItem('qt-theme')||((window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches)?'dark':'light');document.documentElement.dataset.theme=m;}catch(e){}})();</script>
+<link rel="stylesheet" href="style.css" />
+<style>
+  .winner{font-size:30px;font-weight:800;text-align:center;color:var(--ok);margin:6px 0;letter-spacing:-.5px;word-break:break-all}
+  .reslist{margin-top:6px}
+  .reslist .ln{padding:9px 12px;border:1px solid var(--line);border-radius:var(--radius-sm);background:var(--bg2);margin-bottom:8px;font-size:15px}
+  .reslist .team{font-weight:800;margin:14px 0 6px;font-size:15px}
+  .reslist .team:first-child{margin-top:0}
+</style>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"추첨이 공정한가요?","acceptedAnswer":{"@type":"Answer","text":"네. 브라우저의 암호학적 난수(crypto.getRandomValues)와 피셔–예이츠 셔플을 사용해 치우침 없이 공정하게 뽑습니다."}},
+{"@type":"Question","name":"이름은 어떻게 넣나요?","acceptedAnswer":{"@type":"Answer","text":"한 줄에 하나씩, 또는 쉼표로 구분해 입력하면 됩니다. 빈 줄은 무시됩니다."}},
+{"@type":"Question","name":"팀 나누기는 어떻게 동작하나요?","acceptedAnswer":{"@type":"Answer","text":"전체를 무작위로 섞은 뒤 팀 수에 맞춰 최대한 고르게 나눕니다. 인원이 딱 나뉘지 않으면 앞 팀부터 한 명씩 더 들어갑니다."}},
+{"@type":"Question","name":"같은 사람이 또 뽑히나요?","acceptedAnswer":{"@type":"Answer","text":"여러 명을 뽑을 때는 중복 없이 서로 다른 사람이 뽑힙니다. 한 명 뽑기는 매번 새로 무작위로 선택합니다."}},
+{"@type":"Question","name":"입력한 명단이 저장되나요?","acceptedAnswer":{"@type":"Answer","text":"아니요. 모든 처리는 브라우저 안에서만 이뤄지며 명단은 저장·전송되지 않습니다."}}
+]}
+</script>
+</head>
+<body>
+<header class="site">
+  <div class="nav">
+    <a class="brand" href="index.html"><span class="logo">⚡</span><b>급할때</b><span class="tld">.tools</span></a>
+    <div class="links">
+      <a href="index.html">도구</a><a href="blog.html">블로그</a><a href="lotto-generator.html">로또</a>
+    </div>
+    <div class="spacer"></div>
+    <button class="install-btn" id="installBtn" type="button">⬇️ 앱 설치</button>
+    <button class="icon-btn" id="themeToggle" type="button" aria-label="테마 전환">🌙</button>
+  </div>
+  <div class="trust">🔒 <b>브라우저에서만</b> 처리 · 가입 없음 · 무료</div>
+</header>
+
+<main>
+  <div class="hero">
+    <h1>🎲 랜덤 뽑기</h1>
+    <p class="lead">이름을 넣고 <b>추첨·팀 나누기·순서 섞기</b>를 한 번에. 공정한 난수로.</p>
+  </div>
+  <div class="howto"><span>1. 명단 입력</span><span>2. 방식 선택</span><span>3. 뽑기</span></div>
+
+  <div class="ad-slot">광고 자리 (애드센스 승인 후 표시)</div>
+
+  <div class="card">
+    <label for="names">명단 (한 줄에 하나, 또는 쉼표로 구분)</label>
+    <textarea id="names" placeholder="김철수&#10;이영희&#10;박민수&#10;정수진&#10;..."></textarea>
+    <div class="hint" id="cnt">0명</div>
+
+    <div class="seg" style="margin-top:12px">
+      <button class="on" data-mode="one" type="button">한 명</button>
+      <button data-mode="multi" type="button">여러 명</button>
+      <button data-mode="team" type="button">팀 나누기</button>
+      <button data-mode="shuffle" type="button">순서 섞기</button>
+    </div>
+    <div class="row" id="numRow" style="display:none;max-width:240px">
+      <div><label for="num" id="numLabel">뽑을 인원</label><input type="number" id="num" value="2" min="1" /></div>
+    </div>
+
+    <div class="row" style="margin-top:6px">
+      <button id="go" type="button" style="flex:0 0 auto">🎲 뽑기</button>
+      <button id="copyBtn" class="ghost" type="button" style="flex:0 0 auto">📋 결과 복사</button>
+    </div>
+
+    <div id="result" style="margin-top:16px"></div>
+    <p class="disclaimer">🔒 명단과 결과는 <b>브라우저 안에서만</b> 처리되며 저장·전송되지 않습니다.</p>
+  </div>
+
+  <div class="card cta-band">
+    <h2>이 도구가 유용했다면 ⚡</h2>
+    <div class="row" style="margin-bottom:12px">
+      <button id="bookmarkBtn" class="ghost" type="button" style="flex:0 0 auto">⭐ 즐겨찾기 추가</button>
+    </div>
+    <div class="related">
+      <a href="lotto-generator.html"><span class="e">🎰</span><span><b>로또 번호 생성기</b><br/><small style="color:var(--muted)">랜덤 6개</small></span></a>
+      <a href="dutchpay-calculator.html"><span class="e">🍽️</span><span><b>더치페이 계산기</b><br/><small style="color:var(--muted)">N빵 정산</small></span></a>
+    </div>
+  </div>
+
+  <section class="faq">
+    <h2>자주 묻는 질문</h2>
+    <details><summary>추첨이 공정한가요?</summary><p>네. 암호학적 난수(crypto.getRandomValues)와 피셔–예이츠 셔플로 치우침 없이 뽑아요.</p></details>
+    <details><summary>이름은 어떻게 넣나요?</summary><p>한 줄에 하나씩, 또는 쉼표로 구분해 입력하면 돼요. 빈 줄은 무시됩니다.</p></details>
+    <details><summary>팀 나누기는 어떻게 동작하나요?</summary><p>전체를 무작위로 섞은 뒤 팀 수에 맞춰 고르게 나눠요. 딱 안 나뉘면 앞 팀부터 한 명씩 더 들어갑니다.</p></details>
+    <details><summary>같은 사람이 또 뽑히나요?</summary><p>여러 명 뽑기는 중복 없이 뽑아요. 한 명 뽑기는 매번 새로 무작위 선택합니다.</p></details>
+    <details><summary>입력한 명단이 저장되나요?</summary><p>아니요. 브라우저 안에서만 처리되고 저장·전송되지 않습니다.</p></details>
+  </section>
+
+  <div class="ad-slot">광고 자리 (애드센스 승인 후 표시)</div>
+</main>
+
+<div class="install-banner" id="installBanner">
+  <div class="ib-ic">⚡</div>
+  <div class="ib-t"><b>급할때를 홈 화면에 추가</b>다음엔 검색 없이 한 번에 — 오프라인도 OK</div>
+  <button class="ghost" id="ibClose" type="button">나중에</button>
+  <button id="ibInstall" type="button">설치</button>
+</div>
+
+<footer class="site">
+  <div class="foot">
+    <span>© <span id="year"></span> 급할때.tools</span>
+    <a href="index.html">도구</a><a href="blog.html">블로그</a><a href="about.html">소개</a><a href="privacy.html">개인정보처리방침</a>
+    <span class="sp">모든 처리는 브라우저에서만 이뤄집니다.</span>
+  </div>
+</footer>
+
+<script src="common.js"></script>
+<script>
+  QT.recordRecent({slug:"random",name:"랜덤 뽑기",emoji:"🎲",url:"random-picker.html"});
+  const $=id=>document.getElementById(id);
+  let mode="one";
+  function rnd(n){ const a=new Uint32Array(1); crypto.getRandomValues(a); return a[0]%n; }
+  function shuffle(arr){ const a=arr.slice(); for(let i=a.length-1;i>0;i--){ const j=rnd(i+1); const t=a[i];a[i]=a[j];a[j]=t; } return a; }
+  function parse(){
+    return $("names").value.split(/[\n,]/).map(s=>s.trim()).filter(Boolean);
+  }
+  function updateCnt(){ $("cnt").textContent=parse().length+"명"; }
+  $("names").addEventListener("input",updateCnt);
+
+  document.querySelectorAll(".seg button").forEach(b=>b.addEventListener("click",()=>{
+    document.querySelectorAll(".seg button").forEach(x=>x.classList.remove("on"));
+    b.classList.add("on"); mode=b.dataset.mode;
+    const needNum=mode==="multi"||mode==="team";
+    $("numRow").style.display=needNum?"flex":"none";
+    $("numLabel").textContent=mode==="team"?"팀 수":"뽑을 인원";
+  }));
+
+  let lastText="";
+  function go(){
+    const list=parse();
+    if(list.length<1){ QT.toast("명단을 입력하세요"); return; }
+    const res=$("result"); let html="", copyText="";
+    if(mode==="one"){
+      const w=list[rnd(list.length)];
+      html='<div class="winner">🎉 '+esc(w)+'</div>'; copyText=w;
+      res.innerHTML=html; const el=res.querySelector(".winner"); QT.flash&&QT.flash(el);
+      lastText=copyText; return;
+    }
+    if(mode==="shuffle"){
+      const s=shuffle(list);
+      html='<div class="reslist">'+s.map((n,i)=>'<div class="ln">'+(i+1)+'. '+esc(n)+'</div>').join("")+'</div>';
+      copyText=s.map((n,i)=>(i+1)+". "+n).join("\n");
+    } else if(mode==="multi"){
+      let k=Math.min(Math.max(parseInt($("num").value)||1,1),list.length);
+      const s=shuffle(list).slice(0,k);
+      html='<div class="reslist">'+s.map((n,i)=>'<div class="ln">'+(i+1)+'. '+esc(n)+'</div>').join("")+'</div>';
+      copyText="당첨: "+s.join(", ");
+    } else { // team
+      let t=Math.min(Math.max(parseInt($("num").value)||2,1),list.length);
+      const s=shuffle(list), teams=Array.from({length:t},()=>[]);
+      s.forEach((n,i)=>teams[i%t].push(n));
+      html='<div class="reslist">'+teams.map((tm,i)=>'<div class="team">'+(i+1)+'팀 ('+tm.length+'명)</div>'+tm.map(n=>'<div class="ln">'+esc(n)+'</div>').join("")).join("")+'</div>';
+      copyText=teams.map((tm,i)=>(i+1)+"팀: "+tm.join(", ")).join("\n");
+    }
+    res.innerHTML=html; lastText=copyText;
+  }
+  function esc(s){ return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
+  $("go").addEventListener("click",go);
+  $("copyBtn").addEventListener("click",()=>{ if(lastText) QT.copy(lastText,"결과를 복사했어요 ✓"); else QT.toast("먼저 뽑아주세요"); });
+  updateCnt();
+</script>
+</body>
+</html>

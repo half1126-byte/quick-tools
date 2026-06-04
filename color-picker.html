@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>색상 변환·추출 — HEX·RGB·HSL 변환, 이미지 색 추출 무료</title>
+<meta name="description" content="HEX·RGB·HSL 색상 코드를 서로 변환하고, 사진에서 원하는 색을 클릭해 추출하세요. 설치·가입 없이 브라우저에서, 무료. 디자인·CSS 작업에 딱." />
+<meta name="keywords" content="색상 변환, HEX RGB 변환, 색상 추출, 이미지 색 추출, 컬러 픽커, hex to rgb, 색상 코드" />
+<meta property="og:title" content="색상 변환·추출 — HEX·RGB·HSL" />
+<meta property="og:description" content="HEX·RGB·HSL 변환 + 이미지에서 색 추출. 브라우저에서, 무료." />
+<meta property="og:image" content="https://half1126-byte.github.io/quick-tools/icon-512.png" />
+<meta name="theme-color" content="#3b6ef5" />
+<link rel="icon" href="favicon.svg" type="image/svg+xml" />
+<link rel="apple-touch-icon" href="apple-touch-icon.png" />
+<link rel="manifest" href="manifest.json" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-title" content="급할때" />
+<script>(function(){try{var m=localStorage.getItem('qt-theme')||((window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches)?'dark':'light');document.documentElement.dataset.theme=m;}catch(e){}})();</script>
+<link rel="stylesheet" href="style.css" />
+<style>
+  .cprev{height:90px;border-radius:var(--radius-sm);border:1px solid var(--line);margin-bottom:14px}
+  .cfield{display:flex;gap:8px;align-items:center;margin-bottom:10px}
+  .cfield label{width:46px;margin:0;flex:0 0 auto}
+  .cfield input{flex:1}
+  .cfield button{flex:0 0 auto;padding:11px 12px;font-size:13px}
+  .pickwrap{margin-top:10px;border:1px solid var(--line);border-radius:12px;overflow:hidden;display:none}
+  .pickwrap canvas{max-width:100%;display:block;cursor:crosshair}
+</style>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"HEX·RGB·HSL은 무엇인가요?","acceptedAnswer":{"@type":"Answer","text":"색을 표현하는 방식입니다. HEX는 #RRGGBB 형태의 16진수, RGB는 빨강·초록·파랑 값(0~255), HSL은 색상(Hue)·채도(Saturation)·명도(Lightness)로 나타냅니다. 이 도구는 셋을 서로 변환합니다."}},
+{"@type":"Question","name":"이미지에서 색을 뽑을 수 있나요?","acceptedAnswer":{"@type":"Answer","text":"네. 사진을 올리고 원하는 지점을 클릭하면 그 픽셀의 색이 HEX·RGB·HSL로 표시됩니다."}},
+{"@type":"Question","name":"사진이 서버로 업로드되나요?","acceptedAnswer":{"@type":"Answer","text":"아니요. 색 추출은 여러분의 브라우저 안에서만 이뤄지며 사진은 어디에도 전송·저장되지 않습니다."}},
+{"@type":"Question","name":"디자인 작업에 어떻게 쓰나요?","acceptedAnswer":{"@type":"Answer","text":"변환한 HEX·RGB·HSL 코드를 복사해 CSS나 디자인 툴에 그대로 붙여넣어 사용할 수 있습니다."}},
+{"@type":"Question","name":"입력한 색이 저장되나요?","acceptedAnswer":{"@type":"Answer","text":"아니요. 모든 처리는 브라우저 안에서만 이뤄지며 저장·전송되지 않습니다."}}
+]}
+</script>
+</head>
+<body>
+<header class="site">
+  <div class="nav">
+    <a class="brand" href="index.html"><span class="logo">⚡</span><b>급할때</b><span class="tld">.tools</span></a>
+    <div class="links">
+      <a href="index.html">도구</a><a href="blog.html">블로그</a><a href="image-tool.html">이미지</a>
+    </div>
+    <div class="spacer"></div>
+    <button class="install-btn" id="installBtn" type="button">⬇️ 앱 설치</button>
+    <button class="icon-btn" id="themeToggle" type="button" aria-label="테마 전환">🌙</button>
+  </div>
+  <div class="trust">🔒 <b>브라우저에서만</b> 처리 · 가입 없음 · 무료</div>
+</header>
+
+<main>
+  <div class="hero">
+    <h1>🎨 색상 변환 · 추출</h1>
+    <p class="lead"><b>HEX·RGB·HSL</b>을 서로 변환하고, 사진에서 원하는 <b>색을 클릭</b>해 뽑아요.</p>
+  </div>
+  <div class="howto"><span>1. 색 입력·선택</span><span>2. 형식 변환</span><span>3. 코드 복사</span></div>
+
+  <div class="ad-slot">광고 자리 (애드센스 승인 후 표시)</div>
+
+  <div class="card">
+    <div class="cprev" id="prev"></div>
+    <div class="cfield">
+      <label for="pick">선택</label>
+      <input type="color" id="pick" value="#3b6ef5" style="height:48px;padding:4px;flex:0 0 80px" />
+      <input type="text" id="hex" value="#3B6EF5" />
+      <button id="cHex" class="ghost" type="button">복사</button>
+    </div>
+    <div class="cfield">
+      <label>RGB</label>
+      <input type="number" id="r" min="0" max="255" value="59" /><input type="number" id="g" min="0" max="255" value="110" /><input type="number" id="b" min="0" max="255" value="245" />
+      <button id="cRgb" class="ghost" type="button">복사</button>
+    </div>
+    <div class="cfield">
+      <label>HSL</label>
+      <input type="number" id="h" min="0" max="360" value="220" /><input type="number" id="s" min="0" max="100" value="90" /><input type="number" id="l" min="0" max="100" value="60" />
+      <button id="cHsl" class="ghost" type="button">복사</button>
+    </div>
+
+    <div style="margin-top:16px">
+      <button id="loadImg" class="ghost" type="button" style="flex:0 0 auto">🖼️ 이미지에서 색 추출</button>
+      <input type="file" id="file" accept="image/*" hidden />
+      <div class="pickwrap" id="pickwrap"><canvas id="canvas"></canvas></div>
+      <div class="hint" id="pickHint" style="display:none">사진에서 원하는 색을 클릭하세요.</div>
+    </div>
+    <p class="disclaimer">🔒 색 추출은 <b>브라우저 안에서만</b> 이뤄지며 사진은 저장·전송되지 않습니다.</p>
+  </div>
+
+  <div class="card cta-band">
+    <h2>이 도구가 유용했다면 ⚡</h2>
+    <div class="row" style="margin-bottom:12px">
+      <button id="bookmarkBtn" class="ghost" type="button" style="flex:0 0 auto">⭐ 즐겨찾기 추가</button>
+    </div>
+    <div class="related">
+      <a href="image-tool.html"><span class="e">🖼️</span><span><b>이미지 도구</b><br/><small style="color:var(--muted)">압축·리사이즈·변환</small></span></a>
+      <a href="qr-generator.html"><span class="e">🔳</span><span><b>QR 코드 생성기</b><br/><small style="color:var(--muted)">색상 지정 QR</small></span></a>
+    </div>
+  </div>
+
+  <section class="faq">
+    <h2>자주 묻는 질문</h2>
+    <details><summary>HEX·RGB·HSL은 무엇인가요?</summary><p>색 표현 방식이에요. HEX는 #RRGGBB 16진수, RGB는 빨강·초록·파랑(0~255), HSL은 색상·채도·명도. 이 도구가 셋을 서로 변환해요.</p></details>
+    <details><summary>이미지에서 색을 뽑을 수 있나요?</summary><p>네. 사진을 올리고 원하는 지점을 클릭하면 그 픽셀 색이 HEX·RGB·HSL로 표시돼요.</p></details>
+    <details><summary>사진이 서버로 업로드되나요?</summary><p>아니요. 브라우저 안에서만 처리되고 사진은 저장·전송되지 않아요.</p></details>
+    <details><summary>디자인 작업에 어떻게 쓰나요?</summary><p>변환한 코드를 복사해 CSS·디자인 툴에 그대로 붙여넣어 쓰면 돼요.</p></details>
+    <details><summary>입력한 색이 저장되나요?</summary><p>아니요. 브라우저 안에서만 처리되고 저장·전송되지 않습니다.</p></details>
+  </section>
+
+  <div class="ad-slot">광고 자리 (애드센스 승인 후 표시)</div>
+</main>
+
+<div class="install-banner" id="installBanner">
+  <div class="ib-ic">⚡</div>
+  <div class="ib-t"><b>급할때를 홈 화면에 추가</b>다음엔 검색 없이 한 번에 — 오프라인도 OK</div>
+  <button class="ghost" id="ibClose" type="button">나중에</button>
+  <button id="ibInstall" type="button">설치</button>
+</div>
+
+<footer class="site">
+  <div class="foot">
+    <span>© <span id="year"></span> 급할때.tools</span>
+    <a href="index.html">도구</a><a href="blog.html">블로그</a><a href="about.html">소개</a><a href="privacy.html">개인정보처리방침</a>
+    <span class="sp">모든 처리는 브라우저에서만 이뤄집니다.</span>
+  </div>
+</footer>
+
+<script src="common.js"></script>
+<script>
+  QT.recordRecent({slug:"color",name:"색상 변환·추출",emoji:"🎨",url:"color-picker.html"});
+  const $=id=>document.getElementById(id);
+  const clamp=(v,mx)=>Math.max(0,Math.min(mx,v|0));
+
+  function rgbToHex(r,g,b){ return "#"+[r,g,b].map(x=>clamp(x,255).toString(16).padStart(2,"0")).join("").toUpperCase(); }
+  function hexToRgb(hex){ hex=hex.replace("#","").trim(); if(hex.length===3) hex=hex.split("").map(c=>c+c).join(""); if(!/^[0-9a-fA-F]{6}$/.test(hex)) return null; return [parseInt(hex.slice(0,2),16),parseInt(hex.slice(2,4),16),parseInt(hex.slice(4,6),16)]; }
+  function rgbToHsl(r,g,b){ r/=255;g/=255;b/=255; const mx=Math.max(r,g,b),mn=Math.min(r,g,b); let h,s,l=(mx+mn)/2;
+    if(mx===mn){h=s=0;} else { const d=mx-mn; s=l>0.5?d/(2-mx-mn):d/(mx+mn);
+      if(mx===r)h=(g-b)/d+(g<b?6:0); else if(mx===g)h=(b-r)/d+2; else h=(r-g)/d+4; h/=6; }
+    return [Math.round(h*360),Math.round(s*100),Math.round(l*100)]; }
+  function hslToRgb(h,s,l){ h/=360;s/=100;l/=100; let r,g,b;
+    if(s===0){r=g=b=l;} else { const f=(p,q,t)=>{ if(t<0)t+=1; if(t>1)t-=1; if(t<1/6)return p+(q-p)*6*t; if(t<1/2)return q; if(t<2/3)return p+(q-p)*(2/3-t)*6; return p; };
+      const q=l<0.5?l*(1+s):l+s-l*s, p=2*l-q; r=f(p,q,h+1/3); g=f(p,q,h); b=f(p,q,h-1/3); }
+    return [Math.round(r*255),Math.round(g*255),Math.round(b*255)]; }
+
+  function setColor(r,g,b){
+    r=clamp(r,255); g=clamp(g,255); b=clamp(b,255);
+    const hex=rgbToHex(r,g,b), [h,s,l]=rgbToHsl(r,g,b);
+    $("hex").value=hex; $("pick").value=hex.toLowerCase();
+    $("r").value=r; $("g").value=g; $("b").value=b;
+    $("h").value=h; $("s").value=s; $("l").value=l;
+    $("prev").style.background="rgb("+r+","+g+","+b+")";
+  }
+  function fromHex(){ const rgb=hexToRgb($("hex").value); if(rgb) setColor(...rgb); }
+  function fromRgb(){ setColor(+$("r").value||0,+$("g").value||0,+$("b").value||0); }
+  function fromHsl(){ setColor(...hslToRgb(clamp(+$("h").value,360),clamp(+$("s").value,100),clamp(+$("l").value,100))); }
+
+  $("hex").addEventListener("input",fromHex);
+  $("pick").addEventListener("input",()=>{ const rgb=hexToRgb($("pick").value); if(rgb) setColor(...rgb); });
+  ["r","g","b"].forEach(id=>$(id).addEventListener("input",fromRgb));
+  ["h","s","l"].forEach(id=>$(id).addEventListener("input",fromHsl));
+
+  $("cHex").addEventListener("click",()=>QT.copy($("hex").value,"HEX 복사 ✓"));
+  $("cRgb").addEventListener("click",()=>QT.copy("rgb("+$("r").value+", "+$("g").value+", "+$("b").value+")","RGB 복사 ✓"));
+  $("cHsl").addEventListener("click",()=>QT.copy("hsl("+$("h").value+", "+$("s").value+"%, "+$("l").value+"%)","HSL 복사 ✓"));
+
+  /* 이미지에서 색 추출 */
+  const fileInput=$("file"), canvas=$("canvas"), ctx=canvas.getContext("2d");
+  $("loadImg").addEventListener("click",()=>fileInput.click());
+  fileInput.addEventListener("change",()=>{ const f=fileInput.files[0]; if(f) loadImg(f); fileInput.value=""; });
+  function loadImg(file){
+    if(file.type.indexOf("image/")!==0){ QT.toast("이미지만 가능해요"); return; }
+    const img=new Image();
+    img.onload=()=>{
+      let w=img.naturalWidth,h=img.naturalHeight; const MAX=900; if(Math.max(w,h)>MAX){ const s=MAX/Math.max(w,h); w=Math.round(w*s); h=Math.round(h*s); }
+      canvas.width=w; canvas.height=h; ctx.drawImage(img,0,0,w,h); URL.revokeObjectURL(img.src);
+      $("pickwrap").style.display="block"; $("pickHint").style.display="block";
+    };
+    img.onerror=()=>QT.toast("이미지를 읽을 수 없어요"); img.src=URL.createObjectURL(file);
+  }
+  canvas.addEventListener("click",e=>{
+    const rect=canvas.getBoundingClientRect();
+    const x=Math.round((e.clientX-rect.left)/rect.width*canvas.width), y=Math.round((e.clientY-rect.top)/rect.height*canvas.height);
+    const d=ctx.getImageData(Math.min(canvas.width-1,Math.max(0,x)),Math.min(canvas.height-1,Math.max(0,y)),1,1).data;
+    setColor(d[0],d[1],d[2]);
+  });
+
+  fromHex();
+</script>
+</body>
+</html>
