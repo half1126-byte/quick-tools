@@ -213,6 +213,24 @@ button.ghost:hover{filter:none;background:color-mix(in srgb,var(--chip) 70%, var
 .range-row input[type=range]{flex:1;accent-color:var(--brand)}
 .range-val{font-weight:800;min-width:52px;text-align:right}
 
+/* 빠른 설정 프리셋 (이미지 도구) */
+.presets{display:flex;gap:8px;flex-wrap:wrap;margin:2px 0 4px}
+.presets button{background:var(--chip);color:var(--chip-ink);border:1px solid transparent;border-radius:20px;
+  padding:10px 14px;font-size:13.5px;font-weight:700;cursor:pointer}
+.presets button:hover{filter:none;background:color-mix(in srgb,var(--chip) 70%, var(--brand) 14%)}
+.presets button.on{background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff}
+.presets button small{font-weight:500;opacity:.85;margin-left:5px}
+/* 절약 요약 바 */
+.savings{display:none;margin-top:12px;background:var(--ok-bg);border:1px solid var(--ok-line);
+  border-radius:var(--radius-sm);padding:11px 13px;font-size:14px;color:var(--ink)}
+.savings.show{display:block}
+/* 전체화면 드롭 오버레이 */
+.dropmask{position:fixed;inset:0;z-index:60;display:none;align-items:center;justify-content:center;pointer-events:none;
+  background:color-mix(in srgb,var(--brand) 20%, transparent);backdrop-filter:blur(2px)}
+.dropmask.show{display:flex}
+.dropmask .box{background:var(--card);border:2.5px dashed var(--brand);border-radius:16px;
+  padding:28px 40px;font-weight:800;font-size:18px;color:var(--ink);box-shadow:var(--shadow)}
+
 /* 진행 표시 */
 .busy{display:none;align-items:center;gap:10px;margin-top:14px;color:var(--muted);font-size:14px}
 .busy.show{display:flex}

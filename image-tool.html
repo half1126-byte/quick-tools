@@ -4,10 +4,11 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>이미지 압축·리사이즈·형식 변환 — JPG·PNG·WebP 무료 변환</title>
-<meta name="description" content="사진 용량을 줄이고 크기를 바꾸고 JPG·PNG·WebP로 변환하세요. 업로드 없이 브라우저(기기) 안에서만 Canvas로 처리, 무료. 여러 장을 한꺼번에 변환·다운로드." />
+<meta name="description" content="사진 용량을 줄이고 크기를 바꾸고 JPG·PNG·WebP로 변환하세요. 용도만 고르면 끝. 업로드 없이 브라우저(기기) 안에서만 처리, 무료. 여러 장을 한꺼번에 변환·다운로드." />
 <meta name="keywords" content="이미지 압축, 사진 용량 줄이기, 이미지 리사이즈, webp 변환, jpg png 변환, 온라인 이미지 변환, 사진 크기 조절" />
 <meta property="og:title" content="이미지 압축·리사이즈·형식 변환" />
-<meta property="og:description" content="사진 용량 줄이기·크기 조절·JPG/PNG/WebP 변환. 브라우저에서만 처리, 무료." />
+<meta property="og:description" content="용도만 고르면 사진 용량 줄이기·크기 조절·JPG/PNG/WebP 변환. 브라우저에서만 처리, 무료." />
+<meta property="og:image" content="https://half1126-byte.github.io/quick-tools/icon-512.png" />
 <meta name="theme-color" content="#3b6ef5" />
 <link rel="icon" href="favicon.svg" type="image/svg+xml" />
 <link rel="apple-touch-icon" href="apple-touch-icon.png" />
@@ -20,8 +21,8 @@
 {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
 {"@type":"Question","name":"사진이 서버로 업로드되나요?","acceptedAnswer":{"@type":"Answer","text":"아니요. 선택한 이미지는 어디에도 전송되지 않고 여러분의 브라우저(기기) 안에서 Canvas로만 변환됩니다. 새로고침하면 사라집니다."}},
 {"@type":"Question","name":"어떤 형식으로 바꿀 수 있나요?","acceptedAnswer":{"@type":"Answer","text":"JPG, PNG, WebP로 변환할 수 있습니다. WebP는 같은 화질에서 용량이 가장 작고, PNG는 무손실이라 투명 배경을 유지합니다."}},
-{"@type":"Question","name":"품질(%) 슬라이더는 무엇인가요?","acceptedAnswer":{"@type":"Answer","text":"JPG와 WebP의 압축 강도입니다. 값을 낮출수록 용량이 줄지만 화질이 떨어집니다. PNG는 무손실 형식이라 품질 값이 적용되지 않습니다."}},
-{"@type":"Question","name":"여러 장을 한 번에 변환할 수 있나요?","acceptedAnswer":{"@type":"Answer","text":"네. 여러 파일을 한꺼번에 선택하거나 끌어다 놓으면 각각 변환되고, 하나씩 또는 모두 한 번에 내려받을 수 있습니다."}},
+{"@type":"Question","name":"용도 버튼(빠른 설정)은 어떻게 동작하나요?","acceptedAnswer":{"@type":"Answer","text":"SNS·카톡, 메일 첨부, 웹·블로그, 압축만 같은 용도를 누르면 가로 크기·품질·형식이 자동으로 맞춰집니다. 세부 조정에서 직접 바꿀 수도 있습니다."}},
+{"@type":"Question","name":"여러 장을 한 번에 변환할 수 있나요?","acceptedAnswer":{"@type":"Answer","text":"네. 여러 파일을 한꺼번에 선택하거나 끌어다 놓거나 붙여넣으면 각각 변환되고, 하나씩 또는 모두 한 번에 내려받을 수 있습니다."}},
 {"@type":"Question","name":"가로 px 리사이즈는 어떻게 동작하나요?","acceptedAnswer":{"@type":"Answer","text":"입력한 가로 픽셀에 맞춰 이미지를 줄이고 세로는 비율에 맞게 자동 조정합니다. 원본보다 크게 늘리지는 않으며, 비워 두면 원본 크기를 유지합니다."}}
 ]}
 </script>
@@ -43,43 +44,48 @@
 <main>
   <div class="hero">
     <h1>🖼️ 이미지 압축 · 리사이즈 · 형식 변환</h1>
-    <p class="lead">사진 용량을 줄이고 크기를 바꾸고 <b>JPG·PNG·WebP</b>로 변환해요. 전부 브라우저 안에서, 무료로.</p>
+    <p class="lead">사진을 끌어다 놓고 <b>용도만 고르면</b> 끝. 용량 줄이고 크기 바꾸고 <b>JPG·PNG·WebP</b>로 변환해요.</p>
   </div>
-  <div class="howto"><span>1. 이미지 선택</span><span>2. 형식·품질 설정</span><span>3. 변환·다운로드</span></div>
+  <div class="howto"><span>1. 사진 끌어다 놓기·붙여넣기</span><span>2. 용도 선택</span><span>3. 다운로드</span></div>
 
   <div class="ad-slot">광고 자리 (애드센스 승인 후 표시)</div>
 
   <div class="card">
-    <label>이미지 선택 (여러 장 가능)</label>
     <div class="dropzone" id="drop">
       <div class="dz-ic">🖼️</div>
-      <div class="dz-t">여기로 끌어다 놓거나 클릭해서 선택</div>
-      <div class="dz-s">JPG · PNG · WebP · 여러 장 한꺼번에 가능</div>
+      <div class="dz-t">사진을 여기로 끌어다 놓거나 클릭해서 선택</div>
+      <div class="dz-s">캡처는 <b>Ctrl+V</b>로 붙여넣기도 가능 · 여러 장 한꺼번에 OK</div>
     </div>
     <input type="file" id="file" accept="image/*" multiple hidden />
 
-    <div class="row" style="margin-top:16px">
-      <div>
-        <label for="fmt">출력 형식</label>
-        <select id="fmt">
-          <option value="image/jpeg">JPG (호환성·작은 용량)</option>
-          <option value="image/webp">WebP (가장 작은 용량)</option>
-          <option value="image/png">PNG (무손실·투명 지원)</option>
-        </select>
-      </div>
-      <div>
-        <label for="width">가로 px 리사이즈 (선택)</label>
-        <input type="number" id="width" inputmode="numeric" placeholder="예: 1280 (비우면 원본)" min="1" />
-      </div>
-    </div>
+    <label style="margin-top:16px">빠른 설정 — 용도만 고르면 끝</label>
+    <div class="presets" id="presets"></div>
 
-    <label for="q" id="qLabel">품질 (%)</label>
-    <div class="range-row">
-      <input type="range" id="q" min="10" max="100" value="80" step="1" />
-      <span class="range-val" id="qVal">80%</span>
-    </div>
-    <div class="hint" id="qHint">JPG·WebP에만 적용돼요. 낮출수록 용량이 줄고 화질이 떨어집니다.</div>
+    <details style="margin-top:8px">
+      <summary style="cursor:pointer;color:var(--muted);font-size:13.5px;font-weight:700">⚙️ 세부 조정 (직접 바꾸기)</summary>
+      <div class="row" style="margin-top:10px">
+        <div>
+          <label for="fmt">출력 형식</label>
+          <select id="fmt">
+            <option value="image/jpeg">JPG (호환성·작은 용량)</option>
+            <option value="image/webp">WebP (가장 작은 용량)</option>
+            <option value="image/png">PNG (무손실·투명 지원)</option>
+          </select>
+        </div>
+        <div>
+          <label for="width">가로 px 리사이즈 (선택)</label>
+          <input type="number" id="width" inputmode="numeric" placeholder="예: 1280 (비우면 원본)" min="1" />
+        </div>
+      </div>
+      <label for="q" id="qLabel">품질 (%)</label>
+      <div class="range-row">
+        <input type="range" id="q" min="10" max="100" value="80" step="1" />
+        <span class="range-val" id="qVal">80%</span>
+      </div>
+      <div class="hint" id="qHint">JPG·WebP에만 적용돼요. 낮출수록 용량이 줄고 화질이 떨어집니다.</div>
+    </details>
 
+    <div class="savings" id="summary"></div>
     <div class="filelist" id="list"></div>
     <div class="busy" id="busy"><span class="spinner"></span><span id="busyText">이미지 변환 중…</span></div>
     <div class="note err" id="err"></div>
@@ -107,13 +113,15 @@
     <h2>자주 묻는 질문</h2>
     <details><summary>사진이 서버로 업로드되나요?</summary><p>아니요. 선택한 이미지는 어디에도 전송되지 않고 여러분의 브라우저(기기) 안에서 Canvas로만 변환됩니다. 새로고침하면 사라집니다.</p></details>
     <details><summary>어떤 형식으로 바꿀 수 있나요?</summary><p>JPG, PNG, WebP로 변환할 수 있어요. WebP는 같은 화질에서 용량이 가장 작고, PNG는 무손실이라 투명 배경을 유지합니다.</p></details>
-    <details><summary>품질(%) 슬라이더는 무엇인가요?</summary><p>JPG·WebP의 압축 강도입니다. 낮출수록 용량이 줄지만 화질이 떨어져요. PNG는 무손실이라 품질 값이 적용되지 않습니다.</p></details>
-    <details><summary>여러 장을 한 번에 변환할 수 있나요?</summary><p>네. 여러 파일을 선택하거나 끌어다 놓으면 각각 변환돼 하나씩 또는 모두 한 번에 받을 수 있어요.</p></details>
+    <details><summary>용도 버튼(빠른 설정)은 어떻게 동작하나요?</summary><p>SNS·카톡, 메일 첨부, 웹·블로그, 압축만 같은 용도를 누르면 가로 크기·품질·형식이 자동으로 맞춰져요. 세부 조정에서 직접 바꿀 수도 있습니다.</p></details>
+    <details><summary>여러 장을 한 번에 변환할 수 있나요?</summary><p>네. 여러 파일을 선택하거나 끌어다 놓거나 붙여넣으면 각각 변환돼 하나씩 또는 모두 한 번에 받을 수 있어요.</p></details>
     <details><summary>가로 px 리사이즈는 어떻게 동작하나요?</summary><p>입력한 가로 픽셀로 줄이고 세로는 비율에 맞춰 자동 조정해요. 원본보다 크게 늘리진 않으며, 비우면 원본 크기를 유지합니다.</p></details>
   </section>
 
   <div class="ad-slot">광고 자리 (애드센스 승인 후 표시)</div>
 </main>
+
+<div class="dropmask" id="dropmask"><div class="box">📥 여기에 사진을 놓으세요</div></div>
 
 <div class="install-banner" id="installBanner">
   <div class="ib-ic">⚡</div>
@@ -125,7 +133,7 @@
 <footer class="site">
   <div class="foot">
     <span>© <span id="year"></span> 급할때.tools</span>
-    <a href="about.html">소개</a><a href="privacy.html">개인정보처리방침</a>
+    <a href="index.html">도구</a><a href="blog.html">블로그</a><a href="about.html">소개</a><a href="privacy.html">개인정보처리방침</a>
     <span class="sp">모든 처리는 브라우저에서만 이뤄집니다.</span>
   </div>
 </footer>
@@ -139,7 +147,32 @@
 
   const drop=$("drop"), fileInput=$("file"), listEl=$("list"),
         fmtSel=$("fmt"), wInput=$("width"), qRange=$("q"), qVal=$("qVal"),
-        qHint=$("qHint"), busyEl=$("busy"), errEl=$("err"), actions=$("actions");
+        qHint=$("qHint"), busyEl=$("busy"), errEl=$("err"), actions=$("actions"),
+        summaryEl=$("summary"), mask=$("dropmask");
+
+  /* ---- 빠른 설정 프리셋 ---- */
+  const PRESETS=[
+    {key:"sns",  label:"💬 SNS·카톡",  sub:"1080px",   w:1080, fmt:"image/jpeg", q:80},
+    {key:"mail", label:"📧 메일 첨부",  sub:"가볍게",    w:1024, fmt:"image/jpeg", q:70},
+    {key:"web",  label:"🌐 웹·블로그",  sub:"WebP",     w:1280, fmt:"image/webp", q:80},
+    {key:"zip",  label:"🗜️ 압축만",     sub:"원본 크기", w:0,    fmt:"image/jpeg", q:75}
+  ];
+  let activePreset="sns";
+  function renderPresets(){
+    $("presets").innerHTML=PRESETS.map(p=>
+      '<button data-k="'+p.key+'" class="'+(p.key===activePreset?'on':'')+'">'+p.label+'<small>'+p.sub+'</small></button>'
+    ).join("");
+    $("presets").querySelectorAll("button").forEach(b=>b.addEventListener("click",()=>applyPreset(b.dataset.k)));
+  }
+  function applyPreset(key){
+    const p=PRESETS.find(x=>x.key===key); if(!p) return;
+    activePreset=key;
+    wInput.value=p.w?p.w:"";
+    fmtSel.value=p.fmt;
+    qRange.value=p.q; qVal.textContent=p.q+"%";
+    updateQ(); renderPresets(); processAll();
+  }
+  function clearActivePreset(){ if(activePreset){ activePreset=null; renderPresets(); } }
 
   function fmtBytes(n){
     if(n<1024) return n+" B";
@@ -150,18 +183,30 @@
   function showErr(msg){ if(!msg){ errEl.classList.remove("show"); return; } errEl.textContent=msg; errEl.classList.add("show"); }
   function busy(on){ busyEl.classList.toggle("show", on); }
 
-  /* 드래그앤드롭 + 클릭 선택 */
+  /* ---- 드래그앤드롭(전체 화면) + 클릭 + 붙여넣기 ---- */
   ["dragenter","dragover"].forEach(ev=>drop.addEventListener(ev,e=>{ e.preventDefault(); drop.classList.add("drag"); }));
   ["dragleave","drop"].forEach(ev=>drop.addEventListener(ev,e=>{ e.preventDefault(); drop.classList.remove("drag"); }));
   drop.addEventListener("click",()=>fileInput.click());
-  drop.addEventListener("drop",e=>addFiles(e.dataTransfer.files));
   fileInput.addEventListener("change",()=>{ addFiles(fileInput.files); fileInput.value=""; });
 
+  let dragDepth=0;
+  function hasFiles(e){ return e.dataTransfer && Array.prototype.indexOf.call(e.dataTransfer.types||[],"Files")>=0; }
+  window.addEventListener("dragenter",e=>{ if(hasFiles(e)){ dragDepth++; mask.classList.add("show"); } });
+  window.addEventListener("dragover",e=>{ if(hasFiles(e)) e.preventDefault(); });
+  window.addEventListener("dragleave",()=>{ dragDepth=Math.max(0,dragDepth-1); if(dragDepth===0) mask.classList.remove("show"); });
+  window.addEventListener("drop",e=>{ e.preventDefault(); dragDepth=0; mask.classList.remove("show");
+    if(e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files.length) addFiles(e.dataTransfer.files); });
+  window.addEventListener("paste",e=>{
+    const its=e.clipboardData && e.clipboardData.items; if(!its) return;
+    const fs=[]; for(const it of its){ if(it.type && it.type.indexOf("image/")===0){ const f=it.getAsFile(); if(f) fs.push(f); } }
+    if(fs.length){ e.preventDefault(); addFiles(fs); }
+  });
+
   function addFiles(fileList){
-    const imgs=[...fileList].filter(f=>f.type.startsWith("image/"));
+    const imgs=Array.prototype.slice.call(fileList).filter(f=>f.type.indexOf("image/")===0);
     if(!imgs.length){ showErr("이미지 파일만 추가할 수 있어요."); return; }
     showErr("");
-    imgs.forEach(f=>items.push({ file:f, name:f.name, origSize:f.size, thumbURL:URL.createObjectURL(f) }));
+    imgs.forEach(f=>items.push({ file:f, name:f.name||"이미지.png", origSize:f.size, thumbURL:URL.createObjectURL(f) }));
     render(); processAll();
   }
 
@@ -205,6 +250,16 @@
     if(queued){ queued=false; processAll(); }
   }
 
+  function updateSummary(){
+    const done=items.filter(it=>it.outBlob);
+    if(done.length<1){ summaryEl.classList.remove("show"); return; }
+    const o=done.reduce((a,it)=>a+it.origSize,0), n=done.reduce((a,it)=>a+it.outSize,0);
+    const pct=o>0 ? Math.round((1-n/o)*100) : 0;
+    summaryEl.innerHTML="✅ 총 <b>"+done.length+"장</b> · "+fmtBytes(o)+" → <b>"+fmtBytes(n)+"</b> · "
+      +(pct>=0 ? "<b>"+pct+"% 절약</b>" : Math.abs(pct)+"% 증가");
+    summaryEl.classList.add("show");
+  }
+
   function render(){
     actions.style.display=items.length ? "flex" : "none";
     listEl.innerHTML=items.map((it,i)=>{
@@ -230,6 +285,7 @@
     listEl.querySelectorAll("button[data-x]").forEach(b=>b.addEventListener("click",()=>{
       const i=+b.dataset.x; URL.revokeObjectURL(items[i].thumbURL); items.splice(i,1); render();
     }));
+    updateSummary();
   }
 
   function outName(it){ return it.name.replace(/\.[^.]+$/,"")+"."+EXT[fmtSel.value]; }
@@ -240,11 +296,11 @@
     setTimeout(()=>URL.revokeObjectURL(url),1500);
   }
 
-  /* 옵션 변경 → 다시 변환 */
+  /* 세부 조정 → 프리셋 해제 후 재변환 */
   qRange.addEventListener("input",()=>{ qVal.textContent=qRange.value+"%"; });
-  qRange.addEventListener("change",processAll);
-  let wTimer; wInput.addEventListener("input",()=>{ clearTimeout(wTimer); wTimer=setTimeout(processAll,400); });
-  fmtSel.addEventListener("change",()=>{ updateQ(); processAll(); });
+  qRange.addEventListener("change",()=>{ clearActivePreset(); processAll(); });
+  let wTimer; wInput.addEventListener("input",()=>{ clearActivePreset(); clearTimeout(wTimer); wTimer=setTimeout(processAll,400); });
+  fmtSel.addEventListener("change",()=>{ clearActivePreset(); updateQ(); processAll(); });
   function updateQ(){
     const png=fmtSel.value==="image/png";
     qRange.disabled=png;
@@ -253,12 +309,16 @@
     qHint.textContent=png ? "PNG는 무손실이라 품질 값이 적용되지 않아요."
                           : "JPG·WebP에만 적용돼요. 낮출수록 용량이 줄고 화질이 떨어집니다.";
   }
-  updateQ();
 
   $("dlAll").addEventListener("click",async()=>{
     for(const it of items){ if(it.outBlob){ download(it.outBlob, outName(it)); await new Promise(r=>setTimeout(r,250)); } }
   });
   $("clear").addEventListener("click",()=>{ items.forEach(it=>URL.revokeObjectURL(it.thumbURL)); items=[]; showErr(""); render(); });
+
+  /* 초기화: 기본 프리셋 적용 */
+  renderPresets();
+  wInput.value="1080"; fmtSel.value="image/jpeg"; qRange.value="80"; qVal.textContent="80%";
+  updateQ();
 </script>
 </body>
 </html>
